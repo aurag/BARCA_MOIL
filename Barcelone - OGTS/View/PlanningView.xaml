@@ -1,0 +1,311 @@
+﻿<UserControl x:Class="Barcelone___OGTS.View.PlanningView"
+      xmlns:vm="clr-namespace:Barcelone___OGTS.ViewModel"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" Height="750" Width="1000">
+
+    <Grid>
+        <Image Panel.ZIndex="-1" HorizontalAlignment="Left" Height="1706" Margin="0,0,-388,-966.333" VerticalAlignment="Top" Width="1378" Source="rainbowleft.png"/>
+        <Button Command="{Binding BackCommand}" Content="Accueil" HorizontalAlignment="Left" Margin="905,10,0,0" VerticalAlignment="Top" Width="75" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
+        <Label Content="Planning" HorizontalAlignment="Left" Margin="290,0,0,0" VerticalAlignment="Top" Width="191" FontFamily="Helvetica CE 35 Thin" Height="86" FontSize="48"/>
+        <Button Command="{Binding Export}" Content="Export du planning" HorizontalAlignment="Left" Margin="20,69,0,0" VerticalAlignment="Top" Width="181" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
+        <Grid HorizontalAlignment="Left" Height="550" Margin="10,110,0,0" VerticalAlignment="Top" Width="970">
+            <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="205" Stroke="Black" VerticalAlignment="Top" Width="970"/>
+            <Label Content="Demandes non soumises :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="473" FontFamily="Helvetica CE 35 Thin" FontSize="20" FontWeight="Bold"/>
+            <DataGrid Margin="0,50,0,0" ItemsSource="{Binding days}" AutoGenerateColumns="False" ColumnWidth="*">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Numéro" Binding="{Binding NbDay}" IsReadOnly="True" Width="55"/>
+                    <DataGridTextColumn Header="Janvier 2013" Binding="{Binding LeaveLabelJanuary}" IsReadOnly="True" Width="*" >
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Style.Triggers>
+                                    <Trigger Property="Text" Value="CP">
+                                        <Setter Property="Background" Value="Tomato"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="RF">
+                                        <Setter Property="Background" Value="Tomato"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="FE">
+                                        <Setter Property="Background" Value="LightGray"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="RE">
+                                        <Setter Property="Background" Value="DimGray"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="">
+                                        <Setter Property="Background" Value="PaleGreen"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Février 2013" Binding="{Binding LeaveLabelFebruary}" IsReadOnly="True" Width="85" >
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Style.Triggers>
+                                    <Trigger Property="Text" Value="CP">
+                                        <Setter Property="Background" Value="Tomato"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="RF">
+                                        <Setter Property="Background" Value="Tomato"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="FE">
+                                        <Setter Property="Background" Value="LightGray"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="RE">
+                                        <Setter Property="Background" Value="DimGray"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="">
+                                        <Setter Property="Background" Value="PaleGreen"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Mars 2013" Binding="{Binding LeaveLabelMarch}" IsReadOnly="True" Width="95" >
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Style.Triggers>
+                                    <Trigger Property="Text" Value="CP">
+                                        <Setter Property="Background" Value="Tomato"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="RF">
+                                        <Setter Property="Background" Value="Tomato"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="FE">
+                                        <Setter Property="Background" Value="LightGray"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="RE">
+                                        <Setter Property="Background" Value="DimGray"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="">
+                                        <Setter Property="Background" Value="PaleGreen"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Avril 2013" Binding="{Binding LeaveLabelApril}" IsReadOnly="True" Width="*" >
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Style.Triggers>
+                                    <Trigger Property="Text" Value="CP">
+                                        <Setter Property="Background" Value="Tomato"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="RF">
+                                        <Setter Property="Background" Value="Tomato"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="FE">
+                                        <Setter Property="Background" Value="LightGray"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="RE">
+                                        <Setter Property="Background" Value="DimGray"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="">
+                                        <Setter Property="Background" Value="PaleGreen"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Mai 2013" Binding="{Binding LeaveLabelMai}" IsReadOnly="True" Width="75" >
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Style.Triggers>
+                                    <Trigger Property="Text" Value="CP">
+                                        <Setter Property="Background" Value="Tomato"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="RF">
+                                        <Setter Property="Background" Value="Tomato"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="FE">
+                                        <Setter Property="Background" Value="LightGray"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="RE">
+                                        <Setter Property="Background" Value="DimGray"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="">
+                                        <Setter Property="Background" Value="PaleGreen"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Juin 2013" Binding="{Binding LeaveLabelJune}" IsReadOnly="True" Width="75">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Style.Triggers>
+                                    <Trigger Property="Text" Value="CP">
+                                        <Setter Property="Background" Value="Tomato"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="RF">
+                                        <Setter Property="Background" Value="Tomato"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="FE">
+                                        <Setter Property="Background" Value="LightGray"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="RE">
+                                        <Setter Property="Background" Value="DimGray"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="">
+                                        <Setter Property="Background" Value="PaleGreen"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Juillet 2013" Binding="{Binding LeaveLabelJuly}" IsReadOnly="True" Width="65">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Style.Triggers>
+                                    <Trigger Property="Text" Value="CP">
+                                        <Setter Property="Background" Value="Tomato"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="RF">
+                                        <Setter Property="Background" Value="Tomato"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="FE">
+                                        <Setter Property="Background" Value="LightGray"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="RE">
+                                        <Setter Property="Background" Value="DimGray"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="">
+                                        <Setter Property="Background" Value="PaleGreen"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Aout 2013" Binding="{Binding LeaveLabelAugust}" IsReadOnly="True" Width="65">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Style.Triggers>
+                                    <Trigger Property="Text" Value="CP">
+                                        <Setter Property="Background" Value="Tomato"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="RF">
+                                        <Setter Property="Background" Value="Tomato"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="FE">
+                                        <Setter Property="Background" Value="LightGray"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="RE">
+                                        <Setter Property="Background" Value="DimGray"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="">
+                                        <Setter Property="Background" Value="PaleGreen"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Septembre 2013" Binding="{Binding LeaveLabelSeptember}" IsReadOnly="True" Width="*" >
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Style.Triggers>
+                                    <Trigger Property="Text" Value="CP">
+                                        <Setter Property="Background" Value="Tomato"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="RF">
+                                        <Setter Property="Background" Value="Tomato"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="FE">
+                                        <Setter Property="Background" Value="LightGray"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="RE">
+                                        <Setter Property="Background" Value="DimGray"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="">
+                                        <Setter Property="Background" Value="PaleGreen"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Octobre 2013" Binding="{Binding LeaveLabelOctober}" IsReadOnly="True" Width="*" >
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Style.Triggers>
+                                    <Trigger Property="Text" Value="CP">
+                                        <Setter Property="Background" Value="Tomato"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="RF">
+                                        <Setter Property="Background" Value="Tomato"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="FE">
+                                        <Setter Property="Background" Value="LightGray"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="RE">
+                                        <Setter Property="Background" Value="DimGray"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="">
+                                        <Setter Property="Background" Value="PaleGreen"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Novembre 2013" Binding="{Binding LeaveLabelNovember}" IsReadOnly="True" Width="*" >
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Style.Triggers>
+                                    <Trigger Property="Text" Value="CP">
+                                        <Setter Property="Background" Value="Tomato"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="RF">
+                                        <Setter Property="Background" Value="Tomato"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="FE">
+                                        <Setter Property="Background" Value="LightGray"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="RE">
+                                        <Setter Property="Background" Value="DimGray"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="">
+                                        <Setter Property="Background" Value="PaleGreen"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Décembre 2013" Binding="{Binding LeaveLabelDecember}" IsReadOnly="True" Width="*" >
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Style.Triggers>
+                                    <Trigger Property="Text" Value="CP">
+                                        <Setter Property="Background" Value="Tomato"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="RF">
+                                        <Setter Property="Background" Value="Tomato"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="FE">
+                                        <Setter Property="Background" Value="LightGray"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="RE">
+                                        <Setter Property="Background" Value="DimGray"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="">
+                                        <Setter Property="Background" Value="PaleGreen"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+                
+            </DataGrid>
+        </Grid>
+        <Label Background="Tomato" Content="Congés" Height="28" HorizontalAlignment="Right" Margin="0,68,621,0" Name="label2" VerticalAlignment="Top" Width="83" FontFamily="Helvetica CE 35 Thin" />
+        <Label Background="PaleGreen" Content="Jour ouvré" Height="28" HorizontalAlignment="Left" Margin="207,68,0,0" Name="label1" VerticalAlignment="Top" Width="83" FontFamily="Helvetica CE 35 Thin" />
+        <Label Background="DimGray" Content="Week Ends" Height="28" HorizontalAlignment="Left" Margin="385,68,0,0" Name="label3" VerticalAlignment="Top" Width="83" FontFamily="Helvetica CE 35 Thin" />
+        <Label Background="LightGray" Content="Jour férié" Height="28" HorizontalAlignment="Left" Margin="474,68,0,0" Name="label4" VerticalAlignment="Top" Width="83" FontFamily="Helvetica CE 35 Thin" />
+        <Label Background="Aqua" Content="Fermeture/Pont d'entreprise" Height="28" HorizontalAlignment="Left" Margin="563,68,0,0" Name="label5" VerticalAlignment="Top" Width="160" FontFamily="Helvetica CE 35 Thin" />
+        <Label Background="Orange" Content="Congé accepté" Height="28" HorizontalAlignment="Left" Margin="729,68,0,0" Name="label6" VerticalAlignment="Top" Width="94" FontFamily="Helvetica CE 35 Thin" />
+        <Label Background="Yellow" Content="Congé en attente" Height="28" HorizontalAlignment="Left" Margin="829,68,0,0" Name="label7" VerticalAlignment="Top" Width="101" FontFamily="Helvetica CE 35 Thin" />
+    </Grid>
+    <UserControl.DataContext>
+        <vm:SecondViewModel />
+    </UserControl.DataContext>
+</UserControl>

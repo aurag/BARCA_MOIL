@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="Barcelone___OGTS.View.RHOperations"
+      xmlns:vm="clr-namespace:Barcelone___OGTS.ViewModel"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" Height="750" Width="1000">
+
+    <Grid>
+        <Image Panel.ZIndex="-1" HorizontalAlignment="Left" Height="1706" Margin="0,0,-388,-966.333" VerticalAlignment="Top" Width="1378" Source="rainbowleft.png"/>
+        <Button Command="{Binding ClickBack}" Content="Accueil" HorizontalAlignment="Left" Margin="885,10,0,0" VerticalAlignment="Top" Width="75" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
+        <Label Content="Traitement des demandes" HorizontalAlignment="Left" Margin="180,10,0,0" VerticalAlignment="Top" Width="584" FontFamily="Helvetica CE 35 Thin" Height="86" FontSize="48"/>
+        <Grid HorizontalAlignment="Left" Height="205" Margin="10,120,0,0" VerticalAlignment="Top" Width="950">
+            <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="205" Stroke="Black" VerticalAlignment="Top" Width="950"/>
+            <DataGrid Margin="0,50,0,0" ItemsSource="{Binding asking}" AutoGenerateColumns="False" ColumnWidth="*">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Date de soumission" Binding="{Binding RequestDate}" IsReadOnly="True" Width="115"/>
+                    <DataGridTextColumn Header="Salarié" Binding="{Binding NameEmployee}" IsReadOnly="True" Width="120"/>
+                    <DataGridTextColumn Header="Commentaire du salarié" Binding="{Binding CommentSal}" IsReadOnly="True" Width="140"/>
+                    <DataGridTextColumn Header="Date de début (inclus)" Binding="{Binding StartDate}" IsReadOnly="True" Width="130"/>
+                    <DataGridTextColumn Header="Date de fin (inclus)" Binding="{Binding StartDate}" IsReadOnly="True" Width="130"/>
+                    <DataGridTextColumn Header="Durée (jours)" Binding="{Binding NbDays}" IsReadOnly="True" Width="78"/>
+                    <DataGridTextColumn Header="Commentaire" Binding="{Binding CommentRh}" IsReadOnly="False" Width="*"/>
+                    <DataGridTemplateColumn Header="Accepter" Width="60">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=IsSelected2}" HorizontalAlignment="Center" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Refuser" Width="60">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox IsChecked="{Binding Path=IsSelected2}" HorizontalAlignment="Center" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button Content="Traiter la sélection" HorizontalAlignment="Left" Margin="795,10,0,0" VerticalAlignment="Top" Width="145" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
+        </Grid>
+
+        <Grid HorizontalAlignment="Left" Height="205" Margin="10,336,0,0" VerticalAlignment="Top" Width="950">
+            <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="205" Stroke="Black" VerticalAlignment="Top" Width="950"/>
+            <DataGrid Margin="0,50,0,0" ItemsSource="{Binding asking}" AutoGenerateColumns="False" ColumnWidth="*">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Date de soumission" Binding="{Binding RequestDate}" IsReadOnly="True" Width="115"/>
+                    <DataGridTextColumn Header="Salarié" Binding="{Binding NameEmployee}" IsReadOnly="True" Width="120"/>
+                    <DataGridTextColumn Header="Commentaire du salarié" Binding="{Binding CommentSal}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="Date de début (inclus)" Binding="{Binding StartDate}" IsReadOnly="True" Width="130"/>
+                    <DataGridTextColumn Header="Date de fin (inclus)" Binding="{Binding StartDate}" IsReadOnly="True" Width="130"/>
+                    <DataGridTextColumn Header="Durée (jours)" Binding="{Binding NbDays}" IsReadOnly="True" Width="78"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button Content="Traiter la sélection" HorizontalAlignment="Left" Margin="789,10,0,0" VerticalAlignment="Top" Width="151" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
+        </Grid>
+        <Label Content="Demande de congés a traiter" HorizontalAlignment="Left" Margin="10,125,0,0" VerticalAlignment="Top" Width="329" FontFamily="Helvetica CE 35 Thin" Height="40" FontSize="24"/>
+        <Label Content="Prévisions" HorizontalAlignment="Left" Margin="10,341,0,0" VerticalAlignment="Top" Width="329" FontFamily="Helvetica CE 35 Thin" Height="40" FontSize="24"/>
+    </Grid>
+    <UserControl.DataContext>
+        <vm:OperationsHistoryViewModel/>
+    </UserControl.DataContext>
+</UserControl>

@@ -1,0 +1,11 @@
+# Types de fichiers ignores #
+#############################
+*.csproj*
+*.sln
+*.suo
+*~
+\#*
+# Dossiers ignores #
+####################
+bin/*
+obj/*
