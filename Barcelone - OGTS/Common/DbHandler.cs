@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Npgsql;
 using System.Windows;
+using Barcelone___OGTS.Model;
 
 namespace Barcelone___OGTS.Common
 {
@@ -94,6 +95,45 @@ namespace Barcelone___OGTS.Common
             }
 
             return result;
+        }
+
+        // Récupération de la liste de tous les congés pour l'utilisateur actuel
+        public List<DayOff> getDaysOffList()
+        {
+            DbHandler.Instance.OpenConnection();
+
+            NpgsqlDataReader result = DbHandler.Instance.ExecSQL(String.Format(@"select start_date, end_date, creation_date, type, title, status, 
+                                                                   employee_commentary, superior_commentary, validation_date
+                                                                   from public.dayoff, public.dayofftype
+                                                                   WHERE public.dayoff.id_day_off_type = public.dayofftype.id_day_off_type
+                                                                   AND public.dayoff.id_employee={0};", UserSession.Instance.User.Employee.EmployeeId));
+            List<DayOff> _daysOff = null;
+            if (result != null)
+            {
+                _daysOff = new List<DayOff>();
+                while (result.Read())
+                {
+                    DayOff dayOff = new DayOff()
+                    {
+                        StartDate = result[0].ToString().Substring(0, 10),
+                        EndDate = result[1].ToString().Substring(0, 10),
+                        CreationDate = DateTime.Today.ToShortDateString(),
+                        Type = result[3].ToString(),
+                        Title = result[4].ToString(),
+                        Status = result[5].ToString(),
+                        CommentSal = result[6].ToString(),
+                        CommentRh = result[7].ToString(),
+                        DateRh = result[8].ToString(),
+                        IdEmployee = UserSession.Instance.User.Employee.EmployeeId
+                    };
+
+                    _daysOff.Add(dayOff);
+                }
+            }
+
+            DbHandler.Instance.CloseConnection();
+
+            return _daysOff;
         }
     }
 }

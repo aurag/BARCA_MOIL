@@ -19,6 +19,6 @@
         <Button Command="{Binding RHView}" Content="RH" HorizontalAlignment="Left" Margin="582,416,0,0" VerticalAlignment="Top" Width="46" FontFamily="Helvetica CE 35 Thin" FontSize="14" Height="22"/>
     </Grid>
     <UserControl.DataContext>
-        <vm:FirstViewModel />
+        <vm:LoginViewModel />
     </UserControl.DataContext>
 </UserControl>

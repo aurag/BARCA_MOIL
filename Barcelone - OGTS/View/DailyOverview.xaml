@@ -50,8 +50,6 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
-
-
     </Grid>
     <UserControl.DataContext>
         <vm:DailyOverviewViewModel/>

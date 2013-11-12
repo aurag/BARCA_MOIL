@@ -11,7 +11,7 @@ using System.Threading;
 
 namespace Barcelone___OGTS.ViewModel
 {
-    public class SecondViewModel : BaseViewModel
+    public class HomeViewModel : BaseViewModel
     {
         #region Commandes
         public ICommand BackCommand { get; set; }
@@ -46,6 +46,18 @@ namespace Barcelone___OGTS.ViewModel
         }
         public ICollectionView leaveRequestsOk { get; private set; }
         public ICollectionView leaveRequestsFutur { get; private set; }
+
+        private String _name;
+
+        public String Name
+        {
+            get { return _name; }
+            set 
+            { 
+                _name = value;
+                OnPropertyChanged("Name");
+            }
+        }
         #endregion
 
         #region Constructor
@@ -53,7 +65,7 @@ namespace Barcelone___OGTS.ViewModel
         /// <summary>
         /// constructeur
         /// </summary>
-        public SecondViewModel()
+        public HomeViewModel()
         {
             BackCommand = new Command(param => Back(), param => true);
             ChangePassword = new Command(param => PushChangePassword(), param => true);
@@ -69,11 +81,13 @@ namespace Barcelone___OGTS.ViewModel
 
 
             // Creation de la liste de demandes de congés pour les tableaux.
-            DbHandler.Instance.OpenConnection();
             CreateLeaveRequestList();
             CreateLeaveRequestListOk();
             CreateLeaveRequestListFutur();
-            DbHandler.Instance.CloseConnection();
+
+
+            // Récupération de la session de l'utilisateur
+            Name = UserSession.Instance.User.Employee.Firstname + " " + UserSession.Instance.User.Employee.Lastname;
         }
         #endregion
         
@@ -92,7 +106,7 @@ namespace Barcelone___OGTS.ViewModel
                         // id_employee is hard coded to 4 for now.
                         DbHandler.Instance.ExecSQL(String.Format(@"DELETE FROM dayoff 
                                                                WHERE start_date = (date '{0}') and end_date = (date '{1}') and id_employee = {2}",
-                                                                   day.StartDate, day.EndDate, 4));
+                                                                   day.StartDate, day.EndDate, UserSession.Instance.User.Employee.EmployeeId));
                         ((List<DayOff>)DaysOff.SourceCollection).Remove(day);
                         i--;
                     }
@@ -172,43 +186,8 @@ namespace Barcelone___OGTS.ViewModel
         private void CreateLeaveRequestList()
         {
             try
-            {
-                // join on id_day_off_type to get the type and the label of the day off type.
-                NpgsqlDataReader result = DbHandler.Instance.ExecSQL(@"select start_date, end_date, submission_date, type, title, status, 
-                                                                   employee_commentary, superior_commentary, validation_date
-                                                                   from public.dayoff, public.dayofftype
-                                                                   WHERE public.dayoff.id_day_off_type = public.dayofftype.id_day_off_type;");
-                List<DayOff> _daysOff = new List<DayOff>();
-                while (result.Read())
-                {
-                    DayOff dayOff = new DayOff()
-                    {
-                        StartDate = result[0].ToString().Substring(0, 10),
-                        EndDate = result[1].ToString().Substring(0, 10),
-                        CreationDate = DateTime.Today.ToShortDateString(),
-                        Type = result[3].ToString(),
-                        Title = result[4].ToString(),
-                        Status = result[5].ToString(),
-                        CommentSal = result[6].ToString(),
-                        CommentRh = result[7].ToString(),
-                        DateRh = result[8].ToString(),
-                        // TODO : IdEmployee should be mapped to the current user id. 
-                        IdEmployee = "201301"
-                    };
-
-                    _daysOff.Add(dayOff);
-                }
-
-                /*
-                var _leaveRequests = new List<DayOff>
-                    {
-                        new DayOff("02/04/13", "11/04/13", "23/03/13", "01", "Congé principal", "En attente", "", "", "12/03/13"),
-                        new DayOff("12/04/13", "15/04/13", "23/03/13", "02", "Congé d'ancienneté", "En attente", "Mariage de mon fils", "", "12/03/13"),
-                        new DayOff("24/04/13", "28/04/13", "23/03/13", "04", "Repos forfait", "En attente", "", "", "12/03/13")
-                    };
-                 * */
-
-                DaysOff = CollectionViewSource.GetDefaultView(_daysOff);
+            {            
+                DaysOff = CollectionViewSource.GetDefaultView(DbHandler.Instance.getDaysOffList());
             }
             catch (Exception e)
             {

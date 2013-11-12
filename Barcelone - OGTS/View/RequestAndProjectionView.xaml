@@ -82,6 +82,6 @@
         <Button Content="Nouvelle prévision de congé" FontFamily="Helvetica CE 35 Thin" HorizontalAlignment="Left" Margin="267,76,0,0" VerticalAlignment="Top" Width="237" FontSize="18"/>
     </Grid>
     <UserControl.DataContext>
-        <vm:SecondViewModel />
+        <vm:HomeViewModel />
     </UserControl.DataContext>
 </UserControl>

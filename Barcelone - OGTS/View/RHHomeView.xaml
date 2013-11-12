@@ -80,6 +80,6 @@
         <Button Command="{Binding GoToRHOperations}" Content="Traitement des demandes" HorizontalAlignment="Left" Margin="409,96,0,0" VerticalAlignment="Top" Width="211" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
     </Grid>
     <UserControl.DataContext>
-        <vm:SecondViewModel />
+        <vm:HomeViewModel />
     </UserControl.DataContext>
 </UserControl>

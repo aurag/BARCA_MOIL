@@ -6,10 +6,11 @@ using System.ComponentModel;
 using System.Windows.Controls;
 using Npgsql;
 using System.Windows;
+using Barcelone___OGTS.Model;
 
 namespace Barcelone___OGTS.ViewModel
 {
-    public class FirstViewModel : BaseViewModel
+    public class LoginViewModel : BaseViewModel
     {
         #region Commandes
         public ICommand ClickCommand { get; set; }
@@ -38,7 +39,7 @@ namespace Barcelone___OGTS.ViewModel
         /// <summary>   
         /// constructeur
         /// </summary>
-        public FirstViewModel()
+        public LoginViewModel()
         {
             ClickCommand = new Command(param => Authentification(param), param => true);
             AdminView = new Command(param => PushAdmin(), param => true);
@@ -48,7 +49,7 @@ namespace Barcelone___OGTS.ViewModel
         }
 
         /// <summary>
-        /// réponse à la commande click
+        /// Authentification of the user
         /// </summary>
         private void Authentification(object parameter)
         {
@@ -56,27 +57,70 @@ namespace Barcelone___OGTS.ViewModel
             String password = passwordBox.Password;
             bool isCorrect = false;
 
+            if (!CheckLoginAndPassword(Login, password))
+                return;
+    
             DbHandler.Instance.OpenConnection();
-            NpgsqlDataReader result = DbHandler.Instance.ExecSQL("select login, password from public.userogts;");
+            String query = String.Format("select login, password, firstname, lastname, public.userogts.id_user, public.employee.id_employee from public.userogts " +
+              "INNER JOIN public.employee ON (userogts.id_user = employee.id_user) where login='{0}' AND password='{1}';", Login, password);
+
+            NpgsqlDataReader result = DbHandler.Instance.ExecSQL(query);
+
+            if (result == null)
+            {
+                DbHandler.Instance.CloseConnection();
+                MessageBox.Show("Mot de passe ou nom d'utilisateur invalide", "Erreur d'authentification");
+                return;
+            }
+
             while (result.Read())
             {
                 if ((Login.Equals(result[0])) && (password.Equals(result[1])))
                 {
                     isCorrect = true;
+                    UserSession session = UserSession.Instance;
+                    User user = new User();
+                    Employee employee = new Employee();
+                    employee.Firstname = result[2] as String;
+                    employee.Lastname = result[3] as String;
+                    int? userId = result[4] as int?;
+                    user.UserId = userId.ToString();
+                    int? employeeId = result[5] as int?;
+                    employee.EmployeeId = employeeId.ToString();
+                    user.Employee = employee;
+                    session.User = user;
                     break;
                 }
             }
+            DbHandler.Instance.CloseConnection();
 
             if (isCorrect)
-            {
-                DbHandler.Instance.CloseConnection();
-                Switcher.Switch(new SecondView());
-            }
+                Switcher.Switch(new HomeView());
             else
-            {
-                DbHandler.Instance.CloseConnection();
                 MessageBox.Show("Mot de passe ou nom d'utilisateur invalide", "Erreur d'authentification");
+        }
+
+        /// <summary>
+        /// Returns true if both are valid, false else.
+        /// </summary>
+        /// <param name="login"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        private Boolean CheckLoginAndPassword(String login, String password)
+        {
+            if (password.Contains("&") || password.Contains(";"))
+            {
+                MessageBox.Show("Mauvais format de mot de passe", "Erreur d'authentification");
+                return false;
             }
+
+            if (login.Length != 6)
+            {
+                MessageBox.Show("Mauvais format de login : vous devez utiliser votre matricule", "Erreur d'authentification");
+                return false;
+            }
+
+            return true;
         }
 
         private void PushAdmin()

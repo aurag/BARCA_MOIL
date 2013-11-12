@@ -306,6 +306,6 @@
         <Label Background="Yellow" Content="Congé en attente" Height="28" HorizontalAlignment="Left" Margin="829,68,0,0" Name="label7" VerticalAlignment="Top" Width="101" FontFamily="Helvetica CE 35 Thin" />
     </Grid>
     <UserControl.DataContext>
-        <vm:SecondViewModel />
+        <vm:HomeViewModel />
     </UserControl.DataContext>
 </UserControl>

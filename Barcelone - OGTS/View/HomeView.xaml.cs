@@ -18,14 +18,14 @@ using Barcelone___OGTS.Model;
 namespace Barcelone___OGTS.View
 {
     /// <summary>
-    /// Logique d'interaction pour SecondView.xaml
+    /// Logique d'interaction pour HomeView.xaml
     /// </summary>
-    public partial class SecondView : UserControl, ISwitchable
+    public partial class HomeView : UserControl, ISwitchable
     {
-        public SecondView()
+        public HomeView()
         {
             InitializeComponent();
-            DataContext = new SecondViewModel();
+            DataContext = new HomeViewModel();
         }
 
         private void RowFilterButton_Click(object sender, RoutedEventArgs e)

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Barcelone___OGTS.View.SecondView"
+﻿<UserControl x:Class="Barcelone___OGTS.View.HomeView"
       xmlns:vm="clr-namespace:Barcelone___OGTS.ViewModel"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -13,7 +13,7 @@
         <Button Content="Aide" HorizontalAlignment="Left" Margin="883,10,0,0" VerticalAlignment="Top" Width="75" FontFamily="Helvetica CE 35 Thin" FontSize="18" Height="31"/>
         <Label Content="Date du jour :" HorizontalAlignment="Left" Margin="670,46,0,0" VerticalAlignment="Top" Width="82" FontFamily="Helvetica CE 35 Thin"/>
         <Label Content="19/04/213" HorizontalAlignment="Left" Margin="757,46,0,0" VerticalAlignment="Top" Width="170" FontFamily="Helvetica CE 35 Thin"/>
-        <Label Content="Aurélien Legrand" HorizontalAlignment="Left" Margin="743,72,0,0" VerticalAlignment="Top" Width="184" FontFamily="Helvetica CE 35 Thin"/>
+        <Label Content="{Binding Name}" HorizontalAlignment="Left" Margin="743,72,0,0" VerticalAlignment="Top" Width="184" FontFamily="Helvetica CE 35 Thin"/>
         <Label Content="Bienvenue" HorizontalAlignment="Left" Margin="670,72,0,0" VerticalAlignment="Top" Width="68" FontFamily="Helvetica CE 35 Thin"/>
         <Label Content="Derniere connexion :" HorizontalAlignment="Left" Margin="670,98,0,0" VerticalAlignment="Top" Width="119" FontFamily="Helvetica CE 35 Thin"/>
         <Label Content="19/04/2013 a 10h23" HorizontalAlignment="Left" Margin="789,98,0,0" VerticalAlignment="Top" Width="138" FontFamily="Helvetica CE 35 Thin"/>
@@ -103,6 +103,6 @@
         <Button Command="{Binding LeaveRequest}" Content="Nouvelle demande de congé" HorizontalAlignment="Left" Margin="10,160,0,0" VerticalAlignment="Top" Width="242" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
     </Grid>
     <UserControl.DataContext>
-        <vm:SecondViewModel />
+        <vm:HomeViewModel/>
     </UserControl.DataContext>
 </UserControl>

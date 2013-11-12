@@ -175,19 +175,22 @@ namespace Barcelone___OGTS.ViewModel
                 
                 // The date format is ok, we can continue
                 DbHandler.Instance.OpenConnection();
-                // id_employee is hard coded to 4
-                NpgsqlDataReader result = DbHandler.Instance.ExecSQL(String.Format("SELECT start_date, end_date FROM public.dayoff WHERE id_employee = {0};", "4"));
-                while (result.Read())
+    
+                NpgsqlDataReader result = DbHandler.Instance.ExecSQL(String.Format("SELECT start_date, end_date FROM public.dayoff WHERE id_employee = {0};", UserSession.Instance.User.Employee.EmployeeId));
+                if (result != null)
                 {
-                    DateTime tmpStartDate = DateTime.Parse(result[0].ToString().Substring(0, 10));
-                    DateTime tmpEndDate = DateTime.Parse(result[1].ToString().Substring(0, 10));
-                    if ((tmpStartDate <= DateTime.Parse(EndDate)  && (tmpEndDate >= DateTime.Parse(StartDate))))
+                    while (result.Read())
                     {
-                        IsCorrect = "Non";
-                        NbDays = "0";
-                        MessageBox.Show("Vous avez déjà une demande de congés sur ces dates", "Erreur");
-                        DbHandler.Instance.CloseConnection();
-                        return;
+                        DateTime tmpStartDate = DateTime.Parse(result[0].ToString().Substring(0, 10));
+                        DateTime tmpEndDate = DateTime.Parse(result[1].ToString().Substring(0, 10));
+                        if ((tmpStartDate <= DateTime.Parse(EndDate) && (tmpEndDate >= DateTime.Parse(StartDate))))
+                        {
+                            IsCorrect = "Non";
+                            NbDays = "0";
+                            MessageBox.Show("Vous avez déjà une demande de congés sur ces dates", "Erreur");
+                            DbHandler.Instance.CloseConnection();
+                            return;
+                        }
                     }
                 }
                 DbHandler.Instance.CloseConnection();
@@ -309,15 +312,17 @@ namespace Barcelone___OGTS.ViewModel
                     Console.WriteLine("Error : the type of day off was not found");
 
                 DbHandler.Instance.OpenConnection();
-                
-                // Be careful : the id_employee is hard coded to 4, and status to 1 for now 
-                DbHandler.Instance.ExecSQL(String.Format(@"INSERT INTO public.dayoff(id_employee, creation_date, status, id_day_off_type,
+
+                String query = String.Format(@"INSERT INTO public.dayoff(id_employee, creation_date, status, id_day_off_type,
                                                        start_date, end_date, nb_days, employee_commentary)
-                                                       VALUES(4, date '{0}', {1}, {2}, date '{3}', date '{4}', {5}, '{6}');",
-                                                           DateTime.Today.Date.ToShortDateString(), 1, selectedLeaveTypeId, StartDate, EndDate, NbDays, Comment));
+                                                       VALUES({0}, date '{1}', {2}, {3}, date '{4}', date '{5}', {6}, '{7}');",
+                                                           UserSession.Instance.User.Employee.EmployeeId, DateTime.Today.Date.ToShortDateString(), 1, selectedLeaveTypeId, StartDate, EndDate, NbDays, Comment);
+
+                // Be careful : the status is hard coded to 1 for now 
+                DbHandler.Instance.ExecSQL(query);
                 DbHandler.Instance.CloseConnection();
                 // I'm not sure this is the best way to update the list in the main page but...
-                Switcher.Switch(new SecondView());
+                Switcher.Switch(new HomeView());
             }
             catch (Exception e)
             {
@@ -327,7 +332,5 @@ namespace Barcelone___OGTS.ViewModel
 
         #endregion
 
-        #region CanExecute Methods
-        #endregion
     }
 }
