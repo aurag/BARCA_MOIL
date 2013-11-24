@@ -9,12 +9,12 @@
     <Grid>
         <Image Panel.ZIndex="-1" HorizontalAlignment="Left" Height="1706" Margin="0,0,-388,-966.333" VerticalAlignment="Top" Width="1378" Source="rainbowleft.png"/>
         <Button Command="{Binding BackCommand}" Content="Accueil" HorizontalAlignment="Left" Margin="905,10,0,0" VerticalAlignment="Top" Width="75" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
-        <Label Content="Planning" HorizontalAlignment="Left" Margin="290,0,0,0" VerticalAlignment="Top" Width="191" FontFamily="Helvetica CE 35 Thin" Height="86" FontSize="48"/>
+        <Label Content="{Binding PlanningTitle}" HorizontalAlignment="Left" Margin="346,0,0,0" VerticalAlignment="Top" Width="503" FontFamily="Helvetica CE 35 Thin" Height="86" FontSize="48"/>
         <Button Command="{Binding Export}" Content="Export du planning" HorizontalAlignment="Left" Margin="20,69,0,0" VerticalAlignment="Top" Width="181" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
         <Grid HorizontalAlignment="Left" Height="550" Margin="10,110,0,0" VerticalAlignment="Top" Width="970">
             <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="205" Stroke="Black" VerticalAlignment="Top" Width="970"/>
             <Label Content="Demandes non soumises :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="473" FontFamily="Helvetica CE 35 Thin" FontSize="20" FontWeight="Bold"/>
-            <DataGrid Margin="0,50,0,0" ItemsSource="{Binding days}" AutoGenerateColumns="False" ColumnWidth="*">
+            <DataGrid Margin="0,50,0,0" ItemsSource="{Binding Days}" AutoGenerateColumns="False" ColumnWidth="*">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Numéro" Binding="{Binding NbDay}" IsReadOnly="True" Width="55"/>
                     <DataGridTextColumn Header="Janvier 2013" Binding="{Binding LeaveLabelJanuary}" IsReadOnly="True" Width="*" >
@@ -294,7 +294,7 @@
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
                 </DataGrid.Columns>
-                
+
             </DataGrid>
         </Grid>
         <Label Background="Tomato" Content="Congés" Height="28" HorizontalAlignment="Right" Margin="0,68,621,0" Name="label2" VerticalAlignment="Top" Width="83" FontFamily="Helvetica CE 35 Thin" />
@@ -304,8 +304,18 @@
         <Label Background="Aqua" Content="Fermeture/Pont d'entreprise" Height="28" HorizontalAlignment="Left" Margin="563,68,0,0" Name="label5" VerticalAlignment="Top" Width="160" FontFamily="Helvetica CE 35 Thin" />
         <Label Background="Orange" Content="Congé accepté" Height="28" HorizontalAlignment="Left" Margin="729,68,0,0" Name="label6" VerticalAlignment="Top" Width="94" FontFamily="Helvetica CE 35 Thin" />
         <Label Background="Yellow" Content="Congé en attente" Height="28" HorizontalAlignment="Left" Margin="829,68,0,0" Name="label7" VerticalAlignment="Top" Width="101" FontFamily="Helvetica CE 35 Thin" />
+        <Button Command="{Binding SwitchPlanningCommand}" Content="{Binding SwitchPlanning}" HorizontalAlignment="Left" Margin="20,44,0,0" VerticalAlignment="Top" Width="289" Height="25" FontFamily="Helvetica CE 35 Thin" FontSize="18">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-0.36"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
     </Grid>
     <UserControl.DataContext>
-        <vm:HomeViewModel />
+        <vm:PlanningViewModel />
     </UserControl.DataContext>
 </UserControl>

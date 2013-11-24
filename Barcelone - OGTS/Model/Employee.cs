@@ -24,6 +24,18 @@ namespace Barcelone___OGTS.Model
             set { _firstname = value; }
         }
 
+        private String _trigram;
+
+        public String Trigram
+        {
+            get 
+            {
+                _trigram = Firstname.Substring(0, 1) + Lastname.Substring(0, 2);
+                return _trigram; 
+            }
+            set { _trigram = value; }
+        }
+
         private String _adress;
 
         public String Adress

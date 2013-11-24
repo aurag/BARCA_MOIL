@@ -8,6 +8,7 @@ using System.Windows.Input;
 using System;
 using Npgsql;
 using System.Reflection;
+using System.Windows;
 
 namespace Barcelone___OGTS.ViewModel
 {
@@ -16,12 +17,47 @@ namespace Barcelone___OGTS.ViewModel
         #region Commandes
         public ICommand BackCommand { get; set; }
         public ICommand Export { get; set; }
+        public ICommand SwitchPlanningCommand { get; set; }
         #endregion
 
         #region Properties
+        private ICollectionView _days;
 
-        public ICollectionView days { get; private set; }
+        public ICollectionView Days 
+        { 
+            get
+            {
+                return _days;
+            }
+            private set
+            {
+                _days = value;
+                OnPropertyChanged("Days");
+            } 
+        }
         public String[,] daysPlanning { get; private set; }
+        private String _switchPlanning;
+        private String _planningTitle;
+
+        public String PlanningTitle
+        {
+            get { return _planningTitle; }
+            set
+            {
+                _planningTitle = value;
+                OnPropertyChanged("PlanningTitle");
+            }
+        }
+
+        public String SwitchPlanning
+        {
+            get { return _switchPlanning; }
+            set
+            {
+                _switchPlanning = value;
+                OnPropertyChanged("SwitchPlanning");
+            }
+        }
         #endregion
 
         /// <summary>
@@ -31,7 +67,10 @@ namespace Barcelone___OGTS.ViewModel
         {
             BackCommand = new Command(param => Back(), param => true);
             Export = new Command(param => ExportPlanning(), param => true);
-            CreateDaysPlanningList();
+            SwitchPlanningCommand = new Command(param => SwitchPlanningFunction(), param => true);
+            SwitchPlanning = "Basculer vers le planning d'équipe";
+            PlanningTitle = "Planning personnel";
+            CreateDaysPlanningList(false);
         }
 
         #region Command Methods
@@ -58,17 +97,30 @@ namespace Barcelone___OGTS.ViewModel
             Switcher.Switch(new DailyOverview());
         }
 
-        private void PushLeaveRequest()
+
+        private void SwitchPlanningFunction()
         {
-            Switcher.Switch(new LeaveRequestView());
+            if (PlanningTitle.Equals("Planning personnel"))
+            {
+                PlanningTitle = "Planning d'équipe";
+                SwitchPlanning = "Basculer vers le planning personnel";
+                CreateDaysPlanningList(true);
+            }
+            else
+            {
+                PlanningTitle = "Planning personnel";
+                SwitchPlanning = "Basculer vers le planning d'équipe";
+                CreateDaysPlanningList(false);
+            }
         }
 
         #endregion
 
         #region Display Methods
 
-        private void BuildPlanning()
+        private void BuildPlanning(Boolean isTeamPlanning)
         {
+            Console.WriteLine("test");
             // Used to store every day in a year : _daysTmp[month, day] where 0 = january for months
             String[,] daysTmp = new String[12, 31];
             for (int i = 0; i < 12; i++)
@@ -81,7 +133,7 @@ namespace Barcelone___OGTS.ViewModel
                     else
                     {
                         // Months with 30 days
-                        if (((i == 3)  || i == 5 || i == 8 || i == 10) && j == 30)
+                        if (((i == 3) || i == 5 || i == 8 || i == 10) && j == 30)
                             daysTmp[i, j] = "X";
                         else
                             daysTmp[i, j] = "";
@@ -90,28 +142,55 @@ namespace Barcelone___OGTS.ViewModel
             }
 
             DbHandler.Instance.OpenConnection();
-            NpgsqlDataReader result = DbHandler.Instance.ExecSQL(@"select start_date, end_date, type from public.dayoff, public.dayofftype
-                                                                   WHERE public.dayoff.id_day_off_type = public.dayofftype.id_day_off_type;");
-            while (result.Read())
+            NpgsqlDataReader result;
+            String id_employee = UserSession.Instance.User.Employee.EmployeeId;
+
+            if (isTeamPlanning)
             {
-                DateTime dayOffStartDate = DateTime.Parse(result[0].ToString().Substring(0, 10));
-                DateTime dayOffEndDate = DateTime.Parse(result[1].ToString().Substring(0, 10));
-                String type = result[2].ToString();
-
-                // TODO : Add missing types
-                if (type.Equals("01"))
-                    type = "CP";
-                if (type.Equals("02"))
-                    type = "CA";
-                if (type.Equals("03"))
-                    type = "CS";
-                if (type.Equals("04"))
-                    type = "RF";
-
-                while (dayOffStartDate <= dayOffEndDate)
+                result = DbHandler.Instance.ExecSQL(@"select id_employee, id_employee_rh from public.employee
+                                                                   WHERE public.employee.id_employee_rh=" + id_employee + ";");
+                if (result != null)
                 {
-                    daysTmp[dayOffStartDate.Month - 1, dayOffStartDate.Day - 1] = type;
-                    dayOffStartDate = dayOffStartDate.AddDays(1);
+                    while (result.Read())
+                        id_employee += " OR public.dayoff.id_employee=" + result[0].ToString();
+                }
+            
+                result = null;
+            }
+
+
+            result = DbHandler.Instance.ExecSQL(@"select start_date, end_date, type, firstname, lastname from public.dayofftype, public.dayoff INNER JOIN public.employee ON (public.dayoff.id_employee=public.employee.id_employee)
+                                                                   WHERE public.dayoff.id_day_off_type = public.dayofftype.id_day_off_type
+                                                                   AND (public.dayoff.id_employee=" + id_employee + ");");
+            if (result != null)
+            {
+                while (result.Read())
+                {
+                    DateTime dayOffStartDate = DateTime.Parse(result[0].ToString().Substring(0, 10));
+                    DateTime dayOffEndDate = DateTime.Parse(result[1].ToString().Substring(0, 10));
+                    String type = result[2].ToString();
+
+                    // TODO : Add missing types
+                    if (type.Equals("01"))
+                        type = "CP";
+                    if (type.Equals("02"))
+                        type = "CA";
+                    if (type.Equals("03"))
+                        type = "CS";
+                    if (type.Equals("04"))
+                        type = "RF";
+
+                    if (isTeamPlanning)
+                    {
+                        // Ajout du trigramme ISO de l'employé à l'origine du congé
+                        type += " " + result[3].ToString().Substring(0, 1).ToUpper() + result[4].ToString().Substring(0, 1).ToUpper() + result[4].ToString().Substring(result[4].ToString().Length - 1, 1).ToUpper();
+                    }
+
+                    while (dayOffStartDate <= dayOffEndDate)
+                    {
+                        daysTmp[dayOffStartDate.Month - 1, dayOffStartDate.Day - 1] = type;
+                        dayOffStartDate = dayOffStartDate.AddDays(1);
+                    }
                 }
             }
             DbHandler.Instance.CloseConnection();
@@ -135,19 +214,20 @@ namespace Barcelone___OGTS.ViewModel
         /// <summary>
         /// Create the list of days used to represent the planning
         /// </summary>
-        private void CreateDaysPlanningList()
+        private void CreateDaysPlanningList(Boolean isTeamPlanning)
         {
             List<DayPlanning> _days = new List<DayPlanning>();
 
+            BuildPlanning(isTeamPlanning);
             for (int day = 0; day < 31; day++)
             {
-                BuildPlanning();
+
                 _days.Add(new DayPlanning(false, daysPlanning[0, day], daysPlanning[1, day], daysPlanning[2, day],
                     daysPlanning[3, day], daysPlanning[4, day], daysPlanning[5, day], daysPlanning[6, day], daysPlanning[7, day],
                     daysPlanning[8, day], daysPlanning[9, day], daysPlanning[10, day], daysPlanning[11, day], day + 1));
             }
 
-            days = CollectionViewSource.GetDefaultView(_days);
+            Days = CollectionViewSource.GetDefaultView(_days);
         }
 
         #endregion
@@ -299,11 +379,13 @@ namespace Barcelone___OGTS.ViewModel
                     Console.WriteLine("Error month is > 12");
                     break;
             }
-            tmp =  tmp + (day + 2).ToString();
+            tmp = tmp + (day + 2).ToString();
 
             Microsoft.Office.Interop.Excel.Range oRng = oSheet.get_Range(tmp, tmp);
             return oRng;
         }
         #endregion
+
+
     }
 }

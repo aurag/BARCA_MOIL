@@ -31,7 +31,7 @@ namespace Barcelone___OGTS.ViewModel
             set
             {
                 _login = value;
-                NotifyPropertyChanged("Login");
+                OnPropertyChanged("Login");
             }
         }
         #endregion
@@ -135,23 +135,5 @@ namespace Barcelone___OGTS.ViewModel
             Switcher.Switch(new RHHomeView());
         }
 
-
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        #endregion
-
-        #region Private Helpers
-
-        private void NotifyPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        #endregion
     }
 }
