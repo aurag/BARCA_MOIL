@@ -4,7 +4,13 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+	  xmlns:local="clr-namespace:Barcelone___OGTS.Common"
       mc:Ignorable="d" Height="750" Width="1000">
+	  
+	<UserControl.Resources>
+		<local:LeaveTypeToColor x:Key="LeaveTypeToColor"/>
+	</UserControl.Resources>
+
 
     <Grid>
         <Image Panel.ZIndex="-1" HorizontalAlignment="Left" Height="1706" Margin="0,0,-388,-966.333" VerticalAlignment="Top" Width="1378" Source="rainbowleft.png"/>
@@ -20,276 +26,84 @@
                     <DataGridTextColumn Header="Janvier 2013" Binding="{Binding LeaveLabelJanuary}" IsReadOnly="True" Width="*" >
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
-                                <Style.Triggers>
-                                    <Trigger Property="Text" Value="CP">
-                                        <Setter Property="Background" Value="Tomato"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="RF">
-                                        <Setter Property="Background" Value="Tomato"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="FE">
-                                        <Setter Property="Background" Value="LightGray"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="RE">
-                                        <Setter Property="Background" Value="DimGray"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="">
-                                        <Setter Property="Background" Value="PaleGreen"/>
-                                    </Trigger>
-                                </Style.Triggers>
+                                <Setter Property="Background" Value="{Binding LeaveLabelJanuary, Converter={StaticResource LeaveTypeToColor}}"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Février 2013" Binding="{Binding LeaveLabelFebruary}" IsReadOnly="True" Width="85" >
+                    <DataGridTextColumn Header="Février 2013" Binding="{Binding LeaveLabelFebruary}"  IsReadOnly="True" Width="85" >
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
-                                <Style.Triggers>
-                                    <Trigger Property="Text" Value="CP">
-                                        <Setter Property="Background" Value="Tomato"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="RF">
-                                        <Setter Property="Background" Value="Tomato"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="FE">
-                                        <Setter Property="Background" Value="LightGray"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="RE">
-                                        <Setter Property="Background" Value="DimGray"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="">
-                                        <Setter Property="Background" Value="PaleGreen"/>
-                                    </Trigger>
-                                </Style.Triggers>
+                                <Setter Property="Background" Value="{Binding LeaveLabelFebruary, Converter={StaticResource LeaveTypeToColor}}"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
                     <DataGridTextColumn Header="Mars 2013" Binding="{Binding LeaveLabelMarch}" IsReadOnly="True" Width="95" >
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
-                                <Style.Triggers>
-                                    <Trigger Property="Text" Value="CP">
-                                        <Setter Property="Background" Value="Tomato"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="RF">
-                                        <Setter Property="Background" Value="Tomato"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="FE">
-                                        <Setter Property="Background" Value="LightGray"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="RE">
-                                        <Setter Property="Background" Value="DimGray"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="">
-                                        <Setter Property="Background" Value="PaleGreen"/>
-                                    </Trigger>
-                                </Style.Triggers>
+                                <Setter Property="Background" Value="{Binding LeaveLabelMarch, Converter={StaticResource LeaveTypeToColor}}"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
                     <DataGridTextColumn Header="Avril 2013" Binding="{Binding LeaveLabelApril}" IsReadOnly="True" Width="*" >
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
-                                <Style.Triggers>
-                                    <Trigger Property="Text" Value="CP">
-                                        <Setter Property="Background" Value="Tomato"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="RF">
-                                        <Setter Property="Background" Value="Tomato"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="FE">
-                                        <Setter Property="Background" Value="LightGray"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="RE">
-                                        <Setter Property="Background" Value="DimGray"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="">
-                                        <Setter Property="Background" Value="PaleGreen"/>
-                                    </Trigger>
-                                </Style.Triggers>
+                                <Setter Property="Background" Value="{Binding LeaveLabelApril, Converter={StaticResource LeaveTypeToColor}}"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
                     <DataGridTextColumn Header="Mai 2013" Binding="{Binding LeaveLabelMai}" IsReadOnly="True" Width="75" >
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
-                                <Style.Triggers>
-                                    <Trigger Property="Text" Value="CP">
-                                        <Setter Property="Background" Value="Tomato"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="RF">
-                                        <Setter Property="Background" Value="Tomato"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="FE">
-                                        <Setter Property="Background" Value="LightGray"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="RE">
-                                        <Setter Property="Background" Value="DimGray"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="">
-                                        <Setter Property="Background" Value="PaleGreen"/>
-                                    </Trigger>
-                                </Style.Triggers>
+                                <Setter Property="Background" Value="{Binding LeaveLabelMai, Converter={StaticResource LeaveTypeToColor}}"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
                     <DataGridTextColumn Header="Juin 2013" Binding="{Binding LeaveLabelJune}" IsReadOnly="True" Width="75">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
-                                <Style.Triggers>
-                                    <Trigger Property="Text" Value="CP">
-                                        <Setter Property="Background" Value="Tomato"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="RF">
-                                        <Setter Property="Background" Value="Tomato"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="FE">
-                                        <Setter Property="Background" Value="LightGray"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="RE">
-                                        <Setter Property="Background" Value="DimGray"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="">
-                                        <Setter Property="Background" Value="PaleGreen"/>
-                                    </Trigger>
-                                </Style.Triggers>
+                                <Setter Property="Background" Value="{Binding LeaveLabelJune, Converter={StaticResource LeaveTypeToColor}}"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
                     <DataGridTextColumn Header="Juillet 2013" Binding="{Binding LeaveLabelJuly}" IsReadOnly="True" Width="65">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
-                                <Style.Triggers>
-                                    <Trigger Property="Text" Value="CP">
-                                        <Setter Property="Background" Value="Tomato"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="RF">
-                                        <Setter Property="Background" Value="Tomato"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="FE">
-                                        <Setter Property="Background" Value="LightGray"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="RE">
-                                        <Setter Property="Background" Value="DimGray"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="">
-                                        <Setter Property="Background" Value="PaleGreen"/>
-                                    </Trigger>
-                                </Style.Triggers>
+                                <Setter Property="Background" Value="{Binding LeaveLabelJuly, Converter={StaticResource LeaveTypeToColor}}"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
                     <DataGridTextColumn Header="Aout 2013" Binding="{Binding LeaveLabelAugust}" IsReadOnly="True" Width="65">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
-                                <Style.Triggers>
-                                    <Trigger Property="Text" Value="CP">
-                                        <Setter Property="Background" Value="Tomato"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="RF">
-                                        <Setter Property="Background" Value="Tomato"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="FE">
-                                        <Setter Property="Background" Value="LightGray"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="RE">
-                                        <Setter Property="Background" Value="DimGray"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="">
-                                        <Setter Property="Background" Value="PaleGreen"/>
-                                    </Trigger>
-                                </Style.Triggers>
+                                <Setter Property="Background" Value="{Binding LeaveLabelAugust, Converter={StaticResource LeaveTypeToColor}}"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
                     <DataGridTextColumn Header="Septembre 2013" Binding="{Binding LeaveLabelSeptember}" IsReadOnly="True" Width="*" >
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
-                                <Style.Triggers>
-                                    <Trigger Property="Text" Value="CP">
-                                        <Setter Property="Background" Value="Tomato"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="RF">
-                                        <Setter Property="Background" Value="Tomato"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="FE">
-                                        <Setter Property="Background" Value="LightGray"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="RE">
-                                        <Setter Property="Background" Value="DimGray"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="">
-                                        <Setter Property="Background" Value="PaleGreen"/>
-                                    </Trigger>
-                                </Style.Triggers>
+                                <Setter Property="Background" Value="{Binding LeaveLabelSeptember, Converter={StaticResource LeaveTypeToColor}}"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
                     <DataGridTextColumn Header="Octobre 2013" Binding="{Binding LeaveLabelOctober}" IsReadOnly="True" Width="*" >
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
-                                <Style.Triggers>
-                                    <Trigger Property="Text" Value="CP">
-                                        <Setter Property="Background" Value="Tomato"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="RF">
-                                        <Setter Property="Background" Value="Tomato"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="FE">
-                                        <Setter Property="Background" Value="LightGray"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="RE">
-                                        <Setter Property="Background" Value="DimGray"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="">
-                                        <Setter Property="Background" Value="PaleGreen"/>
-                                    </Trigger>
-                                </Style.Triggers>
+                                <Setter Property="Background" Value="{Binding LeaveLabelOctober, Converter={StaticResource LeaveTypeToColor}}"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
                     <DataGridTextColumn Header="Novembre 2013" Binding="{Binding LeaveLabelNovember}" IsReadOnly="True" Width="*" >
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
-                                <Style.Triggers>
-                                    <Trigger Property="Text" Value="CP">
-                                        <Setter Property="Background" Value="Tomato"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="RF">
-                                        <Setter Property="Background" Value="Tomato"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="FE">
-                                        <Setter Property="Background" Value="LightGray"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="RE">
-                                        <Setter Property="Background" Value="DimGray"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="">
-                                        <Setter Property="Background" Value="PaleGreen"/>
-                                    </Trigger>
-                                </Style.Triggers>
+                                <Setter Property="Background" Value="{Binding LeaveLabelNovember, Converter={StaticResource LeaveTypeToColor}}"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
                     <DataGridTextColumn Header="Décembre 2013" Binding="{Binding LeaveLabelDecember}" IsReadOnly="True" Width="*" >
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
-                                <Style.Triggers>
-                                    <Trigger Property="Text" Value="CP">
-                                        <Setter Property="Background" Value="Tomato"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="RF">
-                                        <Setter Property="Background" Value="Tomato"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="FE">
-                                        <Setter Property="Background" Value="LightGray"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="RE">
-                                        <Setter Property="Background" Value="DimGray"/>
-                                    </Trigger>
-                                    <Trigger Property="Text" Value="">
-                                        <Setter Property="Background" Value="PaleGreen"/>
-                                    </Trigger>
-                                </Style.Triggers>
+                                <Setter Property="Background" Value="{Binding LeaveLabelDecember, Converter={StaticResource LeaveTypeToColor}}"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
@@ -315,7 +129,5 @@
             </Button.RenderTransform>
         </Button>
     </Grid>
-    <UserControl.DataContext>
-        <vm:PlanningViewModel />
-    </UserControl.DataContext>
+
 </UserControl>

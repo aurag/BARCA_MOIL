@@ -9,6 +9,7 @@ using System;
 using Npgsql;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Media;
 
 namespace Barcelone___OGTS.ViewModel
 {
@@ -120,7 +121,6 @@ namespace Barcelone___OGTS.ViewModel
 
         private void BuildPlanning(Boolean isTeamPlanning)
         {
-            Console.WriteLine("test");
             // Used to store every day in a year : _daysTmp[month, day] where 0 = january for months
             String[,] daysTmp = new String[12, 31];
             for (int i = 0; i < 12; i++)
@@ -154,7 +154,8 @@ namespace Barcelone___OGTS.ViewModel
                     while (result.Read())
                         id_employee += " OR public.dayoff.id_employee=" + result[0].ToString();
                 }
-            
+                DbHandler.Instance.CloseConnection();
+                DbHandler.Instance.OpenConnection();
                 result = null;
             }
 
@@ -229,6 +230,7 @@ namespace Barcelone___OGTS.ViewModel
 
             Days = CollectionViewSource.GetDefaultView(_days);
         }
+
 
         #endregion
 
