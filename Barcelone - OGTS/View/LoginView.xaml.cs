@@ -15,11 +15,11 @@ using Barcelone___OGTS.Common;
 namespace Barcelone___OGTS.View
 {
     /// <summary>
-    /// Interaction logic for FirstWindow.xaml
+    /// Interaction logic for LoginView.xaml
     /// </summary>
-    public partial class FirstView : UserControl, ISwitchable
+    public partial class LoginView : UserControl, ISwitchable
     {
-        public FirstView()
+        public LoginView()
         {
             InitializeComponent();
         }

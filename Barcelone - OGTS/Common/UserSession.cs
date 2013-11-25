@@ -1,4 +1,5 @@
 ﻿using Barcelone___OGTS.Model;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Barcelone___OGTS.Common
     {
         private static volatile UserSession instance;
         private static object syncRoot = new Object();
-        private User _user;
+        private static User _user;
 
         internal User User
         {

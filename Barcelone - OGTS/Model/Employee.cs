@@ -115,6 +115,16 @@ namespace Barcelone___OGTS.Model
             set { _entityId = value; }
         }
 
+        private Boolean _isRh;
+        public Boolean IsRH
+        {
+            get
+            {
+                return _isRh;
+            }
+            set { _isRh = value; }
+        }
+
         #endregion
 
     }

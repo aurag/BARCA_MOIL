@@ -12,7 +12,6 @@ namespace Barcelone___OGTS.Common
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            Console.WriteLine("Value : " + value.ToString());
             if (value.ToString().StartsWith("RE"))
                 return Brushes.DimGray;
             if (value.ToString().StartsWith("RF") || value.ToString().StartsWith("CP"))

@@ -89,10 +89,12 @@ namespace Barcelone___OGTS.ViewModel
                     employee.EmployeeId = employeeId.ToString();
                     user.Employee = employee;
                     session.User = user;
+
                     break;
                 }
             }
             DbHandler.Instance.CloseConnection();
+            UserSession.Instance.User.Employee.IsRH = DbHandler.Instance.checkIfRh( UserSession.Instance.User.Employee.EmployeeId);
 
             if (isCorrect)
                 Switcher.Switch(new HomeView());

@@ -36,6 +36,28 @@ namespace Barcelone___OGTS.Common
             }
         }
 
+
+        public Boolean checkIfRh(String id_employee)
+        {
+            DbHandler.Instance.OpenConnection();
+            NpgsqlDataReader result;
+
+            result = DbHandler.Instance.ExecSQL(@"select id_employee, id_employee_rh from public.employee
+                                                                   WHERE public.employee.id_employee_rh=" + id_employee + ";");
+
+            Boolean res = false;
+            if (result != null)
+            {
+                while (result.Read())
+                {
+                    res = true;
+                }
+            }
+
+            DbHandler.Instance.CloseConnection();
+            return res;
+        }
+
         public static DbHandler Instance
         {
             get

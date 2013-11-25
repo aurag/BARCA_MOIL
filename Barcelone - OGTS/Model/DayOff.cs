@@ -33,6 +33,33 @@ namespace Barcelone___OGTS.Model
 
         #region Properties
 
+        private Boolean _isSelectedOk;
+
+        public Boolean IsSelectedOk
+        {
+            get { return _isSelectedOk; }
+            set 
+            {
+                if (value && _isSelectedNok)
+                    IsSelectedNok = false;
+                _isSelectedOk = value;
+                NotifyPropertyChanged("IsSelectedOk");
+            }
+        }
+        private Boolean _isSelectedNok;
+
+        public Boolean IsSelectedNok
+        {
+            get { return _isSelectedNok; }
+            set 
+            {
+                if (value && _isSelectedOk)
+                    IsSelectedOk = false; 
+                _isSelectedNok = value; 
+                NotifyPropertyChanged("IsSelectedNok");
+            }
+        }
+
         public string StartDate
         {
             get { return _startDate; }
@@ -133,6 +160,8 @@ namespace Barcelone___OGTS.Model
             }
         }
 
+        // Status : 0 : Non défini
+        // 1 : Créé, 2 : En attente de validation, 3 : Annulé, 4 : En demande d'annulation, 5 : Accepté, 6 : Refusé
         public string Status
         {
             get { return _status; }

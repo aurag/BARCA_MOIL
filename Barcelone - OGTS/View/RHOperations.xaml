@@ -12,7 +12,7 @@
         <Label Content="Traitement des demandes" HorizontalAlignment="Left" Margin="180,10,0,0" VerticalAlignment="Top" Width="584" FontFamily="Helvetica CE 35 Thin" Height="86" FontSize="48"/>
         <Grid HorizontalAlignment="Left" Height="205" Margin="10,120,0,0" VerticalAlignment="Top" Width="950">
             <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="205" Stroke="Black" VerticalAlignment="Top" Width="950"/>
-            <DataGrid Margin="0,50,0,0" ItemsSource="{Binding asking}" AutoGenerateColumns="False" ColumnWidth="*">
+            <DataGrid Margin="0,50,0,0" ItemsSource="{Binding DaysForValidation}" AutoGenerateColumns="False" ColumnWidth="*">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Date de soumission" Binding="{Binding RequestDate}" IsReadOnly="True" Width="115"/>
                     <DataGridTextColumn Header="Salarié" Binding="{Binding NameEmployee}" IsReadOnly="True" Width="120"/>
@@ -24,20 +24,20 @@
                     <DataGridTemplateColumn Header="Accepter" Width="60">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=IsSelected2}" HorizontalAlignment="Center" />
+                                <CheckBox IsChecked="{Binding IsSelectedOk}" Tag="{Binding}" Click="Ok_Click" HorizontalAlignment="Center" Width="20" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="Refuser" Width="60">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=IsSelected2}" HorizontalAlignment="Center" />
+                                <CheckBox IsChecked="{Binding IsSelectedNok}" Tag="{Binding}" Click="Nok_Click" HorizontalAlignment="Center" Width="20" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <Button Content="Traiter la sélection" HorizontalAlignment="Left" Margin="795,10,0,0" VerticalAlignment="Top" Width="145" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
+            <Button Command="{Binding HandleCheckBox}" Content="Traiter la sélection" HorizontalAlignment="Left" Margin="795,10,0,0" VerticalAlignment="Top" Width="145" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
         </Grid>
 
         <Grid HorizontalAlignment="Left" Height="205" Margin="10,336,0,0" VerticalAlignment="Top" Width="950">
@@ -58,6 +58,6 @@
         <Label Content="Prévisions" HorizontalAlignment="Left" Margin="10,341,0,0" VerticalAlignment="Top" Width="329" FontFamily="Helvetica CE 35 Thin" Height="40" FontSize="24"/>
     </Grid>
     <UserControl.DataContext>
-        <vm:OperationsHistoryViewModel/>
+        <vm:RHOperationsViewModel/>
     </UserControl.DataContext>
 </UserControl>

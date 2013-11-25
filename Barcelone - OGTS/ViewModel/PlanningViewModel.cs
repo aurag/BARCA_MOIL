@@ -169,27 +169,31 @@ namespace Barcelone___OGTS.ViewModel
                 {
                     DateTime dayOffStartDate = DateTime.Parse(result[0].ToString().Substring(0, 10));
                     DateTime dayOffEndDate = DateTime.Parse(result[1].ToString().Substring(0, 10));
-                    String type = result[2].ToString();
+                    String label = result[2].ToString();
 
                     // TODO : Add missing types
-                    if (type.Equals("01"))
-                        type = "CP";
-                    if (type.Equals("02"))
-                        type = "CA";
-                    if (type.Equals("03"))
-                        type = "CS";
-                    if (type.Equals("04"))
-                        type = "RF";
+                    if (label.Equals("01"))
+                        label = "CP";
+                    if (label.Equals("02"))
+                        label = "CA";
+                    if (label.Equals("03"))
+                        label = "CS";
+                    if (label.Equals("04"))
+                        label = "RF";
 
                     if (isTeamPlanning)
                     {
                         // Ajout du trigramme ISO de l'employé à l'origine du congé
-                        type += " " + result[3].ToString().Substring(0, 1).ToUpper() + result[4].ToString().Substring(0, 1).ToUpper() + result[4].ToString().Substring(result[4].ToString().Length - 1, 1).ToUpper();
+                        label += " " + result[3].ToString().Substring(0, 1).ToUpper() + result[4].ToString().Substring(0, 1).ToUpper() + result[4].ToString().Substring(result[4].ToString().Length - 1, 1).ToUpper();
                     }
 
                     while (dayOffStartDate <= dayOffEndDate)
                     {
-                        daysTmp[dayOffStartDate.Month - 1, dayOffStartDate.Day - 1] = type;
+                        String labelTmp = daysTmp[dayOffStartDate.Month - 1, dayOffStartDate.Day - 1];
+                        if (labelTmp != "" && labelTmp != "X")
+                            daysTmp[dayOffStartDate.Month - 1, dayOffStartDate.Day - 1] = labelTmp + " & " + label;
+                        else
+                            daysTmp[dayOffStartDate.Month - 1, dayOffStartDate.Day - 1] = label;
                         dayOffStartDate = dayOffStartDate.AddDays(1);
                     }
                 }

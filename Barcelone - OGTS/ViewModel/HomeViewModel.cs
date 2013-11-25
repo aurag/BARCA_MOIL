@@ -8,6 +8,7 @@ using System.Windows.Input;
 using Npgsql;
 using System;
 using System.Threading;
+using System.Windows;
 
 namespace Barcelone___OGTS.ViewModel
 {
@@ -25,10 +26,41 @@ namespace Barcelone___OGTS.ViewModel
         public ICommand GoToCETAccount { get; set; }
         public ICommand OperationsHistory { get; set; }
         public ICommand HandleCheckBox { get; set; }
+        public ICommand DisconnectCommand { get; set; }
         
         #endregion
 
         #region Properties
+
+        private Visibility _isRhVisibility;
+
+        public Visibility IsRhVisibility
+        {
+            get 
+            {
+                return _isRhVisibility; 
+            }
+            set 
+            { 
+                _isRhVisibility = value;
+                OnPropertyChanged("IsRhVisibility");
+            }
+        }
+        
+        private Boolean _isRh;
+
+        public Boolean IsRh
+        {
+            get 
+            {
+                return _isRh; 
+            }
+            set 
+            { 
+                _isRh = value;
+                OnPropertyChanged("IsRh");
+            }
+        }
 
         private ICollectionView _daysOff;
 
@@ -78,7 +110,11 @@ namespace Barcelone___OGTS.ViewModel
             GoToCETAccount = new Command(param => PushCETAccount(), param => true);
             OperationsHistory = new Command(param => PushOperationsHistory(), param => true);
             HandleCheckBox = new Command(param => FirstHandleCheckBox(), param => true);
+            DisconnectCommand = new Command(param => Disconnect(), param => true);
 
+            // Initialisation de la vue
+            IsRh = UserSession.Instance.User.Employee.IsRH;
+            IsRhVisibility = (IsRh ? Visibility.Visible : Visibility.Hidden);
 
             // Creation de la liste de demandes de congés pour les tableaux.
             CreateLeaveRequestList();
@@ -93,6 +129,11 @@ namespace Barcelone___OGTS.ViewModel
         
         #region Commands Methods
 
+        private void Disconnect()
+        {
+            Switcher.Switch(new LoginView());
+        }
+
         private void FirstHandleCheckBox()
         {
             try
@@ -103,7 +144,6 @@ namespace Barcelone___OGTS.ViewModel
                     DayOff day = ((List<DayOff>)DaysOff.SourceCollection)[i];
                     if (day.IsSelected)
                     {
-                        // id_employee is hard coded to 4 for now.
                         DbHandler.Instance.ExecSQL(String.Format(@"DELETE FROM dayoff 
                                                                WHERE start_date = (date '{0}') and end_date = (date '{1}') and id_employee = {2}",
                                                                    day.StartDate, day.EndDate, UserSession.Instance.User.Employee.EmployeeId));

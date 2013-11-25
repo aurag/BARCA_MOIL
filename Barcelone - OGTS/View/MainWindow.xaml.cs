@@ -23,7 +23,7 @@ namespace Barcelone___OGTS.View
         {
             InitializeComponent();
             Switcher.pageSwitcher = this;
-            Switcher.Switch(new FirstView());
+            Switcher.Switch(new LoginView());
         }
 
         public void Navigate(UserControl nextPage)

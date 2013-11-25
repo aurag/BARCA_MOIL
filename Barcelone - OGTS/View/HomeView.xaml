@@ -9,7 +9,7 @@
     <Grid>
         <Image Panel.ZIndex="-1" HorizontalAlignment="Left" Height="1706" Margin="0,0,-388,-966.333" VerticalAlignment="Top" Width="1378" Source="rainbowleft.png"/>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="113" Margin="670,46,0,0" Stroke="Black" VerticalAlignment="Top" Width="288"/>
-        <Button Content="Deconnexion" Command="{Binding BackCommand}" Margin="757,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="112" FontFamily="Helvetica CE 35 Thin" FontSize="18" Height="31"/>
+        <Button Content="Deconnexion" Command="{Binding DisconnectCommand}" Margin="757,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="112" FontFamily="Helvetica CE 35 Thin" FontSize="18" Height="31"/>
         <Button Content="Aide" HorizontalAlignment="Left" Margin="883,10,0,0" VerticalAlignment="Top" Width="75" FontFamily="Helvetica CE 35 Thin" FontSize="18" Height="31"/>
         <Label Content="Date du jour :" HorizontalAlignment="Left" Margin="670,46,0,0" VerticalAlignment="Top" Width="82" FontFamily="Helvetica CE 35 Thin"/>
         <Label Content="19/04/213" HorizontalAlignment="Left" Margin="757,46,0,0" VerticalAlignment="Top" Width="170" FontFamily="Helvetica CE 35 Thin"/>
@@ -98,6 +98,7 @@
         <Button Command="{Binding GoToRequestAndProjection}" Content="Demande et prévisions" HorizontalAlignment="Left" Margin="10,96,0,0" VerticalAlignment="Top" Width="193" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
         <Button Command="{Binding GoToCETAccount}" Content="CET" HorizontalAlignment="Left" Margin="208,96,0,0" VerticalAlignment="Top" Width="54" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
         <Button Command="{Binding GoToPlanning}" Content="Planning congés" HorizontalAlignment="Left" Margin="267,96,0,0" VerticalAlignment="Top" Width="137" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
+        <Button Command="{Binding GoToRHOperations}" Content="Traitement des demandes" HorizontalAlignment="Left" Margin="409,96,0,0" VerticalAlignment="Top" Width="211" FontFamily="Helvetica CE 35 Thin" FontSize="18" IsEnabled="{Binding IsRh}" Visibility="{Binding IsRhVisibility}" />
         <Button Content="Situation du jour" Command="{Binding GoToDailyOverview}" HorizontalAlignment="Left" Margin="10,128,0,0" VerticalAlignment="Top" Width="156" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
         <Button Command="{Binding OperationsHistory}" Content="Historique des demandes" HorizontalAlignment="Left" Margin="171,128,0,0" VerticalAlignment="Top" Width="212" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
         <Button Command="{Binding LeaveRequest}" Content="Nouvelle demande de congé" HorizontalAlignment="Left" Margin="10,160,0,0" VerticalAlignment="Top" Width="242" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
@@ -105,4 +106,5 @@
     <UserControl.DataContext>
         <vm:HomeViewModel/>
     </UserControl.DataContext>
+
 </UserControl>
