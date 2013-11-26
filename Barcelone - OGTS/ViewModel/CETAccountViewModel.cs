@@ -6,6 +6,7 @@ using Barcelone___OGTS.Model;
 using System.Windows.Data;
 using System.ComponentModel;
 using Barcelone___OGTS.View;
+using Npgsql;
 
 namespace Barcelone___OGTS.ViewModel
 {
@@ -19,6 +20,18 @@ namespace Barcelone___OGTS.ViewModel
 
         #region Properties
 
+        private int _cETNumber;
+
+        public int CETNumber
+        {
+            get { return _cETNumber; }
+            set 
+            { 
+                _cETNumber = value;
+                OnPropertyChanged("CETNumber");
+            }
+        }
+
         public ICollectionView CETOperations { get; private set; }
 
         #endregion
@@ -31,9 +44,51 @@ namespace Barcelone___OGTS.ViewModel
             BackCommand = new Command(param => Back(), param => true);
             GoToAddInCET = new Command(param => PushAddInCET(), param => true);
             GoToLeaveRequest = new Command(param => PushLeaveRequest(), param => true);
+
+            // Récupération du solde actuel du CET
+            getCurrentCET();
+
             // Creation de la liste des opérations sur le CET.
             CreateCETOPList();
             
+        }
+
+        public void getCurrentCET()
+        {
+            DbHandler.Instance.OpenConnection();
+            String employeeId = UserSession.Instance.User.Employee.EmployeeId;
+
+            try
+            {
+                NpgsqlDataReader result = DbHandler.Instance.ExecSQL("select current_cet from public.employee where id_employee = " + employeeId + ";");
+
+                if (result != null)
+                {
+                    int rows = 0;
+
+                    while (result.Read())
+                    {
+                        if (rows > 0)
+                            Console.WriteLine("Plus d'un retour pour la requête du CET !");
+                        CETNumber = int.Parse(result[0].ToString());
+                        rows++;
+                    }
+
+                }
+                else
+                {
+                    Console.WriteLine("Erreur : CET non trouvé !");
+                    CETNumber = 0;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Erreur au niveau du calcul du solde du CET : " + e.Message);
+            }
+            finally
+            {
+                DbHandler.Instance.CloseConnection();
+            }
         }
 
         /// <summary>

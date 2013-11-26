@@ -313,10 +313,14 @@ namespace Barcelone___OGTS.ViewModel
 
                 DbHandler.Instance.OpenConnection();
 
+                // Le status est défaut à 2 (En attente de validation) pour le moment
+                // Il faudrait peut être le mettre à 1 (Créé) puis que l'utilisateur le confirme pour qu'il passe au status 2
+                int status = 2;
+
                 String query = String.Format(@"INSERT INTO public.dayoff(id_employee, creation_date, status, id_day_off_type,
                                                        start_date, end_date, nb_days, employee_commentary)
                                                        VALUES({0}, date '{1}', {2}, {3}, date '{4}', date '{5}', {6}, '{7}');",
-                                                           UserSession.Instance.User.Employee.EmployeeId, DateTime.Today.Date.ToShortDateString(), 1, selectedLeaveTypeId, StartDate, EndDate, NbDays, Comment);
+                                                           UserSession.Instance.User.Employee.EmployeeId, DateTime.Today.Date.ToShortDateString(), status, selectedLeaveTypeId, StartDate, EndDate, NbDays, Comment);
 
                 // Be careful : the status is hard coded to 1 for now 
                 DbHandler.Instance.ExecSQL(query);

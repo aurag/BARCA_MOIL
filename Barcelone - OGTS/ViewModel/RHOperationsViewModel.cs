@@ -46,7 +46,7 @@ namespace Barcelone___OGTS.ViewModel
         #region CanExecute Methods
         private void Back()
         {
-            Switcher.SwitchBack();
+            Switcher.Switch(new HomeView());
         }
 
         // Todo : Create the operations list

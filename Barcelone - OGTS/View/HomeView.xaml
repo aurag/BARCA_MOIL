@@ -4,7 +4,12 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Barcelone___OGTS.Common"
       mc:Ignorable="d" Height="750" Width="1000">
+
+    <UserControl.Resources>
+        <local:StatusToString x:Key="StatusToString"/>
+    </UserControl.Resources>
 
     <Grid>
         <Image Panel.ZIndex="-1" HorizontalAlignment="Left" Height="1706" Margin="0,0,-388,-966.333" VerticalAlignment="Top" Width="1378" Source="rainbowleft.png"/>
@@ -33,12 +38,12 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Date de début" Binding="{Binding StartDate}" IsReadOnly="True" Width="100"/>
                     <DataGridTextColumn Header="Date de fin" Binding="{Binding EndDate}" IsReadOnly="True" Width="100"/>
-                    <DataGridTextColumn Header="Type" Binding="{Binding Type}" IsReadOnly="True" Width="40"/>
-                    <DataGridTextColumn Header="Libellé" Binding="{Binding Title}" IsReadOnly="True" Width="150"/>
-                    <DataGridTextColumn Header="Statut" Binding="{Binding Status}" IsReadOnly="True" Width="60"/>
-                    <DataGridTextColumn Header="Commentaire salarié" Binding="{Binding CommentSal}" IsReadOnly="True" Width="350"/>
+                    <DataGridTextColumn Header="Type" Binding="{Binding Type}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="Libellé" Binding="{Binding Title}" IsReadOnly="True" Width="120"/>
+                    <DataGridTextColumn Header="Statut" Binding="{Binding Status, Converter={StaticResource StatusToString}}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="Commentaire salarié" Binding="{Binding CommentSal}" IsReadOnly="True" Width="*"/>
                     
-                    <DataGridTemplateColumn Header="Supprimer de la liste">
+                    <DataGridTemplateColumn Header="Supprimer de la liste" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <CheckBox x:Name="RowFilterButton" IsChecked="{Binding IsSelected}" Tag="{Binding}" Click="RowFilterButton_Click" HorizontalAlignment="Center" Width="20" />
