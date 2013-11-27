@@ -114,6 +114,37 @@ namespace Barcelone___OGTS.ViewModel
         /// </summary>
         private void CreateCETOPList()
         {
+
+            DbHandler.Instance.OpenConnection();
+            String employeeId = UserSession.Instance.User.Employee.EmployeeId;
+            try
+            {
+                NpgsqlDataReader result = DbHandler.Instance.ExecSQL("select action_date, action_type, type, title, nb_before, nb_after " +
+                                                                     "from public.cethistory INNER JOIN public.dayofftype using (id_day_off_type)" +
+                                                                     "where public.cethistory.id_employee = " + employeeId + ";");
+                var _CETList = new List<CETOperation>();
+                if (result != null)
+                {
+  
+                    while (result.Read())
+                    {
+                        Console.WriteLine("Test : " + result[0] + " " + result[1]);
+                        // date, OpType, LeaveType, LeaveLabel, CET before, CET after
+                        var _CET = new CETOperation(result[0].ToString().Substring(0, 10), result[1].ToString(), result[2].ToString(), result[3].ToString(), result[4].ToString(), result[5].ToString());
+                        _CETList.Add(_CET);
+                    }
+                }
+                CETOperations = CollectionViewSource.GetDefaultView(_CETList);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Erreur au niveau de l'historique du CET : " + e.Message);
+            }
+            finally
+            {
+                DbHandler.Instance.CloseConnection();
+            }
+            /*
             var _CETOP = new List<CETOperation>
                 {
                     new CETOperation("10/02/13", "Ajout", "03", "Congés supplémentaires", "2", "6"),
@@ -123,6 +154,7 @@ namespace Barcelone___OGTS.ViewModel
                 };
 
             CETOperations = CollectionViewSource.GetDefaultView(_CETOP);
+             * */
         }
     }
 }

@@ -7,7 +7,7 @@
              Background="White" Height="750" Width="1000">
     <Grid Margin="0,0,0,0">
         <Image Panel.ZIndex="-1" HorizontalAlignment="Left" Height="1706" Margin="0,0,-388,-966.333" VerticalAlignment="Top" Width="1378" Source="rainbowleft.png"/>
-        <Button Width="100" Height="30" Content="Valider" Command="{Binding ClickBack}" Margin="501,470,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
+        <Button Width="100" Height="30" Content="Valider" Command="{Binding ClickAdd}" Margin="501,470,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
         <Label Content="Ajouter dans CET" HorizontalAlignment="Left" Margin="275,111,0,0" VerticalAlignment="Top" Width="553" FontFamily="Helvetica CE 35 Thin" Height="86" FontSize="48"/>
         <Label Content="Solde actuel du CET :" HorizontalAlignment="Center" Margin="437,197,384,0" VerticalAlignment="Top" Width="179" FontFamily="Helvetica CE 35 Thin" FontSize="18" RenderTransformOrigin="0.657,0.469"/>
         <Label Content="0" Margin="621,197,237,0" VerticalAlignment="Top" FontFamily="Helvetica CE 35 Thin" Background="#FFF2F2F2" HorizontalAlignment="Center" Width="142" HorizontalContentAlignment="Center" FontSize="18"/>
@@ -17,7 +17,7 @@
         <Button Width="100" Height="30" Content="Annuler" Command="{Binding ClickBack}" Margin="651,470,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
         <Label Content="Nombre de jours a &#xD;&#xA;ajouter au CET :" HorizontalAlignment="Center" Margin="437.2,361.317,335.8,0" VerticalAlignment="Top" Width="227" FontFamily="Helvetica CE 35 Thin" FontSize="18" RenderTransformOrigin="0.657,0.469" Height="53.995" UseLayoutRounding="False" TextOptions.TextHintingMode="Fixed"/>
         <Label Content="10" Margin="669,325,189,0" VerticalAlignment="Top" FontFamily="Helvetica CE 35 Thin" Background="#FFF2F2F2" HorizontalAlignment="Center" Width="142" HorizontalContentAlignment="Center" FontSize="18"/>
-        <TextBox HorizontalAlignment="Left" Height="31" Margin="669,384,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="142" FontSize="18" HorizontalContentAlignment="Center" TextChanged="TextBox_TextChanged_1" FontFamily="Helvetica CE 35 Thin"/>
+        <TextBox HorizontalAlignment="Left" Height="31" Margin="669,384,0,0" TextWrapping="Wrap" Text="{Binding DaysToAdd}" VerticalAlignment="Top" Width="142" FontSize="18" HorizontalContentAlignment="Center" TextChanged="TextBox_TextChanged_1" FontFamily="Helvetica CE 35 Thin"/>
     </Grid>
     <UserControl.DataContext>
         <vm:AddInCETViewModel />

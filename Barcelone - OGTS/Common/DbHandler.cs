@@ -81,8 +81,10 @@ namespace Barcelone___OGTS.Common
             }
             catch (Exception e)
             {
-                MessageBox.Show("Erreur de création de la connexion à la base de données", "Erreur");
+                //MessageBox.Show("Erreur de création de la connexion à la base de données", "Erreur");
+                Console.WriteLine(e.StackTrace);
                 Console.WriteLine(e.Message);
+               
             }
         }
 
