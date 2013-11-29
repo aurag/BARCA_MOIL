@@ -108,7 +108,7 @@ namespace Barcelone___OGTS.ViewModel
 
         private void PushLeaveRequest()
         {
-            Switcher.Switch(new LeaveRequestView());
+            Switcher.Switch(new LeaveRequestViewCET());
         }
 
         private void PushHome()
