@@ -13,10 +13,10 @@
         <Label Content="0" Margin="621,197,237,0" VerticalAlignment="Top" FontFamily="Helvetica CE 35 Thin" Background="#FFF2F2F2" HorizontalAlignment="Center" Width="142" HorizontalContentAlignment="Center" FontSize="18"/>
         <Rectangle Fill="#00F4F4F5" HorizontalAlignment="Left" Height="194" Margin="265,251,0,0" Stroke="Black" VerticalAlignment="Top" Width="668"/>
         <Label Content="Nombres de jours éligibles :" HorizontalAlignment="Center" Margin="437,325,336,0" VerticalAlignment="Top" Width="227" FontFamily="Helvetica CE 35 Thin" FontSize="18" RenderTransformOrigin="0.657,0.469"/>
-        <ComboBox Name="LeaveTypeChoice" ItemsSource="{Binding LeaveTypes}" HorizontalAlignment="Left" Margin="317,279,0,0" VerticalAlignment="Top" Width="374" SelectedIndex="0" FontFamily="Helvetica CE 35 Thin" FontSize="18" />
+        <ComboBox Name="LeaveTypeChoice" ItemsSource="{Binding LeaveTypes}" SelectedValue="{Binding Path=SelectedLeaveType, Mode=TwoWay}" HorizontalAlignment="Left" Margin="317,279,0,0" VerticalAlignment="Top" Width="374" SelectedIndex="0" FontFamily="Helvetica CE 35 Thin" FontSize="18" />
         <Button Width="100" Height="30" Content="Annuler" Command="{Binding ClickBack}" Margin="651,470,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
         <Label Content="Nombre de jours a &#xD;&#xA;ajouter au CET :" HorizontalAlignment="Center" Margin="437.2,361.317,335.8,0" VerticalAlignment="Top" Width="227" FontFamily="Helvetica CE 35 Thin" FontSize="18" RenderTransformOrigin="0.657,0.469" Height="53.995" UseLayoutRounding="False" TextOptions.TextHintingMode="Fixed"/>
-        <Label Content="10" Margin="669,325,189,0" VerticalAlignment="Top" FontFamily="Helvetica CE 35 Thin" Background="#FFF2F2F2" HorizontalAlignment="Center" Width="142" HorizontalContentAlignment="Center" FontSize="18"/>
+        <Label Content="{Binding DaysEligible}" Margin="669,325,189,0" VerticalAlignment="Top" FontFamily="Helvetica CE 35 Thin" Background="#FFF2F2F2" HorizontalAlignment="Center" Width="142" HorizontalContentAlignment="Center" FontSize="18"/>
         <TextBox HorizontalAlignment="Left" Height="31" Margin="669,384,0,0" TextWrapping="Wrap" Text="{Binding DaysToAdd}" VerticalAlignment="Top" Width="142" FontSize="18" HorizontalContentAlignment="Center" TextChanged="TextBox_TextChanged_1" FontFamily="Helvetica CE 35 Thin"/>
     </Grid>
     <UserControl.DataContext>

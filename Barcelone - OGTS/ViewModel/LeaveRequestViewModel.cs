@@ -137,7 +137,7 @@ namespace Barcelone___OGTS.ViewModel
             CreateDayOffRequestCommand = new Command(param => CreateDayOffRequest(), param => true);
 
 
-            // Days off type list creation
+            // Création de la liste des types de congés
             DbHandler.Instance.OpenConnection();
             NpgsqlDataReader result = DbHandler.Instance.ExecSQL("select title from public.dayofftype;");
             while (result.Read())

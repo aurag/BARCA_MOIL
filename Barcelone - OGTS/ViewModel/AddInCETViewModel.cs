@@ -18,7 +18,40 @@ namespace Barcelone___OGTS.ViewModel
         #region Properties
         private string _label;
         private List<String> _leaveTypes = new List<String>();
+        private String _selectedLeaveType;
+        private int _daysEligible;
+
+        public int DaysEligible
+        {
+            get 
+            {
+
+                return _daysEligible;
+            }
+            set 
+            { 
+                _daysEligible = value;
+                OnPropertyChanged("DaysEligible");
+            }
+        }
+    
+
+        public String SelectedLeaveType
+        {
+            get { return _selectedLeaveType; }
+            set
+            {
+                if (_selectedLeaveType != value)
+                {
+                    _selectedLeaveType = value;
+                    DaysEligible = getDaysEligible();
+                    OnPropertyChanged("SelectedLeaveType");
+                }
+            }
+        }
+        
         private String _daysToAdd;
+
 
         public String DaysToAdd
         {
@@ -52,9 +85,29 @@ namespace Barcelone___OGTS.ViewModel
             ClickBack = new Command(param => Back(), param => true);
             ClickAdd = new Command(param => Add(), param => true);
             Label = Switcher.ApplicationState["label"] as string;
-            _leaveTypes.Add("Congés principaux");
-            _leaveTypes.Add("Congés 2");
-            _leaveTypes.Add("Congés 3");
+
+            // Création de la liste des types de congés
+            DbHandler.Instance.OpenConnection();
+            NpgsqlDataReader result = DbHandler.Instance.ExecSQL("select title from public.dayofftype;");
+            if (result != null)
+            {
+                while (result.Read())
+                {
+                    String tmp = result[0].ToString();
+                    _leaveTypes.Add(tmp);
+                }
+            }
+
+            DbHandler.Instance.CloseConnection();
+
+            try
+            {
+                SelectedLeaveType = LeaveTypes[0];
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Liste des types de congés vide : " + e.Message);
+            }
         }
 
         #region Commands Methods
@@ -75,27 +128,14 @@ namespace Barcelone___OGTS.ViewModel
                     return;
                 }
 
-                int lastNumber = getCurrentCET();
+                if (number > DaysEligible)
+                {
+                    MessageBox.Show("Vous n'avez qu'au maximum " + DaysEligible + " jours disponibles pour ce type de congé");
+                    return;
+                }
 
-                DbHandler.Instance.OpenConnection();
-                try 
-                {
-                    String employeeId = UserSession.Instance.User.Employee.EmployeeId;
-                    // Attention : le type de congé est à 8 par défaut actuellement
-                    String query = "insert into cethistory (id_employee, action_date, action_type, nb_before, nb_after, id_day_off_type) " +
-                                   "VALUES (" + employeeId + ", date '" + DateTime.Today.Date.ToShortDateString() + "', 'Ajout', " + lastNumber +
-                                   ", " + (lastNumber - number).ToString() + ", 8);";
-                    NpgsqlDataReader result = DbHandler.Instance.ExecSQL(query);
-                    Switcher.Switch(new CETAccountView());
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Erreur création jour CET : " + e.Message);
-                }
-                finally
-                {
-                    DbHandler.Instance.CloseConnection();
-                }
+                createCETHistory(number);
+                Switcher.Switch(new CETAccountView());
             }
             else
             {
@@ -103,7 +143,108 @@ namespace Barcelone___OGTS.ViewModel
                 return;
             }
         }
+
+
+
+        // Création de l'entrée dans l'historique du CET
+        private void createCETHistory(int number)
+        {
+            int lastNumber = getCurrentCET();
+            String leaveTypeId = getLeaveTypeId();
+            Boolean success = false;
+
+            DbHandler.Instance.OpenConnection();
+            try
+            {
+                String employeeId = UserSession.Instance.User.Employee.EmployeeId;
+                if (leaveTypeId.Equals(""))
+                    MessageBox.Show("Erreur lors de la récupération du type de congé");
+                else
+                {
+                    String query = "insert into cethistory (id_employee, action_date, action_type, nb_before, nb_after, id_day_off_type) " +
+                                   "VALUES (" + employeeId + ", date '" + DateTime.Today.Date.ToShortDateString() + "', 'Ajout', " + lastNumber +
+                                   ", " + (lastNumber - number).ToString() + ", " + leaveTypeId + ");";
+                    NpgsqlDataReader result = DbHandler.Instance.ExecSQL(query);
+                    success = true;
+                }
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Erreur création jour CET : " + e.Message);
+            }
+            finally
+            {
+                DbHandler.Instance.CloseConnection();
+            }
+
+            if (success)
+                updateDaysOff(number);
+        }
+
+        // Mise à jour des jours de congés disponibles pour le salariés et du solde du CET
+        private void updateDaysOff(int numberDays)
+        {
+            DbHandler.Instance.OpenConnection();
+            try
+            {
+                String employeeId = UserSession.Instance.User.Employee.EmployeeId;
+                String dayType = getLeaveTypeNumber();
+                int newNumber = 0;
+
+                // Todo : calculer le nouveau solde pour l'employé + mettre à jour le solde CET
+                String query = "update employee set days_type_" + dayType + " = " + newNumber + " where id_employee = " + employeeId + ";";
+                NpgsqlDataReader result = DbHandler.Instance.ExecSQL(query);
+             }
+            catch (Exception e)
+            {
+                Console.WriteLine("Erreur mise à jour solde après CET : " + e.Message);
+            }
+            finally
+            {
+                DbHandler.Instance.CloseConnection();
+            }
+
+        }
+
         #endregion
+
+        private String getLeaveTypeId()
+        {
+            int index = LeaveTypes.IndexOf(SelectedLeaveType);
+            String selectedLeaveTypeId = "";
+            DbHandler.Instance.OpenConnection();
+            try
+            {
+                NpgsqlDataReader result = DbHandler.Instance.ExecSQL(String.Format("SELECT id_day_off_type FROM public.dayofftype;"));
+                int i = 0;
+                if (result != null)
+                {
+                    while (result.Read())
+                    {
+                        if (i == index)
+                        {
+                            selectedLeaveTypeId = result[0].ToString();
+                            break;
+                        }
+                        i++;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Erreur : " + e.Message);
+            }
+            finally
+            {
+                DbHandler.Instance.CloseConnection();
+            }
+
+            if (selectedLeaveTypeId.Equals(""))
+                Console.WriteLine("Error : the type of day off was not found");
+
+            return selectedLeaveTypeId;
+        }
 
         private int getCurrentCET()
         {
@@ -133,6 +274,60 @@ namespace Barcelone___OGTS.ViewModel
 
             return res;
         }
+
+        private int getDaysEligible()
+        {
+            String dayTypeNumber = "";
+            int res = 0;
+
+            dayTypeNumber = getLeaveTypeNumber();
+
+            String employeeId = UserSession.Instance.User.Employee.EmployeeId;
+
+            DbHandler.Instance.OpenConnection();
+            try
+            {
+                NpgsqlDataReader result = DbHandler.Instance.ExecSQL("select days_type_" + dayTypeNumber + " from employee where id_employee =" + employeeId + ";");
+
+                if (result != null)
+                {
+                    while (result.Read())
+                    {
+                        res = int.Parse(result[0].ToString());
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Erreur : " + e.Message);
+            }
+            finally
+            {
+                DbHandler.Instance.CloseConnection();
+            }
+
+            return res;
+        }
+
+        private string getLeaveTypeNumber()
+        {
+            if (SelectedLeaveType.Equals("Congés légaux"))
+                return "01";
+            if (SelectedLeaveType.Equals("Congés d'ancienneté"))
+                return "02";
+            if (SelectedLeaveType.Equals("Congés supplémentaires"))
+                return "03";
+            if (SelectedLeaveType.Equals("Repos forfait"))
+                return "04";
+            if (SelectedLeaveType.Equals("Ponts et fermetures d'entreprise"))
+                return "05";
+            if (SelectedLeaveType.Equals("Congés sans solde"))
+                return "17";
+            if (SelectedLeaveType.Equals("Congés de l'année précédente"))
+                return "18";
+            return "";
+        }
+
 
         #region CanExecute Methods
         #endregion
