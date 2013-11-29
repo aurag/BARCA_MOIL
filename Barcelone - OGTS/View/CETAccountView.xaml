@@ -17,7 +17,7 @@
         <Grid HorizontalAlignment="Left" Height="222" Margin="229,171,0,0" VerticalAlignment="Top" Width="520">
             <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Stroke="Black" Width="514" Height="222" VerticalAlignment="Top"/>
             <Label Content="Historique des opérations :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="473" FontFamily="Helvetica CE 35 Thin" FontSize="20" FontWeight="Bold"/>
-            <DataGrid Margin="0,50,6,0" ItemsSource="{Binding CETOperations}" AutoGenerateColumns="False" ColumnWidth="*">
+            <DataGrid Margin="0,50,6,0" ItemsSource="{Binding CETOperations}" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Date" Binding="{Binding Date}" IsReadOnly="True" Width="60"/>
                     <DataGridTextColumn Header="Type d'opération" Binding="{Binding OpType}" IsReadOnly="True" Width="100"/>

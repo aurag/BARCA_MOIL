@@ -19,6 +19,15 @@ namespace Barcelone___OGTS.ViewModel
         private string _label;
         private List<String> _leaveTypes = new List<String>();
         private String _selectedLeaveType;
+
+        private int _cETCurrentNumber;
+
+        public int CETCurrentNumber
+        {
+            get { return _cETCurrentNumber; }
+            set { _cETCurrentNumber = value; OnPropertyChanged("CETCurrentNumber"); }
+        }
+
         private int _daysEligible;
 
         public int DaysEligible
@@ -88,17 +97,49 @@ namespace Barcelone___OGTS.ViewModel
 
             // Création de la liste des types de congés
             DbHandler.Instance.OpenConnection();
-            NpgsqlDataReader result = DbHandler.Instance.ExecSQL("select title from public.dayofftype;");
-            if (result != null)
+            try
             {
-                while (result.Read())
+                NpgsqlDataReader result = DbHandler.Instance.ExecSQL("select title from public.dayofftype;");
+                if (result != null)
                 {
-                    String tmp = result[0].ToString();
-                    _leaveTypes.Add(tmp);
+                    while (result.Read())
+                    {
+                        String tmp = result[0].ToString();
+                        _leaveTypes.Add(tmp);
+                    }
                 }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine("Erreur : " + e.Message);
+            }
+            finally
+            {
+                DbHandler.Instance.CloseConnection();
+            }
 
-            DbHandler.Instance.CloseConnection();
+            // Mise à jour du solde du CET 
+            DbHandler.Instance.OpenConnection();
+            try
+            {
+                String id = UserSession.Instance.User.Employee.EmployeeId;
+                NpgsqlDataReader result = DbHandler.Instance.ExecSQL("select current_cet from public.employee where id_employee = " + id + ";");
+                if (result != null)
+                {
+                    while (result.Read())
+                    {
+                        CETCurrentNumber = int.Parse(result[0].ToString());
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Erreur : " + e.Message);
+            }
+            finally
+            {
+                DbHandler.Instance.CloseConnection();
+            }
 
             try
             {
@@ -163,7 +204,7 @@ namespace Barcelone___OGTS.ViewModel
                 {
                     String query = "insert into cethistory (id_employee, action_date, action_type, nb_before, nb_after, id_day_off_type) " +
                                    "VALUES (" + employeeId + ", date '" + DateTime.Today.Date.ToShortDateString() + "', 'Ajout', " + lastNumber +
-                                   ", " + (lastNumber - number).ToString() + ", " + leaveTypeId + ");";
+                                   ", " + (lastNumber + number).ToString() + ", " + leaveTypeId + ");";
                     NpgsqlDataReader result = DbHandler.Instance.ExecSQL(query);
                     success = true;
                 }
@@ -185,16 +226,21 @@ namespace Barcelone___OGTS.ViewModel
         // Mise à jour des jours de congés disponibles pour le salariés et du solde du CET
         private void updateDaysOff(int numberDays)
         {
+            String employeeId = UserSession.Instance.User.Employee.EmployeeId;
+            String dayType = getLeaveTypeNumber();
+            int solde = getDaysEligible();
+
+
             DbHandler.Instance.OpenConnection();
             try
             {
-                String employeeId = UserSession.Instance.User.Employee.EmployeeId;
-                String dayType = getLeaveTypeNumber();
-                int newNumber = 0;
+                int newNumber = solde - numberDays;
 
                 // Todo : calculer le nouveau solde pour l'employé + mettre à jour le solde CET
-                String query = "update employee set days_type_" + dayType + " = " + newNumber + " where id_employee = " + employeeId + ";";
-                NpgsqlDataReader result = DbHandler.Instance.ExecSQL(query);
+                String queryUpdateDays = "update public.employee set days_type_" + dayType + " = " + newNumber + " where id_employee = " + employeeId + ";";
+                DbHandler.Instance.ExecSQL(queryUpdateDays);
+                String queryUpdateCET = "update public.employee set current_cet = " + (CETCurrentNumber + numberDays).ToString() + " where id_employee = " + employeeId + ";";
+                DbHandler.Instance.ExecSQL(queryUpdateCET);
              }
             catch (Exception e)
             {
@@ -204,7 +250,6 @@ namespace Barcelone___OGTS.ViewModel
             {
                 DbHandler.Instance.CloseConnection();
             }
-
         }
 
         #endregion

@@ -30,11 +30,11 @@
         <Button Content="Situation du jour" Command="{Binding GoToDailyOverview}" HorizontalAlignment="Left" Margin="10,128,0,0" VerticalAlignment="Top" Width="156" FontFamily="Helvedica"/>
         <Button Content="Historique des demandes" HorizontalAlignment="Left" Margin="171,128,0,0" VerticalAlignment="Top" Width="159" FontFamily="Helvedica"/>
         <Button Content="Nouvelle demande de congé" HorizontalAlignment="Left" Margin="10,163,0,0" VerticalAlignment="Top" Width="181" FontFamily="Helvetica CE 35 Thin"/>
-        
+
         <Grid HorizontalAlignment="Left" Height="205" Margin="10,200,0,0" VerticalAlignment="Top" Width="950">
             <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="205" Stroke="Black" VerticalAlignment="Top" Width="950"/>
             <Label Content="Demandes de congés en cours de traitement :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="473" FontFamily="Helvetica CE 35 Thin" FontSize="20" FontWeight="Bold"/>
-            <DataGrid Name="FirstDataGrid" Margin="0,50,0,0" ItemsSource="{Binding DaysOff}" AutoGenerateColumns="False" ColumnWidth="*">
+            <DataGrid Name="FirstDataGrid" Margin="0,50,0,0" ItemsSource="{Binding DaysOff}" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Date de début" Binding="{Binding StartDate}" IsReadOnly="True" Width="100"/>
                     <DataGridTextColumn Header="Date de fin" Binding="{Binding EndDate}" IsReadOnly="True" Width="100"/>
@@ -42,7 +42,7 @@
                     <DataGridTextColumn Header="Libellé" Binding="{Binding Title}" IsReadOnly="True" Width="120"/>
                     <DataGridTextColumn Header="Statut" Binding="{Binding Status, Converter={StaticResource StatusToString}}" IsReadOnly="True" Width="*"/>
                     <DataGridTextColumn Header="Commentaire salarié" Binding="{Binding CommentSal}" IsReadOnly="True" Width="*"/>
-                    
+
                     <DataGridTemplateColumn Header="Supprimer de la liste" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -54,11 +54,11 @@
             </DataGrid>
             <Button Command="{Binding HandleCheckBox}" Content="Traiter la sélection" HorizontalAlignment="Left" Margin="780,15,0,0" VerticalAlignment="Top" Width="160" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
         </Grid>
-      
+
         <Grid HorizontalAlignment="Left" Height="205" Margin="10,400,0,0" VerticalAlignment="Top" Width="950">
             <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="205" Stroke="Black" VerticalAlignment="Top" Width="950"/>
             <Label Content="Demandes de congés déja traités :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="473" FontFamily="Helvetica CE 35 Thin" FontSize="20" FontWeight="Bold"/>
-            <DataGrid Margin="0,50,0,0" ItemsSource="{Binding DaysOff}" AutoGenerateColumns="False" ColumnWidth="*">
+            <DataGrid Margin="0,50,0,0" ItemsSource="{Binding DaysOff}" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Date de début" Binding="{Binding StartDate}" IsReadOnly="True" Width="90"/>
                     <DataGridTextColumn Header="Date de fin" Binding="{Binding EndDate}" IsReadOnly="True" Width="70"/>
@@ -80,10 +80,10 @@
             <Button Content="Traiter la sélection" HorizontalAlignment="Left" Margin="786,10,0,0" VerticalAlignment="Top" Width="154" FontSize="18" FontFamily="Helvetica CE 35 Thin"/>
         </Grid>
 
-        <Grid HorizontalAlignment="Left" Height="205" Margin="10,600,0,0" VerticalAlignment="Top" Width="950">
-            <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="205" Stroke="Black" VerticalAlignment="Top" Width="950"/>
+        <Grid HorizontalAlignment="Left" Height="150" Margin="10,600,0,0" VerticalAlignment="Top" Width="950">
+            <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="150" Stroke="Black" VerticalAlignment="Top" Width="950"/>
             <Label Content="Prévisions de congés :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="473" FontFamily="Helvetica CE 35 Thin" FontSize="20" FontWeight="Bold"/>
-            <DataGrid Margin="0,50,0,0" ItemsSource="{Binding DaysOff}" AutoGenerateColumns="False" ColumnWidth="*">
+            <DataGrid Margin="0,50,0,53" ItemsSource="{Binding DaysOff}" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Date de début" Binding="{Binding StartDate}" IsReadOnly="True" Width="120"/>
                     <DataGridTextColumn Header="Date de fin" Binding="{Binding EndDate}" IsReadOnly="True" Width="120"/>

@@ -12,7 +12,7 @@
         <Label Content="Convention Collective" HorizontalAlignment="Left" Margin="279,10,0,0" VerticalAlignment="Top" Width="584" FontFamily="Helvetica CE 35 Thin" Height="86" FontSize="48"/>
         <Grid HorizontalAlignment="Left" Height="205" Margin="10,120,0,0" VerticalAlignment="Top" Width="950">
             <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="205" Stroke="Black" VerticalAlignment="Top" Width="950"/>
-            <DataGrid Margin="0,50,0,0" ItemsSource="{Binding cas}" AutoGenerateColumns="False" ColumnWidth="*">
+            <DataGrid Margin="0,50,0,0" ItemsSource="{Binding cas}" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Date d'ajout" Binding="{Binding AddedDate}" IsReadOnly="True" Width="130"/>
                     <DataGridTextColumn Header="Date de dernière modification" Binding="{Binding LastModifiefDate}" IsReadOnly="True" Width="170"/>

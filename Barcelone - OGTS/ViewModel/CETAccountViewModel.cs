@@ -14,6 +14,7 @@ namespace Barcelone___OGTS.ViewModel
     {
          #region Commandes
         public ICommand BackCommand { get; set; }
+        public ICommand HomeCommand { get; set; }
         public ICommand GoToAddInCET { get; set; }
         public ICommand GoToLeaveRequest { get; set; }
         #endregion
@@ -42,6 +43,7 @@ namespace Barcelone___OGTS.ViewModel
         public CETAccountViewModel()
         {
             BackCommand = new Command(param => Back(), param => true);
+            HomeCommand = new Command(param => PushHome(), param => true);
             GoToAddInCET = new Command(param => PushAddInCET(), param => true);
             GoToLeaveRequest = new Command(param => PushLeaveRequest(), param => true);
 
@@ -109,6 +111,11 @@ namespace Barcelone___OGTS.ViewModel
             Switcher.Switch(new LeaveRequestView());
         }
 
+        private void PushHome()
+        {
+            Switcher.Switch(new HomeView());
+        }
+
         /// <summary>
         /// Créé la liste des congés en attente
         /// </summary>
@@ -128,7 +135,6 @@ namespace Barcelone___OGTS.ViewModel
   
                     while (result.Read())
                     {
-                        Console.WriteLine("Test : " + result[0] + " " + result[1]);
                         // date, OpType, LeaveType, LeaveLabel, CET before, CET after
                         var _CET = new CETOperation(result[0].ToString().Substring(0, 10), result[1].ToString(), result[2].ToString(), result[3].ToString(), result[4].ToString(), result[5].ToString());
                         _CETList.Add(_CET);

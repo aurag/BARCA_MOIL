@@ -17,7 +17,7 @@
         <Button Command="{Binding BackCommand}" Content="Accueil" HorizontalAlignment="Left" Margin="905,10,0,0" VerticalAlignment="Top" Width="75" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
         <Label Content="{Binding PlanningTitle}" HorizontalAlignment="Left" Margin="346,0,0,0" VerticalAlignment="Top" Width="503" FontFamily="Helvetica CE 35 Thin" Height="86" FontSize="48"/>
         <Button Command="{Binding Export}" Content="Export du planning" HorizontalAlignment="Left" Margin="20,69,0,0" VerticalAlignment="Top" Width="181" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
-        <Grid HorizontalAlignment="Left" Height="550" Margin="10,110,0,0" VerticalAlignment="Top" Width="970">
+        <Grid HorizontalAlignment="Left" Height="630" Margin="10,110,0,0" VerticalAlignment="Top" Width="970">
             <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="205" Stroke="Black" VerticalAlignment="Top" Width="970"/>
             <Label Content="Demandes non soumises :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="473" FontFamily="Helvetica CE 35 Thin" FontSize="20" FontWeight="Bold"/>
             <DataGrid Margin="0,50,0,0" ItemsSource="{Binding Days}" AutoGenerateColumns="False" ColumnWidth="*">

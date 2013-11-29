@@ -12,7 +12,7 @@
         <Label Content="Traitement des demandes" HorizontalAlignment="Left" Margin="180,10,0,0" VerticalAlignment="Top" Width="584" FontFamily="Helvetica CE 35 Thin" Height="86" FontSize="48"/>
         <Grid HorizontalAlignment="Left" Height="205" Margin="10,120,0,0" VerticalAlignment="Top" Width="950">
             <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="205" Stroke="Black" VerticalAlignment="Top" Width="950"/>
-            <DataGrid Margin="0,50,0,0" ItemsSource="{Binding DaysForValidation}" AutoGenerateColumns="False" ColumnWidth="*">
+            <DataGrid Margin="0,50,0,0" ItemsSource="{Binding DaysForValidation}" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Date de soumission" Binding="{Binding RequestDate}" IsReadOnly="True" Width="115"/>
                     <DataGridTextColumn Header="Salarié" Binding="{Binding NameEmployee}" IsReadOnly="True" Width="120"/>
@@ -42,7 +42,7 @@
 
         <Grid HorizontalAlignment="Left" Height="205" Margin="10,336,0,0" VerticalAlignment="Top" Width="950">
             <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="205" Stroke="Black" VerticalAlignment="Top" Width="950"/>
-            <DataGrid Margin="0,50,0,0" ItemsSource="{Binding asking}" AutoGenerateColumns="False" ColumnWidth="*">
+            <DataGrid Margin="0,50,0,0" ItemsSource="{Binding DaysForValidation}" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Date de soumission" Binding="{Binding RequestDate}" IsReadOnly="True" Width="115"/>
                     <DataGridTextColumn Header="Salarié" Binding="{Binding NameEmployee}" IsReadOnly="True" Width="120"/>
