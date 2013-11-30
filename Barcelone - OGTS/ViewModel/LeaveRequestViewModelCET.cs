@@ -289,14 +289,14 @@ namespace Barcelone___OGTS.ViewModel
 
                 // Le status est défaut à 2 (En attente de validation) pour le moment
                 // Il faudrait peut être le mettre à 1 (Créé) puis que l'utilisateur le confirme pour qu'il passe au status 2
-                // TODO : Le type de congé est CET ici, comment gèrer ça ?
+                // TODO : Le type de congé est en dur pour le moment (08 = CP) mais il faudrait peut être le changer.
                 int status = 2;
                 try
                 {
                     String query = String.Format(@"INSERT INTO public.dayoff(id_employee, creation_date, status, id_day_off_type,
                                                        start_date, end_date, nb_days, employee_commentary)
                                                        VALUES({0}, date '{1}', {2}, {3}, date '{4}', date '{5}', {6}, '{7}');",
-                                                               UserSession.Instance.User.Employee.EmployeeId, DateTime.Today.Date.ToShortDateString(), status, "CET", StartDate, EndDate, NbDays, Comment);
+                                                               UserSession.Instance.User.Employee.EmployeeId, DateTime.Today.Date.ToShortDateString(), status, "08", StartDate, EndDate, NbDays, Comment);
 
                     DbHandler.Instance.ExecSQL(query);
                 }

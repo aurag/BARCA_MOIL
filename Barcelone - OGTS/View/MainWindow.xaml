@@ -1,6 +1,6 @@
 ﻿<Window x:Class="Barcelone___OGTS.View.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="OGTS" Height="750" Width="1000" MinWidth="1000" MinHeight="750" MaxWidth="1000" MaxHeight="750">
+        Title="OGTS" Height="820" Width="1000" MinWidth="1000" MinHeight="750" MaxWidth="1000" MaxHeight="820">
     <Grid MinWidth="1000" MinHeight="750" />
 </Window>

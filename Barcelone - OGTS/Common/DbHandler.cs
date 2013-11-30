@@ -130,7 +130,7 @@ namespace Barcelone___OGTS.Common
                                                                    employee_commentary, superior_commentary, validation_date
                                                                    from public.dayoff, public.dayofftype
                                                                    WHERE public.dayoff.id_day_off_type = public.dayofftype.id_day_off_type
-                                                                   AND public.dayoff.id_employee={0};", UserSession.Instance.User.Employee.EmployeeId));
+                                                                   AND public.dayoff.id_employee={0} ORDER BY start_date;", UserSession.Instance.User.Employee.EmployeeId));
             List<DayOff> _daysOff = null;
             if (result != null)
             {

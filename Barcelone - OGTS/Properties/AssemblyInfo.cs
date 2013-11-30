@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("Barcelone___OGTS")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Banque de France")]
+[assembly: AssemblyCompany("EPITA")]
 [assembly: AssemblyProduct("Barcelone___OGTS")]
-[assembly: AssemblyCopyright("Copyright © Banque de France 2011")]
+[assembly: AssemblyCopyright("Copyright © ALD 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

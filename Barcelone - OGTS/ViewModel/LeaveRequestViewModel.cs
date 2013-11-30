@@ -140,12 +140,14 @@ namespace Barcelone___OGTS.ViewModel
             // Création de la liste des types de congés
             DbHandler.Instance.OpenConnection();
             NpgsqlDataReader result = DbHandler.Instance.ExecSQL("select title from public.dayofftype;");
-            while (result.Read())
+            if (result != null)
             {
-                String tmp = result[0].ToString();
-                _leaveTypes.Add(tmp);
+                while (result.Read())
+                {
+                    String tmp = result[0].ToString();
+                    _leaveTypes.Add(tmp);
+                }
             }
-
             DbHandler.Instance.CloseConnection();
 
             try
