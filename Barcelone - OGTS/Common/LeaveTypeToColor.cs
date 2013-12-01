@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace Barcelone___OGTS.Common
 {
-    [ValueConversion(typeof(String), typeof(Brush))]
+    [ValueConversion(typeof(string), typeof(Brush))]
     public class LeaveTypeToColor : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

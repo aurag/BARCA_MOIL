@@ -41,6 +41,8 @@
         <Label Content="Nombre de jours&#xA;pour les demandes en&#xD;&#xA;attente de traitement" HorizontalAlignment="Left" Margin="246,614,0,0" VerticalAlignment="Top" FontFamily="Helvetica CE 35 Thin" RenderTransformOrigin="0.471,1.843" Width="157" FontSize="14"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="476,674,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="139" IsEnabled="False" FontFamily="Helvetica CE 35 Thin" HorizontalContentAlignment="Center" />
         <Label Content="Solde des congés&#xD;&#xA;apres validation des&#xD;&#xA;demandes par le RH" HorizontalAlignment="Left" Margin="476,614,0,0" VerticalAlignment="Top" FontFamily="Helvetica CE 35 Thin" RenderTransformOrigin="0.471,1.843" Width="169" FontSize="14"/>
+        <Label Content="Jours disponibles :" HorizontalAlignment="Left" Margin="669,114,0,0" VerticalAlignment="Top" FontFamily="Helvetica CE 35 Thin" RenderTransformOrigin="0.5,0.5" Width="134" FontSize="14"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="803,118,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="50" FontFamily="Helvetica CE 35 Thin" HorizontalContentAlignment="Center" Text="{Binding NbDaysMax}" FontSize="14"/>
 
     </Grid>
     <UserControl.DataContext>

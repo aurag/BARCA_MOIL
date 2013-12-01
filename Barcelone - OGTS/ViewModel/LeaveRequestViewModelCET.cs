@@ -18,11 +18,11 @@ namespace Barcelone___OGTS.ViewModel
         #endregion
 
         #region Fields
-        String _startDate = DateTime.Today.Date.ToShortDateString();
-        String _endDate = DateTime.Today.Date.ToShortDateString();
-        String _comment = "";
-        String _nbDays = "0";
-        String _isCorrect = "Oui";
+        string _startDate = DateTime.Today.Date.ToShortDateString();
+        string _endDate = DateTime.Today.Date.ToShortDateString();
+        string _comment = "";
+        string _nbDays = "0";
+        string _isCorrect = "Oui";
 
         #endregion
 
@@ -36,7 +36,7 @@ namespace Barcelone___OGTS.ViewModel
             set { _cETCurrentNumber = value; OnPropertyChanged("CETCurrentNumber"); }
         }
 
-        public String StartDate
+        public string StartDate
         {
             get { return _startDate; }
             set
@@ -50,7 +50,7 @@ namespace Barcelone___OGTS.ViewModel
             }
         }
 
-        public String NbDays
+        public string NbDays
         {
             get 
             {
@@ -67,7 +67,7 @@ namespace Barcelone___OGTS.ViewModel
             }
         }
 
-        public String Comment
+        public string Comment
         {
             get { return _comment; }
             set
@@ -80,7 +80,7 @@ namespace Barcelone___OGTS.ViewModel
             }
         }
 
-        public String EndDate
+        public string EndDate
         {
             get { return _endDate; }
             set
@@ -94,7 +94,7 @@ namespace Barcelone___OGTS.ViewModel
             }
         }
 
-        public String IsCorrect
+        public string IsCorrect
         {
             get { return _isCorrect; }
             set
@@ -123,7 +123,7 @@ namespace Barcelone___OGTS.ViewModel
             DbHandler.Instance.OpenConnection();
             try
             {
-                String id = UserSession.Instance.User.Employee.EmployeeId;
+                string id = UserSession.Instance.User.Employee.EmployeeId;
                 NpgsqlDataReader result = DbHandler.Instance.ExecSQL("select current_cet from public.employee where id_employee = " + id + ";");
                 if (result != null)
                 {
@@ -162,7 +162,7 @@ namespace Barcelone___OGTS.ViewModel
                 // The date format is ok, we can continue
                 DbHandler.Instance.OpenConnection();
     
-                NpgsqlDataReader result = DbHandler.Instance.ExecSQL(String.Format("SELECT start_date, end_date FROM public.dayoff WHERE id_employee = {0};", UserSession.Instance.User.Employee.EmployeeId));
+                NpgsqlDataReader result = DbHandler.Instance.ExecSQL(string.Format("SELECT start_date, end_date FROM public.dayoff WHERE id_employee = {0};", UserSession.Instance.User.Employee.EmployeeId));
                 if (result != null)
                 {
                     while (result.Read())
@@ -294,7 +294,7 @@ namespace Barcelone___OGTS.ViewModel
                 {
                     // Todo : améliorer gestion input utilisateur
                     Comment = Comment.Replace("'", "''");
-                    String query = String.Format(@"INSERT INTO public.dayoff(id_employee, creation_date, status, id_day_off_type,
+                    string query = string.Format(@"INSERT INTO public.dayoff(id_employee, creation_date, status, id_day_off_type,
                                                        start_date, end_date, nb_days, employee_commentary)
                                                        VALUES({0}, date '{1}', {2}, {3}, date '{4}', date '{5}', {6}, '{7}');",
                                                                UserSession.Instance.User.Employee.EmployeeId, DateTime.Today.Date.ToShortDateString(), status, "08", StartDate, EndDate, NbDays, Comment);

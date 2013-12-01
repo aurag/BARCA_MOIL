@@ -20,7 +20,7 @@
         <Grid HorizontalAlignment="Left" Height="630" Margin="10,110,0,0" VerticalAlignment="Top" Width="970">
             <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="205" Stroke="Black" VerticalAlignment="Top" Width="970"/>
             <Label Content="Demandes non soumises :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="473" FontFamily="Helvetica CE 35 Thin" FontSize="20" FontWeight="Bold"/>
-            <DataGrid Margin="0,50,0,0" ItemsSource="{Binding Days}" AutoGenerateColumns="False" ColumnWidth="*">
+            <DataGrid Margin="0,50,0,0" ItemsSource="{Binding Days}" AutoGenerateColumns="False" ColumnWidth="*" CanUserReorderColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Numéro" Binding="{Binding NbDay}" IsReadOnly="True" Width="55"/>
                     <DataGridTextColumn Header="Janvier 2013" Binding="{Binding LeaveLabelJanuary}" IsReadOnly="True" Width="*" >

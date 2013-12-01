@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace Barcelone___OGTS.Common
 {
-    [ValueConversion(typeof(String), typeof(String))]
+    [ValueConversion(typeof(string), typeof(string))]
     public class StatusToString : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

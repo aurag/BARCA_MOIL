@@ -14,8 +14,8 @@ namespace Barcelone___OGTS.ViewModel
 
         #region Properties
         private string _label;
-        private List<String> _leaveFamily = new List<String>();
-        private List<String> _leavePosition = new List<String>();
+        private List<string> _leaveFamily = new List<string>();
+        private List<string> _leavePosition = new List<string>();
 
         public string Label
         {
@@ -27,7 +27,7 @@ namespace Barcelone___OGTS.ViewModel
             }
         }
 
-        public List<String> LeaveFamily
+        public List<string> LeaveFamily
         {
             get { return _leaveFamily; }
             set
@@ -37,7 +37,7 @@ namespace Barcelone___OGTS.ViewModel
             }
         }
 
-        public List<String> LeavePosition
+        public List<string> LeavePosition
         {
             get { return _leavePosition; }
             set

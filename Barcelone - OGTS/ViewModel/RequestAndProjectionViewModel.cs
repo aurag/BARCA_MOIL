@@ -78,7 +78,7 @@ namespace Barcelone___OGTS.ViewModel
                     if (day.IsSelected)
                     {
                         // id_employee is hard coded to 4 for now.
-                        DbHandler.Instance.ExecSQL(String.Format(@"DELETE FROM dayoff 
+                        DbHandler.Instance.ExecSQL(string.Format(@"DELETE FROM dayoff 
                                                                WHERE start_date = (date '{0}') and end_date = (date '{1}') and id_employee = {2}",
                                                                    day.StartDate, day.EndDate, 4));
                         ((List<DayOff>)DaysOff.SourceCollection).Remove(day);

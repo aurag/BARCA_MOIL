@@ -20,9 +20,9 @@ namespace Barcelone___OGTS.ViewModel
 
         #region Properties
 
-        private String _login;
+        private string _login;
 
-        public String Login
+        public string Login
         {
             get
             {
@@ -54,19 +54,19 @@ namespace Barcelone___OGTS.ViewModel
         private void Authentification(object parameter)
         {
             PasswordBox passwordBox = parameter as PasswordBox;
-            String password = passwordBox.Password;
+            string password = passwordBox.Password;
             bool isCorrect = false;
 
             if (!CheckLoginAndPassword(Login, password))
                 return;
     
             DbHandler.Instance.OpenConnection();
-            String query = String.Format("select login, password, firstname, lastname, last_connection_date, last_connection_time, public.userogts.id_user, public.employee.id_employee from public.userogts " +
+            string query = string.Format("select login, password, firstname, lastname, last_connection_date, last_connection_time, public.userogts.id_user, public.employee.id_employee from public.userogts " +
               "INNER JOIN public.employee ON (userogts.id_user = employee.id_user) where login='{0}' AND password='{1}';", Login, password);
 
             NpgsqlDataReader result = DbHandler.Instance.ExecSQL(query);
 
-            if (result == null)
+            if (!result.HasRows)
             {
                 DbHandler.Instance.CloseConnection();
                 MessageBox.Show("Mot de passe ou nom d'utilisateur invalide", "Erreur d'authentification");
@@ -81,8 +81,9 @@ namespace Barcelone___OGTS.ViewModel
                     UserSession session = UserSession.Instance;
                     User user = new User();
                     Employee employee = new Employee();
-                    employee.Firstname = result[2] as String;
-                    employee.Lastname = result[3] as String;
+                    employee.Matricule = Login;
+                    employee.Firstname = result[2] as string;
+                    employee.Lastname = result[3] as string;
                     if (result[4].ToString() != "")
                         user.LastConnectionDate = result[4].ToString().Substring(0, 10);
                     else
@@ -105,7 +106,7 @@ namespace Barcelone___OGTS.ViewModel
             DbHandler.Instance.OpenConnection();
             try
             {
-                String EmployeeId = UserSession.Instance.User.Employee.EmployeeId;
+                string EmployeeId = UserSession.Instance.User.Employee.EmployeeId;
                 DbHandler.Instance.ExecSQL("UPDATE userogts SET last_connection_date = date '" + DateTime.Today.ToShortDateString() + "' where id_employee = " + EmployeeId + ";");
                 DbHandler.Instance.ExecSQL("UPDATE userogts SET last_connection_time = time '" + string.Format("{0:HH:mm:ss tt}", DateTime.Now) + "' where id_employee = " + EmployeeId + ";");
             }
@@ -131,7 +132,7 @@ namespace Barcelone___OGTS.ViewModel
         /// <param name="login"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        private Boolean CheckLoginAndPassword(String login, String password)
+        private Boolean CheckLoginAndPassword(string login, string password)
         {
             if (password.Contains("&") || password.Contains(";"))
             {

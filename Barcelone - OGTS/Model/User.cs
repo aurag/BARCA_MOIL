@@ -9,25 +9,25 @@ namespace Barcelone___OGTS.Model
     class User
     {
         private Employee _employee;
-        private String _userId;
+        private string _userId;
 
-        public String UserId
+        public string UserId
         {
             get { return _userId; }
             set { _userId = value; }
         }
 
-        private String _lastConnectionDate;
+        private string _lastConnectionDate;
 
-        public String LastConnectionDate
+        public string LastConnectionDate
         {
             get { return _lastConnectionDate; }
             set { _lastConnectionDate = value; }
         }
 
-        private String _lastConnectionTime;
+        private string _lastConnectionTime;
 
-        public String LastConnectionTime
+        public string LastConnectionTime
         {
             get { return _lastConnectionTime; }
             set { _lastConnectionTime = value; }

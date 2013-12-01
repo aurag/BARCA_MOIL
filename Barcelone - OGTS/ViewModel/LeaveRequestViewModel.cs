@@ -18,19 +18,19 @@ namespace Barcelone___OGTS.ViewModel
         #endregion
 
         #region Fields
-        private List<String> _leaveTypes = new List<String>();
-        String _startDate = DateTime.Today.Date.ToShortDateString();
-        String _endDate = DateTime.Today.Date.ToShortDateString();
-        String _comment = "";
-        String _nbDays = "0";
-        String _isCorrect = "Oui";
-        private String _selectedLeaveType;
+        private List<string> _leaveTypes = new List<string>();
+        string _startDate = DateTime.Today.Date.ToShortDateString();
+        string _endDate = DateTime.Today.Date.ToShortDateString();
+        string _comment = "";
+        string _nbDays = "0";
+        string _isCorrect = "Oui";
+        private string _selectedLeaveType;
 
         #endregion
 
         #region Properties
 
-        public String StartDate
+        public string StartDate
         {
             get { return _startDate; }
             set
@@ -44,7 +44,7 @@ namespace Barcelone___OGTS.ViewModel
             }
         }
 
-        public List<String> LeaveTypes
+        public List<string> LeaveTypes
         {
             get { return _leaveTypes; }
             set
@@ -54,7 +54,15 @@ namespace Barcelone___OGTS.ViewModel
             }
         }
 
-        public String NbDays
+        private int _nbDaysMax;
+
+        public int NbDaysMax
+        {
+            get { return _nbDaysMax; }
+            set { _nbDaysMax = value; OnPropertyChanged("NbDaysMax"); }
+        }
+
+        public string NbDays
         {
             get 
             {
@@ -71,7 +79,7 @@ namespace Barcelone___OGTS.ViewModel
             }
         }
 
-        public String Comment
+        public string Comment
         {
             get { return _comment; }
             set
@@ -84,7 +92,7 @@ namespace Barcelone___OGTS.ViewModel
             }
         }
 
-        public String EndDate
+        public string EndDate
         {
             get { return _endDate; }
             set
@@ -98,7 +106,7 @@ namespace Barcelone___OGTS.ViewModel
             }
         }
 
-        public String IsCorrect
+        public string IsCorrect
         {
             get { return _isCorrect; }
             set
@@ -111,7 +119,7 @@ namespace Barcelone___OGTS.ViewModel
             }
         }
 
-        public String SelectedLeaveType
+        public string SelectedLeaveType
         {
             get { return _selectedLeaveType; }
             set
@@ -119,6 +127,7 @@ namespace Barcelone___OGTS.ViewModel
                 if (_selectedLeaveType != value)
                 {
                     _selectedLeaveType = value;
+                    getDaysForType();
                     OnPropertyChanged("SelectedLeaveType");
                 }
             }
@@ -143,7 +152,7 @@ namespace Barcelone___OGTS.ViewModel
             {
                 while (result.Read())
                 {
-                    String tmp = result[0].ToString();
+                    string tmp = result[0].ToString();
                     _leaveTypes.Add(tmp);
                 }
             }
@@ -177,7 +186,7 @@ namespace Barcelone___OGTS.ViewModel
                 // The date format is ok, we can continue
                 DbHandler.Instance.OpenConnection();
     
-                NpgsqlDataReader result = DbHandler.Instance.ExecSQL(String.Format("SELECT start_date, end_date FROM public.dayoff WHERE id_employee = {0};", UserSession.Instance.User.Employee.EmployeeId));
+                NpgsqlDataReader result = DbHandler.Instance.ExecSQL(string.Format("SELECT start_date, end_date FROM public.dayoff WHERE id_employee = {0};", UserSession.Instance.User.Employee.EmployeeId));
                 if (result != null)
                 {
                     while (result.Read())
@@ -203,6 +212,12 @@ namespace Barcelone___OGTS.ViewModel
                     IsCorrect = "Non";
                     MessageBox.Show("Cette demande de congés concerne 0 jours ouvrés. \nVérifiez les dates de début et de fin de votre demande.", "Erreur");
                 }
+
+                if (int.Parse(NbDays) > NbDaysMax)
+                {
+                    IsCorrect = "Non";
+                    MessageBox.Show("Vous n'avez pas assez de jours de congés pour cette durée. Nous n'avez que " + NbDaysMax + " jours de congés disponibles pour ce type de congé.", "Erreur");
+                }
             }
             catch (FormatException)
             {
@@ -226,6 +241,64 @@ namespace Barcelone___OGTS.ViewModel
                 MessageBox.Show("Erreur de la base de données.", "Erreur");
             }
         }
+
+        /// <summary>
+        /// Récupère le nombre de jours de congés disponibles pour le type de congé sélectionné
+        /// </summary>
+        /// <returns></returns>
+        private void getDaysForType()
+        {
+            
+            int res = 0;
+            string dayTypeNumber = "";
+            dayTypeNumber = getLeaveTypeNumber();
+
+            string employeeId = UserSession.Instance.User.Employee.EmployeeId;
+
+            DbHandler.Instance.OpenConnection();
+            try
+            {
+                NpgsqlDataReader result = DbHandler.Instance.ExecSQL("select days_type_" + dayTypeNumber + " from employee where id_employee =" + employeeId + ";");
+
+                if (result != null)
+                {
+                    while (result.Read())
+                    {
+                        res = int.Parse(result[0].ToString());
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Erreur : " + e.Message);
+            }
+            finally
+            {
+                DbHandler.Instance.CloseConnection();
+            }
+
+            NbDaysMax = res;
+        }
+
+        private string getLeaveTypeNumber()
+        {
+            if (SelectedLeaveType.Equals("Congés légaux"))
+                return "01";
+            if (SelectedLeaveType.Equals("Congés d'ancienneté"))
+                return "02";
+            if (SelectedLeaveType.Equals("Congés supplémentaires"))
+                return "03";
+            if (SelectedLeaveType.Equals("Repos forfait"))
+                return "04";
+            if (SelectedLeaveType.Equals("Ponts et fermetures d'entreprise"))
+                return "05";
+            if (SelectedLeaveType.Equals("Congés sans solde"))
+                return "17";
+            if (SelectedLeaveType.Equals("Congés de l'année précédente"))
+                return "18";
+            return "";
+        }
+
 
         /// <summary>
         /// This function computes the number of working days between 2 dates (handles only week-ends for now.)
@@ -295,9 +368,9 @@ namespace Barcelone___OGTS.ViewModel
   
                 DbHandler.Instance.OpenConnection();
                 int index = LeaveTypes.IndexOf(SelectedLeaveType);
-                NpgsqlDataReader result = DbHandler.Instance.ExecSQL(String.Format("SELECT id_day_off_type FROM public.dayofftype;"));
+                NpgsqlDataReader result = DbHandler.Instance.ExecSQL(string.Format("SELECT id_day_off_type FROM public.dayofftype;"));
                 int i = 0;
-                String selectedLeaveTypeId = "";
+                string selectedLeaveTypeId = "";
                 while (result.Read())
                 {
                     if (i == index)
@@ -318,16 +391,24 @@ namespace Barcelone___OGTS.ViewModel
                 {
                     // Todo : gérer les entrées utilisateurs proprement pour éviter les injections sql et les plantages
                     Comment = Comment.Replace("'", "''");
+
+                    string employee_id = UserSession.Instance.User.Employee.EmployeeId;
                     // Le status est défaut à 2 (En attente de validation) pour le moment
                     // Il faudrait peut être le mettre à 1 (Créé) puis que l'utilisateur le confirme pour qu'il passe au status 
                     int status = 2;
-                    String query = String.Format(@"INSERT INTO public.dayoff(id_employee, creation_date, status, id_day_off_type,
+                    string query = string.Format(@"INSERT INTO public.dayoff(id_employee, creation_date, status, id_day_off_type,
                                                        start_date, end_date, nb_days, employee_commentary)
                                                        VALUES({0}, date '{1}', {2}, {3}, date '{4}', date '{5}', {6}, '{7}');",
-                                                               UserSession.Instance.User.Employee.EmployeeId, DateTime.Today.Date.ToShortDateString(), status, selectedLeaveTypeId, StartDate, EndDate, NbDays, Comment);
+                                                              employee_id , DateTime.Today.Date.ToShortDateString(), status, selectedLeaveTypeId, StartDate, EndDate, NbDays, Comment);
 
 
                     DbHandler.Instance.ExecSQL(query);
+
+                    string dayTypeNumber = "";
+                    dayTypeNumber = getLeaveTypeNumber();
+
+                    DbHandler.Instance.ExecSQL("UPDATE public.employee SET days_type_" + dayTypeNumber + " = " + (NbDaysMax - int.Parse(NbDays)).ToString() + " where id_employee = " + employee_id + ";");
+
                 }
                 catch (Exception e)
                 {

@@ -32,9 +32,9 @@ namespace Barcelone___OGTS.ViewModel
 
         #region Properties
 
-        private String _lastConnectionDate;
+        private string _lastConnectionDate;
 
-        public String LastConnectionDate
+        public string LastConnectionDate
         {
             get 
             {
@@ -45,9 +45,9 @@ namespace Barcelone___OGTS.ViewModel
             set { _lastConnectionDate = value; OnPropertyChanged("LastConnectionDate"); }
         }
 
-        private String _lastConnectionTime;
+        private string _lastConnectionTime;
 
-        public String LastConnectionTime
+        public string LastConnectionTime
         {
             get
             {
@@ -118,9 +118,9 @@ namespace Barcelone___OGTS.ViewModel
             }
         }
 
-        private String _name;
+        private string _name;
 
-        public String Name
+        public string Name
         {
             get { return _name; }
             set 
@@ -183,7 +183,7 @@ namespace Barcelone___OGTS.ViewModel
                     DayOff day = ((List<DayOff>)DaysOffWaiting.SourceCollection)[i];
                     if (day.IsSelected)
                     {
-                        DbHandler.Instance.ExecSQL(String.Format(@"DELETE FROM dayoff 
+                        DbHandler.Instance.ExecSQL(string.Format(@"DELETE FROM dayoff 
                                                                WHERE start_date = (date '{0}') and end_date = (date '{1}') and id_employee = {2}",
                                                                    day.StartDate, day.EndDate, UserSession.Instance.User.Employee.EmployeeId));
                         ((List<DayOff>)DaysOffWaiting.SourceCollection).Remove(day);

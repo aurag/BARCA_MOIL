@@ -10,20 +10,20 @@ namespace Barcelone___OGTS.Model
     {
         #region Fields
 
-        private String _startDate;
-        private String _endDate;
-        private String _idEmployee;
-        private String _creationDate;
-        private String _submissionDate;
-        private String _cancelRequestDate;
-        private String _cancelDate;
-        private String _nbDays;
-        private String _type; 
-        private String _title; 
-        private String _status;
-        private String _commentSal;
-        private String _commentRh;
-        private String _dateRh;
+        private string _startDate;
+        private string _endDate;
+        private string _idEmployee;
+        private string _creationDate;
+        private string _submissionDate;
+        private string _cancelRequestDate;
+        private string _cancelDate;
+        private string _nbDays;
+        private string _type; 
+        private string _title; 
+        private string _status;
+        private string _commentSal;
+        private string _commentRh;
+        private string _dateRh;
         private Boolean _isSelected;
         private Boolean _isSelected2;
         private Boolean _isSelected3;
@@ -255,8 +255,8 @@ namespace Barcelone___OGTS.Model
         }
 
         [Obsolete("You should use the empty constructor", true)]
-        public DayOff(String startDate, String endDate, String creationDate, String submissionDate, String type, String label,
-                      String status, String commentSal, String commentRh, String dateRh)
+        public DayOff(string startDate, string endDate, string creationDate, string submissionDate, string type, string label,
+                      string status, string commentSal, string commentRh, string dateRh)
             : this()
         {
             _startDate = startDate;

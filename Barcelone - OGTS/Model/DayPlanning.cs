@@ -10,10 +10,10 @@ namespace Barcelone___OGTS.Model
     class DayPlanning : INotifyPropertyChanged
     {
         #region Constructor
-        public DayPlanning(Boolean IsAWorkDay, String LeaveLabelJanuary, String LeaveLabelFebruary, String LeaveLabelMarch, 
-                           String LeaveLabelApril, String LeaveLabelMai, String LeaveLabelJune, String LeaveLabelJuly, 
-                           String LeaveLabelAugust, String LeaveLabelSeptember,  String LeaveLabelOctober,  String LeaveLabelNovember,
-                           String LeaveLabelDecember, int NbDay)
+        public DayPlanning(Boolean IsAWorkDay, string LeaveLabelJanuary, string LeaveLabelFebruary, string LeaveLabelMarch, 
+                           string LeaveLabelApril, string LeaveLabelMai, string LeaveLabelJune, string LeaveLabelJuly, 
+                           string LeaveLabelAugust, string LeaveLabelSeptember,  string LeaveLabelOctober,  string LeaveLabelNovember,
+                           string LeaveLabelDecember, int NbDay)
         {
             _isAWorkDay = IsAWorkDay;
             _leaveLabelJanuary = LeaveLabelJanuary;
@@ -36,18 +36,18 @@ namespace Barcelone___OGTS.Model
         #region Getters and Setters
 
         private Boolean _isAWorkDay;
-        private String _leaveLabelJanuary;
-        private String _leaveLabelFebruary;
-        private String _leaveLabelMarch;
-        private String _leaveLabelApril;
-        private String _leaveLabelMai;
-        private String _leaveLabelJune;
-        private String _leaveLabelJuly;
-        private String _leaveLabelAugust;
-        private String _leaveLabelSeptember;
-        private String _leaveLabelOctober;
-        private String _leaveLabelNovember;
-        private String _leaveLabelDecember;
+        private string _leaveLabelJanuary;
+        private string _leaveLabelFebruary;
+        private string _leaveLabelMarch;
+        private string _leaveLabelApril;
+        private string _leaveLabelMai;
+        private string _leaveLabelJune;
+        private string _leaveLabelJuly;
+        private string _leaveLabelAugust;
+        private string _leaveLabelSeptember;
+        private string _leaveLabelOctober;
+        private string _leaveLabelNovember;
+        private string _leaveLabelDecember;
         private int _nbDay;
 
         public Boolean IsAWorkDay
@@ -60,7 +60,7 @@ namespace Barcelone___OGTS.Model
             }
         }
 
-        public String LeaveLabelJanuary
+        public string LeaveLabelJanuary
         {
             get { return _leaveLabelJanuary; }
             set
@@ -70,7 +70,7 @@ namespace Barcelone___OGTS.Model
             }
         }
 
-        public String LeaveLabelFebruary
+        public string LeaveLabelFebruary
         {
             get { return _leaveLabelFebruary; }
             set
@@ -80,7 +80,7 @@ namespace Barcelone___OGTS.Model
             }
         }
 
-        public String LeaveLabelMarch
+        public string LeaveLabelMarch
         {
             get { return _leaveLabelMarch; }
             set
@@ -90,7 +90,7 @@ namespace Barcelone___OGTS.Model
             }
         }
 
-        public String LeaveLabelApril
+        public string LeaveLabelApril
         {
             get { return _leaveLabelApril; }
             set
@@ -100,7 +100,7 @@ namespace Barcelone___OGTS.Model
             }
         }
 
-        public String LeaveLabelMai
+        public string LeaveLabelMai
         {
             get { return _leaveLabelMai; }
             set
@@ -110,7 +110,7 @@ namespace Barcelone___OGTS.Model
             }
         }
 
-        public String LeaveLabelJune
+        public string LeaveLabelJune
         {
             get { return _leaveLabelJune; }
             set
@@ -120,7 +120,7 @@ namespace Barcelone___OGTS.Model
             }
         }
 
-        public String LeaveLabelJuly
+        public string LeaveLabelJuly
         {
             get { return _leaveLabelJuly; }
             set
@@ -130,7 +130,7 @@ namespace Barcelone___OGTS.Model
             }
         }
 
-        public String LeaveLabelAugust
+        public string LeaveLabelAugust
         {
             get { return _leaveLabelAugust; }
             set
@@ -140,7 +140,7 @@ namespace Barcelone___OGTS.Model
             }
         }
 
-        public String LeaveLabelSeptember
+        public string LeaveLabelSeptember
         {
             get { return _leaveLabelSeptember; }
             set
@@ -150,7 +150,7 @@ namespace Barcelone___OGTS.Model
             }
         }
 
-        public String LeaveLabelOctober
+        public string LeaveLabelOctober
         {
             get { return _leaveLabelOctober; }
             set
@@ -160,7 +160,7 @@ namespace Barcelone___OGTS.Model
             }
         }
 
-        public String LeaveLabelNovember
+        public string LeaveLabelNovember
         {
             get { return _leaveLabelNovember; }
             set
@@ -170,7 +170,7 @@ namespace Barcelone___OGTS.Model
             }
         }
 
-        public String LeaveLabelDecember
+        public string LeaveLabelDecember
         {
             get { return _leaveLabelDecember; }
             set

@@ -1,4 +1,5 @@
 ﻿using Barcelone___OGTS.Common;
+using Barcelone___OGTS.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,5 +33,15 @@ namespace Barcelone___OGTS.View
             throw new NotImplementedException();
         }
         #endregion
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            ChangePasswordViewModel.OldPassword = PasswordBoxOld.Password;
+            ChangePasswordViewModel.NewPassword1 = PasswordBox1.Password;
+            ChangePasswordViewModel.NewPassword2 = PasswordBox2.Password;
+            ChangePasswordViewModel.ChangePassword();
+        }
+
+
     }
 }

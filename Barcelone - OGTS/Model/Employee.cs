@@ -8,25 +8,25 @@ namespace Barcelone___OGTS.Model
     class Employee
     {
         #region Fields
-        private String _lastname;
+        private string _lastname;
 
-        public String Lastname
+        public string Lastname
         {
             get { return _lastname; }
             set { _lastname = value; }
         }
 
-        private String _firstname;
+        private string _firstname;
 
-        public String Firstname
+        public string Firstname
         {
             get { return _firstname; }
             set { _firstname = value; }
         }
 
-        private String _trigram;
+        private string _trigram;
 
-        public String Trigram
+        public string Trigram
         {
             get 
             {
@@ -36,59 +36,59 @@ namespace Barcelone___OGTS.Model
             set { _trigram = value; }
         }
 
-        private String _adress;
+        private string _adress;
 
-        public String Adress
+        public string Adress
         {
             get { return _adress; }
             set { _adress = value; }
         }
 
-        private String _city;
+        private string _city;
 
-        public String City
+        public string City
         {
             get { return _city; }
             set { _city = value; }
         }
-        private String _postalCode;
+        private string _postalCode;
 
-        public String PostalCode
+        public string PostalCode
         {
             get { return _postalCode; }
             set { _postalCode = value; }
         }
-        private String _familySituation;
+        private string _familySituation;
 
-        public String FamilySituation
+        public string FamilySituation
         {
             get { return _familySituation; }
             set { _familySituation = value; }
         }
-        private String _matricule;
+        private string _matricule;
 
-        public String Matricule
+        public string Matricule
         {
             get { return _matricule; }
             set { _matricule = value; }
         }
-        private String _status;
+        private string _status;
 
-        public String Status
+        public string Status
         {
             get { return _status; }
             set { _status = value; }
         }
-        private String _statusPosition;
+        private string _statusPosition;
 
-        public String StatusPosition
+        public string StatusPosition
         {
             get { return _statusPosition; }
             set { _statusPosition = value; }
         }
-        private String _socialNumber;
+        private string _socialNumber;
 
-        public String SocialNumber
+        public string SocialNumber
         {
             get { return _socialNumber; }
             set { _socialNumber = value; }
@@ -100,16 +100,16 @@ namespace Barcelone___OGTS.Model
             get { return _arrivalDate; }
             set { _arrivalDate = value; }
         }
-        private String _employeeId;
+        private string _employeeId;
 
-        public String EmployeeId
+        public string EmployeeId
         {
             get { return _employeeId; }
             set { _employeeId = value; }
         }
-        private String _entityId;
+        private string _entityId;
 
-        public String EntityId
+        public string EntityId
         {
             get { return _entityId; }
             set { _entityId = value; }

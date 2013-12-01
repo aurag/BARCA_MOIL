@@ -17,55 +17,55 @@ namespace Barcelone___OGTS.ViewModel
         #endregion
 
         #region Properties
-        private String _dayOffTypeId;
+        private string _dayOffTypeId;
 
-        private String _daysLeft;
+        private string _daysLeft;
 
-        public String DaysLeft
+        public string DaysLeft
         {
             get { return _daysLeft; }
             set { _daysLeft = value; OnPropertyChanged("DaysLeft"); }
         }
-        private String _periodStartDate;
+        private string _periodStartDate;
 
-        public String PeriodStartDate
+        public string PeriodStartDate
         {
             get { return _periodStartDate; }
             set { _periodStartDate = value; OnPropertyChanged("PeriodStartDate"); }
         }
 
-        private String _periodEndDate;
+        private string _periodEndDate;
 
-        public String PeriodEndDate
+        public string PeriodEndDate
         {
             get { return _periodEndDate; }
             set { _periodEndDate = value; OnPropertyChanged("PeriodEndDate"); }
         }
-        private String _nbDays;
+        private string _nbDays;
 
-        public String NbDays
+        public string NbDays
         {
             get { return _nbDays; }
             set { _nbDays = value; OnPropertyChanged("NbDays"); }
         }
-        private String _dayOffType;
+        private string _dayOffType;
 
-        public String DayOffType
+        public string DayOffType
         {
             get { return _dayOffType; }
             set { _dayOffType = value; this.OnPropertyChanged("DayOffType"); }
         }
-        private String _dayOffLabel;
+        private string _dayOffLabel;
 
-        public String DayOffLabel
+        public string DayOffLabel
         {
             get { return _dayOffLabel; }
             set { _dayOffLabel = value; this.OnPropertyChanged("DayOffLabel"); }
         }
 
-        private String _selectedLeaveType;
+        private string _selectedLeaveType;
 
-        public String SelectedLeaveType
+        public string SelectedLeaveType
         {
             get { return _selectedLeaveType; }
             set
@@ -79,10 +79,10 @@ namespace Barcelone___OGTS.ViewModel
             }
         }
 
-        private List<String> _leaveTypes = new List<String>();
+        private List<string> _leaveTypes = new List<string>();
 
 
-        public List<String> LeaveTypes
+        public List<string> LeaveTypes
         {
             get { return _leaveTypes; }
             set
@@ -92,9 +92,9 @@ namespace Barcelone___OGTS.ViewModel
             }
         }
 
-        private String _daysUsed;
+        private string _daysUsed;
 
-        public String DaysUsed
+        public string DaysUsed
         {
             get { return _daysUsed; }
             set { _daysUsed = value; OnPropertyChanged("DaysUsed"); }
@@ -120,7 +120,7 @@ namespace Barcelone___OGTS.ViewModel
             }
         }
 
-        public String DisplayDate
+        public string DisplayDate
         {
             get 
             {
@@ -157,7 +157,7 @@ namespace Barcelone___OGTS.ViewModel
             {
                 while (result.Read())
                 {
-                    String tmp = result[0].ToString();
+                    string tmp = result[0].ToString();
                     _leaveTypes.Add(tmp);
                 }
             }
@@ -227,7 +227,7 @@ namespace Barcelone___OGTS.ViewModel
             DbHandler.Instance.OpenConnection();
             try
             {
-                String employeeId = UserSession.Instance.User.Employee.EmployeeId;
+                string employeeId = UserSession.Instance.User.Employee.EmployeeId;
                 int totalDays = 0;
                 bool first = true;
                 if (SelectedDate == null)
@@ -243,8 +243,8 @@ namespace Barcelone___OGTS.ViewModel
                             PeriodStartDate = result[0].ToString().Substring(0, 10);
                             first = false;
                         }
-                        String startDate = result[0].ToString().Substring(0, 10);
-                        String endDate = result[1].ToString().Substring(0, 10);
+                        string startDate = result[0].ToString().Substring(0, 10);
+                        string endDate = result[1].ToString().Substring(0, 10);
                         int daysForLeaveRequest = ComputeNbDays(startDate, endDate);
                         totalDays += daysForLeaveRequest;
                     }
@@ -268,7 +268,7 @@ namespace Barcelone___OGTS.ViewModel
         /// This function computes the number of working days between 2 dates (handles only week-ends for now.)
         /// We should have a list of days where the company is closed and handle them.
         /// </summary>
-        private int ComputeNbDays(String _startDate, String _endDate)
+        private int ComputeNbDays(string _startDate, string _endDate)
         {
             DateTime startDate = Convert.ToDateTime(_startDate);
             DateTime endDate = Convert.ToDateTime(_endDate);
@@ -328,7 +328,7 @@ namespace Barcelone___OGTS.ViewModel
 
             DbHandler.Instance.OpenConnection();
 
-            NpgsqlDataReader result = DbHandler.Instance.ExecSQL(String.Format(@"select start_date, end_date, creation_date, type, title, status, 
+            NpgsqlDataReader result = DbHandler.Instance.ExecSQL(string.Format(@"select start_date, end_date, creation_date, type, title, status, 
                                                                    employee_commentary, superior_commentary, validation_date
                                                                    from public.dayoff, public.dayofftype
                                                                    WHERE public.dayoff.id_day_off_type = public.dayofftype.id_day_off_type

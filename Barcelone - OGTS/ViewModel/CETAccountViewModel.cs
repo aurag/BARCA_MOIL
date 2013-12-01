@@ -58,7 +58,7 @@ namespace Barcelone___OGTS.ViewModel
         public void getCurrentCET()
         {
             DbHandler.Instance.OpenConnection();
-            String employeeId = UserSession.Instance.User.Employee.EmployeeId;
+            string employeeId = UserSession.Instance.User.Employee.EmployeeId;
 
             try
             {
@@ -123,7 +123,7 @@ namespace Barcelone___OGTS.ViewModel
         {
 
             DbHandler.Instance.OpenConnection();
-            String employeeId = UserSession.Instance.User.Employee.EmployeeId;
+            string employeeId = UserSession.Instance.User.Employee.EmployeeId;
             try
             {
                 NpgsqlDataReader result = DbHandler.Instance.ExecSQL("select action_date, action_type, type, title, nb_before, nb_after " +

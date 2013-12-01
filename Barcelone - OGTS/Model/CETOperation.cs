@@ -9,7 +9,7 @@ namespace Barcelone___OGTS.Model
     class CETOperation : INotifyPropertyChanged
     {
          #region Constructor
-        public CETOperation(String Date, String OpType, String LeaveType, String LeaveLabel, String CETBefore, String CETAfter)
+        public CETOperation(string Date, string OpType, string LeaveType, string LeaveLabel, string CETBefore, string CETAfter)
         {
             _date = Date;
             _opType = OpType;
@@ -21,12 +21,12 @@ namespace Barcelone___OGTS.Model
         #endregion
 
         #region Getters and Setters
-        private String _date;
-        private String _opType;
-        private String _leaveType;
-        private String _leaveLabel;
-        private String _cETBefore;
-        private String _cETAfter;
+        private string _date;
+        private string _opType;
+        private string _leaveType;
+        private string _leaveLabel;
+        private string _cETBefore;
+        private string _cETAfter;
 
         public string Date
         {

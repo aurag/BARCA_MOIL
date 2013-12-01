@@ -9,7 +9,7 @@ namespace Barcelone___OGTS.Model
     class CollectiveAgreement : INotifyPropertyChanged
     {
         #region Constructor
-        public CollectiveAgreement(String date)
+        public CollectiveAgreement(string date)
         {
             _addedDate = date;
             _lastModifiefDate = "15/02/2013";
@@ -22,10 +22,10 @@ namespace Barcelone___OGTS.Model
         #endregion
 
         #region Getters and Setters
-        private String _addedDate;
-        private String _lastModifiefDate;
-        private String _type;
-        private String _label;
+        private string _addedDate;
+        private string _lastModifiefDate;
+        private string _type;
+        private string _label;
 
         private Boolean _isSelected;
         private Boolean _isSelected2;

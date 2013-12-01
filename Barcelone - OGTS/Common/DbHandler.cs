@@ -16,12 +16,12 @@ namespace Barcelone___OGTS.Common
 
         DbHandler()
         {
-            String serverName = "bnf.sigl.epita.fr";
-            String serverPort = "5432";
-            String user = "Barcelone";
-            String password = "RB56fx";
-            String databaseName = "Barcelone";
-            String connection = String.Format("Server={0}; Port={1}; User Id={2}; Password={3}; Database={4}", serverName, serverPort, user, password, databaseName);
+            string serverName = "bnf.sigl.epita.fr";
+            string serverPort = "5432";
+            string user = "Barcelone";
+            string password = "RB56fx";
+            string databaseName = "Barcelone";
+            string connection = string.Format("Server={0}; Port={1}; User Id={2}; Password={3}; Database={4}", serverName, serverPort, user, password, databaseName);
             NpgsqlConnection conn;
             try
             {
@@ -37,7 +37,7 @@ namespace Barcelone___OGTS.Common
         }
 
 
-        public Boolean checkIfRh(String id_employee)
+        public Boolean checkIfRh(string id_employee)
         {
             DbHandler.Instance.OpenConnection();
             NpgsqlDataReader result;
@@ -101,7 +101,7 @@ namespace Barcelone___OGTS.Common
             }
         }
 
-        public NpgsqlDataReader ExecSQL(String sql)
+        public NpgsqlDataReader ExecSQL(string sql)
         {
             NpgsqlDataReader result = null;
             try
@@ -129,7 +129,7 @@ namespace Barcelone___OGTS.Common
 
             try
             {
-                NpgsqlDataReader result = DbHandler.Instance.ExecSQL(String.Format(@"select start_date, end_date, creation_date, type, title, status, 
+                NpgsqlDataReader result = DbHandler.Instance.ExecSQL(string.Format(@"select start_date, end_date, creation_date, type, title, status, 
                                                                    employee_commentary, superior_commentary, validation_date
                                                                    from public.dayoff, public.dayofftype
                                                                    WHERE public.dayoff.id_day_off_type = public.dayofftype.id_day_off_type
@@ -170,14 +170,14 @@ namespace Barcelone___OGTS.Common
         }
 
         // Récupération de la liste de tous les congés pour l'utilisateur actuel avec un statut donné en paramètre
-        public List<DayOff> getDaysOffList(String status)
+        public List<DayOff> getDaysOffList(string status)
         {
             DbHandler.Instance.OpenConnection();
             List<DayOff> _daysOff = new List<DayOff>();
 
             try
             {
-                NpgsqlDataReader result = DbHandler.Instance.ExecSQL(String.Format(@"select start_date, end_date, creation_date, type, title, status, 
+                NpgsqlDataReader result = DbHandler.Instance.ExecSQL(string.Format(@"select start_date, end_date, creation_date, type, title, status, 
                                                                    employee_commentary, superior_commentary, validation_date
                                                                    from public.dayoff INNER JOIN public.dayofftype
                                                                    ON (public.dayoff.id_day_off_type = public.dayofftype.id_day_off_type) where public.dayoff.status = {0}

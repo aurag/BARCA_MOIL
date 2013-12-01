@@ -9,7 +9,7 @@ namespace Barcelone___OGTS.Model
     class Organigram : INotifyPropertyChanged
     {
         #region Constructor
-        public Organigram(String s)
+        public Organigram(string s)
         {
             _sigle = s;
             _dateCreation = "19/02/2013";
@@ -25,14 +25,14 @@ namespace Barcelone___OGTS.Model
         #endregion
 
         #region Getters and Setters
-        private String _sigle;
-        private String _dateCreation;
-        private String _dateMEP;
-        private String _status;
-        private String _version;
-        private String _designation;
-        private String _RHMatricule;
-        private String _SalMatricule;
+        private string _sigle;
+        private string _dateCreation;
+        private string _dateMEP;
+        private string _status;
+        private string _version;
+        private string _designation;
+        private string _RHMatricule;
+        private string _SalMatricule;
 
         private Boolean _isSelected;
         private Boolean _isSelected2;

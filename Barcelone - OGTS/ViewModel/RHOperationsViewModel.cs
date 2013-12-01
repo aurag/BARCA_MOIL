@@ -54,7 +54,7 @@ namespace Barcelone___OGTS.ViewModel
         {
             DbHandler.Instance.OpenConnection();
 
-            NpgsqlDataReader result = DbHandler.Instance.ExecSQL(String.Format(@"select start_date, end_date, creation_date, type, title, status, 
+            NpgsqlDataReader result = DbHandler.Instance.ExecSQL(string.Format(@"select start_date, end_date, creation_date, type, title, status, 
                                                                    employee_commentary, superior_commentary, validation_date
                                                                    from public.dayoff, public.dayofftype
                                                                    WHERE public.dayoff.id_day_off_type = public.dayofftype.id_day_off_type
@@ -100,7 +100,7 @@ namespace Barcelone___OGTS.ViewModel
                     DayOff day = ((List<DayOff>)DaysForValidation.SourceCollection)[i];
                     if (day.IsSelectedOk)
                     {
-                        DbHandler.Instance.ExecSQL(String.Format(@"UPDATE dayoff SET status = 5  
+                        DbHandler.Instance.ExecSQL(string.Format(@"UPDATE dayoff SET status = 5  
                                                                WHERE start_date = (date '{0}') and end_date = (date '{1}') and id_employee = {2}",
                                                                    day.StartDate, day.EndDate, UserSession.Instance.User.Employee.EmployeeId));
                         ((List<DayOff>)DaysForValidation.SourceCollection).Remove(day);
@@ -108,7 +108,7 @@ namespace Barcelone___OGTS.ViewModel
                     }
                     if (day.IsSelectedNok)
                     {
-                        DbHandler.Instance.ExecSQL(String.Format(@"UPDATE dayoff SET status = 6  
+                        DbHandler.Instance.ExecSQL(string.Format(@"UPDATE dayoff SET status = 6  
                                                                WHERE start_date = (date '{0}') and end_date = (date '{1}') and id_employee = {2}",
                                                                    day.StartDate, day.EndDate, UserSession.Instance.User.Employee.EmployeeId));
                         ((List<DayOff>)DaysForValidation.SourceCollection).Remove(day);

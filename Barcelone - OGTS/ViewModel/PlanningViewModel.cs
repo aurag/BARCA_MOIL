@@ -36,11 +36,11 @@ namespace Barcelone___OGTS.ViewModel
                 OnPropertyChanged("Days");
             } 
         }
-        public String[,] daysPlanning { get; private set; }
-        private String _switchPlanning;
-        private String _planningTitle;
+        public string[,] daysPlanning { get; private set; }
+        private string _switchPlanning;
+        private string _planningTitle;
 
-        public String PlanningTitle
+        public string PlanningTitle
         {
             get { return _planningTitle; }
             set
@@ -50,7 +50,7 @@ namespace Barcelone___OGTS.ViewModel
             }
         }
 
-        public String SwitchPlanning
+        public string SwitchPlanning
         {
             get { return _switchPlanning; }
             set
@@ -122,7 +122,7 @@ namespace Barcelone___OGTS.ViewModel
         private void BuildPlanning(Boolean isTeamPlanning)
         {
             // Used to store every day in a year : _daysTmp[month, day] where 0 = january for months
-            String[,] daysTmp = new String[12, 31];
+            string[,] daysTmp = new string[12, 31];
             for (int i = 0; i < 12; i++)
             {
                 for (int j = 0; j < 31; j++)
@@ -143,7 +143,7 @@ namespace Barcelone___OGTS.ViewModel
 
             DbHandler.Instance.OpenConnection();
             NpgsqlDataReader result;
-            String id_employee = UserSession.Instance.User.Employee.EmployeeId;
+            string id_employee = UserSession.Instance.User.Employee.EmployeeId;
 
             if (isTeamPlanning)
             {
@@ -169,7 +169,7 @@ namespace Barcelone___OGTS.ViewModel
                 {
                     DateTime dayOffStartDate = DateTime.Parse(result[0].ToString().Substring(0, 10));
                     DateTime dayOffEndDate = DateTime.Parse(result[1].ToString().Substring(0, 10));
-                    String label = result[2].ToString();
+                    string label = result[2].ToString();
 
                     // TODO : Add missing types
                     if (label.Equals("01"))
@@ -189,7 +189,7 @@ namespace Barcelone___OGTS.ViewModel
 
                     while (dayOffStartDate <= dayOffEndDate)
                     {
-                        String labelTmp = daysTmp[dayOffStartDate.Month - 1, dayOffStartDate.Day - 1];
+                        string labelTmp = daysTmp[dayOffStartDate.Month - 1, dayOffStartDate.Day - 1];
                         if (labelTmp != "" && labelTmp != "X")
                             daysTmp[dayOffStartDate.Month - 1, dayOffStartDate.Day - 1] = labelTmp + " & " + label;
                         else
@@ -342,7 +342,7 @@ namespace Barcelone___OGTS.ViewModel
 
         private Microsoft.Office.Interop.Excel.Range GetRange(int day, int mon, Microsoft.Office.Interop.Excel._Worksheet oSheet)
         {
-            String tmp = "B";
+            string tmp = "B";
             switch (mon)
             {
                 case 0:
