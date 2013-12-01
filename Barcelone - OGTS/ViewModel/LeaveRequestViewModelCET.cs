@@ -75,7 +75,6 @@ namespace Barcelone___OGTS.ViewModel
                 if (_comment != value)
                 {
                     _comment = value;
-                    CheckIfRequestIsCorrect();
                     OnPropertyChanged("Comment");
                 }
             }
@@ -293,6 +292,8 @@ namespace Barcelone___OGTS.ViewModel
                 int status = 2;
                 try
                 {
+                    // Todo : améliorer gestion input utilisateur
+                    Comment = Comment.Replace("'", "''");
                     String query = String.Format(@"INSERT INTO public.dayoff(id_employee, creation_date, status, id_day_off_type,
                                                        start_date, end_date, nb_days, employee_commentary)
                                                        VALUES({0}, date '{1}', {2}, {3}, date '{4}', date '{5}', {6}, '{7}');",

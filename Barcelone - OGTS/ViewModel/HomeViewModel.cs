@@ -32,6 +32,19 @@ namespace Barcelone___OGTS.ViewModel
 
         #region Properties
 
+        private String _lastConnectionDate;
+
+        public String LastConnectionDate
+        {
+            get 
+            {
+                if (UserSession.Instance.User.Employee.LastConnectionDate != _lastConnectionDate)
+                    LastConnectionDate = UserSession.Instance.User.Employee.LastConnectionDate;
+                return _lastConnectionDate; 
+            }
+            set { _lastConnectionDate = value; OnPropertyChanged("LastConnectionDate"); }
+        }
+
         private Visibility _isRhVisibility;
 
         public Visibility IsRhVisibility

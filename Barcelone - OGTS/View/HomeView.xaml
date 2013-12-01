@@ -21,7 +21,7 @@
         <Label Content="{Binding Name}" HorizontalAlignment="Left" Margin="743,72,0,0" VerticalAlignment="Top" Width="184" FontFamily="Helvetica CE 35 Thin"/>
         <Label Content="Bienvenue" HorizontalAlignment="Left" Margin="670,72,0,0" VerticalAlignment="Top" Width="68" FontFamily="Helvetica CE 35 Thin"/>
         <Label Content="Derniere connexion :" HorizontalAlignment="Left" Margin="670,98,0,0" VerticalAlignment="Top" Width="119" FontFamily="Helvetica CE 35 Thin"/>
-        <Label Content="19/04/2013 a 10h23" HorizontalAlignment="Left" Margin="789,98,0,0" VerticalAlignment="Top" Width="138" FontFamily="Helvetica CE 35 Thin"/>
+        <Label Content="{Binding LastConnectionDate}" HorizontalAlignment="Left" Margin="789,98,0,0" VerticalAlignment="Top" Width="138" FontFamily="Helvetica CE 35 Thin"/>
         <Label Content="Responsable Hiérarchique :" HorizontalAlignment="Left" Margin="670,124,0,0" VerticalAlignment="Top" Width="155" FontFamily="Helvetica CE 35 Thin"/>
         <Label Content="Nils Adiceam" HorizontalAlignment="Left" Margin="825,124,0,0" VerticalAlignment="Top" Width="111" FontFamily="Helvetica CE 35 Thin"/>
         <Button Command="{Binding ChangePassword}" Content="Changer de mot de passe" HorizontalAlignment="Left" Margin="743,165,0,0" VerticalAlignment="Top" Width="215" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>

@@ -61,7 +61,7 @@ namespace Barcelone___OGTS.ViewModel
                 return;
     
             DbHandler.Instance.OpenConnection();
-            String query = String.Format("select login, password, firstname, lastname, public.userogts.id_user, public.employee.id_employee from public.userogts " +
+            String query = String.Format("select login, password, firstname, lastname, last_connection_date, public.userogts.id_user, public.employee.id_employee from public.userogts " +
               "INNER JOIN public.employee ON (userogts.id_user = employee.id_user) where login='{0}' AND password='{1}';", Login, password);
 
             NpgsqlDataReader result = DbHandler.Instance.ExecSQL(query);
@@ -83,9 +83,13 @@ namespace Barcelone___OGTS.ViewModel
                     Employee employee = new Employee();
                     employee.Firstname = result[2] as String;
                     employee.Lastname = result[3] as String;
-                    int? userId = result[4] as int?;
+                    if (result[4].ToString() != "")
+                        employee.LastConnectionDate = result[4].ToString().Substring(0, 10);
+                    else
+                        employee.LastConnectionDate = "Première connexion de l'utilisateur";
+                    int? userId = result[5] as int?;
                     user.UserId = userId.ToString();
-                    int? employeeId = result[5] as int?;
+                    int? employeeId = result[6] as int?;
                     employee.EmployeeId = employeeId.ToString();
                     user.Employee = employee;
                     session.User = user;
@@ -93,6 +97,10 @@ namespace Barcelone___OGTS.ViewModel
                     break;
                 }
             }
+
+            result.Close();
+            String EmployeeId = UserSession.Instance.User.Employee.EmployeeId;
+            DbHandler.Instance.ExecSQL("UPDATE employee SET last_connection_date = date '" + DateTime.Today.ToShortDateString() + "' where id_employee = " + EmployeeId + ";");
             DbHandler.Instance.CloseConnection();
             UserSession.Instance.User.Employee.IsRH = DbHandler.Instance.checkIfRh( UserSession.Instance.User.Employee.EmployeeId);
 

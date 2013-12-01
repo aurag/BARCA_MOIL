@@ -79,7 +79,6 @@ namespace Barcelone___OGTS.ViewModel
                 if (_comment != value)
                 {
                     _comment = value;
-                    CheckIfRequestIsCorrect();
                     OnPropertyChanged("Comment");
                 }
             }
@@ -315,19 +314,29 @@ namespace Barcelone___OGTS.ViewModel
 
                 DbHandler.Instance.OpenConnection();
 
-                // Le status est défaut à 2 (En attente de validation) pour le moment
-                // Il faudrait peut être le mettre à 1 (Créé) puis que l'utilisateur le confirme pour qu'il passe au status 2
-                int status = 2;
-
-                String query = String.Format(@"INSERT INTO public.dayoff(id_employee, creation_date, status, id_day_off_type,
+                try
+                {
+                    // Todo : gérer les entrées utilisateurs proprement pour éviter les injections sql et les plantages
+                    Comment = Comment.Replace("'", "''");
+                    // Le status est défaut à 2 (En attente de validation) pour le moment
+                    // Il faudrait peut être le mettre à 1 (Créé) puis que l'utilisateur le confirme pour qu'il passe au status 
+                    int status = 2;
+                    String query = String.Format(@"INSERT INTO public.dayoff(id_employee, creation_date, status, id_day_off_type,
                                                        start_date, end_date, nb_days, employee_commentary)
                                                        VALUES({0}, date '{1}', {2}, {3}, date '{4}', date '{5}', {6}, '{7}');",
-                                                           UserSession.Instance.User.Employee.EmployeeId, DateTime.Today.Date.ToShortDateString(), status, selectedLeaveTypeId, StartDate, EndDate, NbDays, Comment);
+                                                               UserSession.Instance.User.Employee.EmployeeId, DateTime.Today.Date.ToShortDateString(), status, selectedLeaveTypeId, StartDate, EndDate, NbDays, Comment);
 
-                // Be careful : the status is hard coded to 1 for now 
-                DbHandler.Instance.ExecSQL(query);
-                DbHandler.Instance.CloseConnection();
-                // I'm not sure this is the best way to update the list in the main page but...
+
+                    DbHandler.Instance.ExecSQL(query);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Erreur lors de la création du congé : " + e.Message);
+                }
+                finally
+                {
+                    DbHandler.Instance.CloseConnection();
+                }
                 Switcher.Switch(new HomeView());
             }
             catch (Exception e)

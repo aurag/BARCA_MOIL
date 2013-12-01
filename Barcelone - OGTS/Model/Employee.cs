@@ -125,6 +125,13 @@ namespace Barcelone___OGTS.Model
             set { _isRh = value; }
         }
 
+        private String _lastConnectionDate;
+
+        public String LastConnectionDate
+        {
+            get { return _lastConnectionDate; }
+            set { _lastConnectionDate = value; }
+        }
         #endregion
 
     }
