@@ -21,7 +21,7 @@ namespace Barcelone___OGTS.Common
             if (value.ToString().Equals("6"))
                 return "Demande refusée";
 
-            return "Status inconnu";
+            return "Statut inconnu";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

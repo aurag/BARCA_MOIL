@@ -6,6 +6,7 @@ using Barcelone___OGTS.Model;
 using System.Windows.Data;
 using System.ComponentModel;
 using Npgsql;
+using System.Globalization;
 
 namespace Barcelone___OGTS.ViewModel
 {
@@ -31,6 +32,14 @@ namespace Barcelone___OGTS.ViewModel
         {
             get { return _periodStartDate; }
             set { _periodStartDate = value; OnPropertyChanged("PeriodStartDate"); }
+        }
+
+        private String _periodEndDate;
+
+        public String PeriodEndDate
+        {
+            get { return _periodEndDate; }
+            set { _periodEndDate = value; OnPropertyChanged("PeriodEndDate"); }
         }
         private String _nbDays;
 
@@ -91,7 +100,46 @@ namespace Barcelone___OGTS.ViewModel
             set { _daysUsed = value; OnPropertyChanged("DaysUsed"); }
         }
 
-        public ICollectionView leaveRequests { get; private set; }
+        private DateTime _selectedDate;
+
+        public DateTime SelectedDate
+        {
+            get
+            {
+                return _selectedDate;
+            }
+            set
+            {
+                if (_selectedDate != value)
+                {
+                    _selectedDate = value;
+                    UpdateUserRelatedFields();
+                    OnPropertyChanged("SelectedDate");
+                    OnPropertyChanged("DisplayDate");
+                }
+            }
+        }
+
+        public String DisplayDate
+        {
+            get 
+            {
+                return SelectedDate.ToString("D", CultureInfo.CreateSpecificCulture("fr-FR")); 
+            }
+        }
+
+        private ICollectionView _daysOffList;
+        public ICollectionView DaysOffList {
+            get
+            {
+                return _daysOffList;
+            }
+            set
+            {
+                _daysOffList = value;
+                OnPropertyChanged("DaysOffList");
+            }
+        }
 
         #endregion
 
@@ -123,16 +171,16 @@ namespace Barcelone___OGTS.ViewModel
             {
                 Console.WriteLine("Liste des types de congés vide : " + e.Message);
             }
-
-            // Creation de la liste de demandes de congés pour les tableaux.
-            CreateLeaveRequestList();
+            SelectedDate = DateTime.Today;
         }
 
         // Chargé de la mise à jour des champs de la page
         private void UpdateFields()
         {
+            Console.WriteLine("Appel");
             UpdateDayOffType();
             UpdateUserRelatedFields();
+            CreateLeaveRequestList();
         }
 
         private void UpdateDayOffType()
@@ -180,12 +228,12 @@ namespace Barcelone___OGTS.ViewModel
             try
             {
                 String employeeId = UserSession.Instance.User.Employee.EmployeeId;
-                // date en dur, todo : récupérer la date selectionnée
-                String DateSelected = "2013-04-08";
                 int totalDays = 0;
                 bool first = true;
+                if (SelectedDate == null)
+                    SelectedDate = DateTime.Today;
                 NpgsqlDataReader result = DbHandler.Instance.ExecSQL("select start_date, end_date from public.dayoff " + "where id_employee = " + employeeId +
-                                                                      " and id_day_off_type = " + _dayOffTypeId + " and (start_date - date '" + DateSelected + "' < 0) ORDER BY start_date;");
+                                                                      " and id_day_off_type = " + _dayOffTypeId + " and (start_date - date '" + SelectedDate.ToShortDateString() + "' < 0) ORDER BY start_date;");
                 if (result != null)
                 {
                     while (result.Read())
@@ -277,16 +325,54 @@ namespace Barcelone___OGTS.ViewModel
         /// </summary>
         private void CreateLeaveRequestList()
         {
-            /*
-            var _leaveRequests = new List<DayOff>
-                {
-                    new DayOff("02/04/13", "11/04/13", "01", "23/03/13", "Congé principal", "En attente", "", "", "12/03/13"),
-                    new DayOff("12/04/13", "15/04/13", "01", "23/03/13", "Congé principal", "En attente", "", "", "15/03/13"),
-                    new DayOff("24/04/13", "28/04/13", "01", "23/03/13", "Congé principal", "En attente", "", "", "19/03/13")
-                };
 
-            leaveRequests = CollectionViewSource.GetDefaultView(_leaveRequests);
-             */
+            DbHandler.Instance.OpenConnection();
+
+            NpgsqlDataReader result = DbHandler.Instance.ExecSQL(String.Format(@"select start_date, end_date, creation_date, type, title, status, 
+                                                                   employee_commentary, superior_commentary, validation_date
+                                                                   from public.dayoff, public.dayofftype
+                                                                   WHERE public.dayoff.id_day_off_type = public.dayofftype.id_day_off_type
+                                                                   AND public.dayoff.id_employee={0} AND public.dayoff.id_day_off_type = " + _dayOffTypeId + " ORDER BY start_date;", UserSession.Instance.User.Employee.EmployeeId));
+            List<DayOff> _daysOff = null;
+            if (result != null)
+            {
+                _daysOff = new List<DayOff>();
+                if (!result.HasRows)
+                {
+                    PeriodStartDate = "Pas de congés";
+                    PeriodEndDate = "Pas de congés";
+                }
+                while (result.Read())
+                {
+                    DayOff dayOff = new DayOff()
+                    {
+                        StartDate = result[0].ToString().Substring(0, 10),
+                        EndDate = result[1].ToString().Substring(0, 10),
+                        CreationDate = DateTime.Today.ToShortDateString(),
+                        Type = result[3].ToString(),
+                        Title = result[4].ToString(),
+                        Status = result[5].ToString(),
+                        CommentSal = result[6].ToString(),
+                        CommentRh = result[7].ToString(),
+                        DateRh = result[8].ToString(),
+                        IdEmployee = UserSession.Instance.User.Employee.EmployeeId
+                    };
+
+                    if (result[1].ToString() != "")
+                    {
+                        PeriodEndDate = result[1].ToString().Substring(0, 10);
+
+                        if (DateTime.Parse(result[1].ToString().Substring(0, 10)) > DateTime.Parse(PeriodEndDate))
+                            PeriodEndDate = result[1].ToString().Substring(0, 10);
+                    }
+
+                    _daysOff.Add(dayOff);
+                }
+            }
+
+            DbHandler.Instance.CloseConnection();
+
+            DaysOffList = CollectionViewSource.GetDefaultView(_daysOff);
         }
     }
 }

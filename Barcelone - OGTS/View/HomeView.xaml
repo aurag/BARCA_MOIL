@@ -18,10 +18,10 @@
         <Button Content="Aide" HorizontalAlignment="Left" Margin="883,10,0,0" VerticalAlignment="Top" Width="75" FontFamily="Helvetica CE 35 Thin" FontSize="18" Height="31"/>
         <Label Content="Date du jour :" HorizontalAlignment="Left" Margin="670,46,0,0" VerticalAlignment="Top" Width="82" FontFamily="Helvetica CE 35 Thin"/>
         <Label Content="19/04/213" HorizontalAlignment="Left" Margin="757,46,0,0" VerticalAlignment="Top" Width="170" FontFamily="Helvetica CE 35 Thin"/>
-        <Label Content="{Binding Name}" HorizontalAlignment="Left" Margin="743,72,0,0" VerticalAlignment="Top" Width="184" FontFamily="Helvetica CE 35 Thin"/>
+        <Label Content="{Binding Name}" HorizontalAlignment="Left" Margin="743,72,0,0" VerticalAlignment="Top" Width="184" FontFamily="Helvetica CE 35 Thin" FontWeight="Bold"/>
         <Label Content="Bienvenue" HorizontalAlignment="Left" Margin="670,72,0,0" VerticalAlignment="Top" Width="68" FontFamily="Helvetica CE 35 Thin"/>
         <Label Content="Derniere connexion :" HorizontalAlignment="Left" Margin="670,98,0,0" VerticalAlignment="Top" Width="119" FontFamily="Helvetica CE 35 Thin"/>
-        <Label Content="{Binding LastConnectionDate}" HorizontalAlignment="Left" Margin="789,98,0,0" VerticalAlignment="Top" Width="138" FontFamily="Helvetica CE 35 Thin"/>
+        <Label Content="{Binding LastConnectionDate}" HorizontalAlignment="Left" Margin="798,98,0,0" VerticalAlignment="Top" Width="129" FontFamily="Helvetica CE 35 Thin" Height="21"/>
         <Label Content="Responsable Hiérarchique :" HorizontalAlignment="Left" Margin="670,124,0,0" VerticalAlignment="Top" Width="155" FontFamily="Helvetica CE 35 Thin"/>
         <Label Content="Nils Adiceam" HorizontalAlignment="Left" Margin="825,124,0,0" VerticalAlignment="Top" Width="111" FontFamily="Helvetica CE 35 Thin"/>
         <Button Command="{Binding ChangePassword}" Content="Changer de mot de passe" HorizontalAlignment="Left" Margin="743,165,0,0" VerticalAlignment="Top" Width="215" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
@@ -34,16 +34,16 @@
         <Grid HorizontalAlignment="Left" Height="205" Margin="10,200,0,0" VerticalAlignment="Top" Width="950">
             <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="205" Stroke="Black" VerticalAlignment="Top" Width="950"/>
             <Label Content="Demandes de congés en cours de traitement :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="473" FontFamily="Helvetica CE 35 Thin" FontSize="20" FontWeight="Bold"/>
-            <DataGrid Name="FirstDataGrid" Margin="0,50,0,0" ItemsSource="{Binding DaysOff}" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False">
+            <DataGrid Name="FirstDataGrid" Margin="0,50,0,0" ItemsSource="{Binding DaysOffWaiting}" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Date de début" Binding="{Binding StartDate}" IsReadOnly="True" Width="100"/>
                     <DataGridTextColumn Header="Date de fin" Binding="{Binding EndDate}" IsReadOnly="True" Width="100"/>
-                    <DataGridTextColumn Header="Type" Binding="{Binding Type}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="Type" Binding="{Binding Type}" IsReadOnly="True" Width="40"/>
                     <DataGridTextColumn Header="Libellé" Binding="{Binding Title}" IsReadOnly="True" Width="120"/>
                     <DataGridTextColumn Header="Statut" Binding="{Binding Status, Converter={StaticResource StatusToString}}" IsReadOnly="True" Width="*"/>
                     <DataGridTextColumn Header="Commentaire salarié" Binding="{Binding CommentSal}" IsReadOnly="True" Width="*"/>
 
-                    <DataGridTemplateColumn Header="Supprimer de la liste" Width="*">
+                    <DataGridTemplateColumn Header="Supprimer" Width="70">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <CheckBox x:Name="RowFilterButton" IsChecked="{Binding IsSelected}" Tag="{Binding}" Click="RowFilterButton_Click" HorizontalAlignment="Center" Width="20" />
@@ -58,7 +58,7 @@
         <Grid HorizontalAlignment="Left" Height="205" Margin="10,400,0,0" VerticalAlignment="Top" Width="950">
             <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="205" Stroke="Black" VerticalAlignment="Top" Width="950"/>
             <Label Content="Demandes de congés déja traités :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="473" FontFamily="Helvetica CE 35 Thin" FontSize="20" FontWeight="Bold"/>
-            <DataGrid Margin="0,50,0,0" ItemsSource="{Binding DaysOff}" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False">
+            <DataGrid Margin="0,50,0,0" ItemsSource="{Binding DaysOffOver}" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Date de début" Binding="{Binding StartDate}" IsReadOnly="True" Width="90"/>
                     <DataGridTextColumn Header="Date de fin" Binding="{Binding EndDate}" IsReadOnly="True" Width="70"/>
@@ -83,7 +83,7 @@
         <Grid HorizontalAlignment="Left" Height="150" Margin="10,600,0,0" VerticalAlignment="Top" Width="950">
             <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="150" Stroke="Black" VerticalAlignment="Top" Width="950"/>
             <Label Content="Prévisions de congés :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="473" FontFamily="Helvetica CE 35 Thin" FontSize="20" FontWeight="Bold"/>
-            <DataGrid Margin="0,50,0,10" ItemsSource="{Binding DaysOff}" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False">
+            <DataGrid Margin="0,50,0,10" ItemsSource="{Binding DaysOffWaiting}" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Date de début" Binding="{Binding StartDate}" IsReadOnly="True" Width="120"/>
                     <DataGridTextColumn Header="Date de fin" Binding="{Binding EndDate}" IsReadOnly="True" Width="120"/>
@@ -107,6 +107,7 @@
         <Button Content="Situation du jour" Command="{Binding GoToDailyOverview}" HorizontalAlignment="Left" Margin="10,128,0,0" VerticalAlignment="Top" Width="156" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
         <Button Command="{Binding OperationsHistory}" Content="Historique des demandes" HorizontalAlignment="Left" Margin="171,128,0,0" VerticalAlignment="Top" Width="212" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
         <Button Command="{Binding LeaveRequest}" Content="Nouvelle demande de congé" HorizontalAlignment="Left" Margin="10,160,0,0" VerticalAlignment="Top" Width="242" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
+        <Label Content="{Binding LastConnectionTime}" HorizontalAlignment="Left" Margin="864,98,0,0" VerticalAlignment="Top" Width="71" FontFamily="Helvetica CE 35 Thin" Height="21"/>
     </Grid>
     <UserControl.DataContext>
         <vm:HomeViewModel/>

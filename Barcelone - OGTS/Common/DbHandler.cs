@@ -125,37 +125,94 @@ namespace Barcelone___OGTS.Common
         public List<DayOff> getDaysOffList()
         {
             DbHandler.Instance.OpenConnection();
+            List<DayOff> _daysOff = new List<DayOff>();
 
-            NpgsqlDataReader result = DbHandler.Instance.ExecSQL(String.Format(@"select start_date, end_date, creation_date, type, title, status, 
+            try
+            {
+                NpgsqlDataReader result = DbHandler.Instance.ExecSQL(String.Format(@"select start_date, end_date, creation_date, type, title, status, 
                                                                    employee_commentary, superior_commentary, validation_date
                                                                    from public.dayoff, public.dayofftype
                                                                    WHERE public.dayoff.id_day_off_type = public.dayofftype.id_day_off_type
                                                                    AND public.dayoff.id_employee={0} ORDER BY start_date;", UserSession.Instance.User.Employee.EmployeeId));
-            List<DayOff> _daysOff = null;
-            if (result != null)
-            {
-                _daysOff = new List<DayOff>();
-                while (result.Read())
-                {
-                    DayOff dayOff = new DayOff()
-                    {
-                        StartDate = result[0].ToString().Substring(0, 10),
-                        EndDate = result[1].ToString().Substring(0, 10),
-                        CreationDate = DateTime.Today.ToShortDateString(),
-                        Type = result[3].ToString(),
-                        Title = result[4].ToString(),
-                        Status = result[5].ToString(),
-                        CommentSal = result[6].ToString(),
-                        CommentRh = result[7].ToString(),
-                        DateRh = result[8].ToString(),
-                        IdEmployee = UserSession.Instance.User.Employee.EmployeeId
-                    };
 
-                    _daysOff.Add(dayOff);
+                if (result != null)
+                {
+                    while (result.Read())
+                    {
+                        DayOff dayOff = new DayOff()
+                        {
+                            StartDate = result[0].ToString().Substring(0, 10),
+                            EndDate = result[1].ToString().Substring(0, 10),
+                            CreationDate = DateTime.Today.ToShortDateString(),
+                            Type = result[3].ToString(),
+                            Title = result[4].ToString(),
+                            Status = result[5].ToString(),
+                            CommentSal = result[6].ToString(),
+                            CommentRh = result[7].ToString(),
+                            DateRh = result[8].ToString(),
+                            IdEmployee = UserSession.Instance.User.Employee.EmployeeId
+                        };
+
+                        _daysOff.Add(dayOff);
+                    }
                 }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine("Erreur : " + e.Message);
+            }
+            finally
+            {
+                DbHandler.Instance.CloseConnection();
+            }
 
-            DbHandler.Instance.CloseConnection();
+            return _daysOff;
+        }
+
+        // Récupération de la liste de tous les congés pour l'utilisateur actuel avec un statut donné en paramètre
+        public List<DayOff> getDaysOffList(String status)
+        {
+            DbHandler.Instance.OpenConnection();
+            List<DayOff> _daysOff = new List<DayOff>();
+
+            try
+            {
+                NpgsqlDataReader result = DbHandler.Instance.ExecSQL(String.Format(@"select start_date, end_date, creation_date, type, title, status, 
+                                                                   employee_commentary, superior_commentary, validation_date
+                                                                   from public.dayoff INNER JOIN public.dayofftype
+                                                                   ON (public.dayoff.id_day_off_type = public.dayofftype.id_day_off_type) where public.dayoff.status = {0}
+                                                                   AND public.dayoff.id_employee={1} ORDER BY start_date;", status, UserSession.Instance.User.Employee.EmployeeId));
+
+                if (result != null)
+                {
+                    while (result.Read())
+                    {
+                        DayOff dayOff = new DayOff()
+                        {
+                            StartDate = result[0].ToString().Substring(0, 10),
+                            EndDate = result[1].ToString().Substring(0, 10),
+                            CreationDate = DateTime.Today.ToShortDateString(),
+                            Type = result[3].ToString(),
+                            Title = result[4].ToString(),
+                            Status = result[5].ToString(),
+                            CommentSal = result[6].ToString(),
+                            CommentRh = result[7].ToString(),
+                            DateRh = result[8].ToString(),
+                            IdEmployee = UserSession.Instance.User.Employee.EmployeeId
+                        };
+
+                        _daysOff.Add(dayOff);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Erreur : " + e.Message);
+            }
+            finally
+            {
+                DbHandler.Instance.CloseConnection();
+            }
 
             return _daysOff;
         }

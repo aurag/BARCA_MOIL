@@ -13,10 +13,10 @@
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="80" Margin="278,241,0,0" Stroke="Black" VerticalAlignment="Top" Width="511"/>
         <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="153" Margin="278,326,0,0" Stroke="Black" VerticalAlignment="Top" Width="511"/>
         <Button Command="{Binding BackCommand}" Content="Accueil" HorizontalAlignment="Left" Margin="879,10,0,0" VerticalAlignment="Top" Width="100" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
-        <Calendar HorizontalAlignment="Left" Margin="807,82,0,0" VerticalAlignment="Top" Height="172" Width="172" SelectionMode="SingleDate" FontFamily="Helvetica CE 35 Thin"/>
+        <Calendar Name="Calendar" HorizontalAlignment="Left" Margin="807,82,0,0" VerticalAlignment="Top" Height="172" Width="172" SelectionMode="SingleDate" SelectedDate="{Binding SelectedDate}" DisplayDate="{Binding SelectedDate}" FontFamily="Helvetica CE 35 Thin" Loaded="CalendarLoaded"/>
         <ComboBox Name="LeaveTypeChoice" ItemsSource="{Binding LeaveTypes}" SelectedValue="{Binding Path=SelectedLeaveType, Mode=TwoWay}" HorizontalAlignment="Left" Margin="452,99,0,0" VerticalAlignment="Top" Width="337" SelectedIndex="0" FontFamily="Helvetica CE 35 Thin" FontSize="18" />
         <Label Content="Date selectionnée : " HorizontalAlignment="Left" Margin="807,254,0,0" VerticalAlignment="Top" FontFamily="Helvetica CE 35 Thin"/>
-        <Label Content="19/04/13" HorizontalAlignment="Left" Margin="921,254,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.325,0.462" Width="58" FontFamily="Helvetica CE 35 Thin"/>
+        <Label Content="{Binding DisplayDate}" HorizontalAlignment="Left" Margin="807,283,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.325,0.462" Width="172" FontFamily="Helvetica CE 35 Thin"/>
         <Label Content="Informations" HorizontalAlignment="Left" Margin="271,138,0,0" VerticalAlignment="Top" Width="473" FontFamily="Helvetica CE 35 Thin" FontSize="20" FontWeight="Bold"/>
         <Label Content="Type de congé" HorizontalAlignment="Left" Margin="300,175,0,0" VerticalAlignment="Top" FontFamily="Helvetica CE 35 Thin"/>
         <Label Content="Libellé du congé" HorizontalAlignment="Left" Margin="601,175,0,0" VerticalAlignment="Top" FontFamily="Helvetica CE 35 Thin"/>
@@ -36,7 +36,7 @@
         <Label Content="Fin de la période d'acquisition" HorizontalAlignment="Left" Margin="555,343,0,0" VerticalAlignment="Top" FontFamily="Helvetica CE 35 Thin"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="559,374,0,0" TextWrapping="Wrap" Text="31 mai 2014" VerticalAlignment="Top" Width="120" IsEnabled="False" FontFamily="Helvetica CE 35 Thin"/>
         <Label Content="Fin de la période de prise des congés" HorizontalAlignment="Left" Margin="555,414,0,0" VerticalAlignment="Top" FontFamily="Helvetica CE 35 Thin"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="555,445,0,0" TextWrapping="Wrap" Text="TODO" VerticalAlignment="Top" Width="120" IsEnabled="False" FontFamily="Helvetica CE 35 Thin"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="555,445,0,0" TextWrapping="Wrap" Text="{Binding PeriodEndDate}" VerticalAlignment="Top" Width="120" IsEnabled="False" FontFamily="Helvetica CE 35 Thin"/>
 
         <Grid HorizontalAlignment="Left" Height="210" Margin="261,494,0,0" VerticalAlignment="Top" Width="681">
             <Grid.RowDefinitions>
@@ -44,8 +44,8 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="208" Stroke="Black" VerticalAlignment="Top" Width="682" Margin="0,0,-1,0"/>
-            <Label Content="Détail du type de congé :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="473" FontFamily="Helvetica CE 55 Roman" FontSize="20" FontWeight="Bold"/>
-            <DataGrid Margin="0,50,-2,0" ItemsSource="{Binding leaveRequests}" AutoGenerateColumns="False" ColumnWidth="*" Height="158" VerticalAlignment="Top">
+            <Label Content="Détail du type de congé pour l'année entière :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="473" FontFamily="Helvetica CE 55 Roman" FontSize="20" FontWeight="Bold"/>
+            <DataGrid Margin="0,50,-2,0" ItemsSource="{Binding DaysOffList}" AutoGenerateColumns="False" ColumnWidth="*" Height="158" VerticalAlignment="Top" CanUserAddRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Date de début" Binding="{Binding StartDate}" IsReadOnly="True" Width="150"/>
                     <DataGridTextColumn Header="Date de fin" Binding="{Binding EndDate}" IsReadOnly="True" Width="150"/>

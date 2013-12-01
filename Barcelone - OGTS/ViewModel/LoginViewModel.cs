@@ -61,7 +61,7 @@ namespace Barcelone___OGTS.ViewModel
                 return;
     
             DbHandler.Instance.OpenConnection();
-            String query = String.Format("select login, password, firstname, lastname, last_connection_date, public.userogts.id_user, public.employee.id_employee from public.userogts " +
+            String query = String.Format("select login, password, firstname, lastname, last_connection_date, last_connection_time, public.userogts.id_user, public.employee.id_employee from public.userogts " +
               "INNER JOIN public.employee ON (userogts.id_user = employee.id_user) where login='{0}' AND password='{1}';", Login, password);
 
             NpgsqlDataReader result = DbHandler.Instance.ExecSQL(query);
@@ -84,12 +84,16 @@ namespace Barcelone___OGTS.ViewModel
                     employee.Firstname = result[2] as String;
                     employee.Lastname = result[3] as String;
                     if (result[4].ToString() != "")
-                        employee.LastConnectionDate = result[4].ToString().Substring(0, 10);
+                        user.LastConnectionDate = result[4].ToString().Substring(0, 10);
                     else
-                        employee.LastConnectionDate = "Première connexion de l'utilisateur";
-                    int? userId = result[5] as int?;
+                        user.LastConnectionDate = "Première connexion";
+                    if (result[5].ToString() != "")
+                        user.LastConnectionTime = result[5].ToString().Substring(11);
+                    else
+                        user.LastConnectionTime = " ";
+                    int? userId = result[6] as int?;
                     user.UserId = userId.ToString();
-                    int? employeeId = result[6] as int?;
+                    int? employeeId = result[7] as int?;
                     employee.EmployeeId = employeeId.ToString();
                     user.Employee = employee;
                     session.User = user;
@@ -97,11 +101,22 @@ namespace Barcelone___OGTS.ViewModel
                     break;
                 }
             }
-
-            result.Close();
-            String EmployeeId = UserSession.Instance.User.Employee.EmployeeId;
-            DbHandler.Instance.ExecSQL("UPDATE employee SET last_connection_date = date '" + DateTime.Today.ToShortDateString() + "' where id_employee = " + EmployeeId + ";");
             DbHandler.Instance.CloseConnection();
+            DbHandler.Instance.OpenConnection();
+            try
+            {
+                String EmployeeId = UserSession.Instance.User.Employee.EmployeeId;
+                DbHandler.Instance.ExecSQL("UPDATE userogts SET last_connection_date = date '" + DateTime.Today.ToShortDateString() + "' where id_employee = " + EmployeeId + ";");
+                DbHandler.Instance.ExecSQL("UPDATE userogts SET last_connection_time = time '" + string.Format("{0:HH:mm:ss tt}", DateTime.Now) + "' where id_employee = " + EmployeeId + ";");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Erreur : " + e.Message);
+            }
+            finally
+            {
+                DbHandler.Instance.CloseConnection();
+            }
             UserSession.Instance.User.Employee.IsRH = DbHandler.Instance.checkIfRh( UserSession.Instance.User.Employee.EmployeeId);
 
             if (isCorrect)

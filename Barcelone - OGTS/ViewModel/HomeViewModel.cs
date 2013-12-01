@@ -38,11 +38,24 @@ namespace Barcelone___OGTS.ViewModel
         {
             get 
             {
-                if (UserSession.Instance.User.Employee.LastConnectionDate != _lastConnectionDate)
-                    LastConnectionDate = UserSession.Instance.User.Employee.LastConnectionDate;
+                if (UserSession.Instance.User.LastConnectionDate != _lastConnectionDate)
+                    LastConnectionDate = UserSession.Instance.User.LastConnectionDate;
                 return _lastConnectionDate; 
             }
             set { _lastConnectionDate = value; OnPropertyChanged("LastConnectionDate"); }
+        }
+
+        private String _lastConnectionTime;
+
+        public String LastConnectionTime
+        {
+            get
+            {
+                if (UserSession.Instance.User.LastConnectionTime != _lastConnectionTime)
+                    _lastConnectionTime = UserSession.Instance.User.LastConnectionTime;
+                return _lastConnectionTime;
+            }
+            set { _lastConnectionTime = value; OnPropertyChanged("LastConnectionTime"); }
         }
 
         private Visibility _isRhVisibility;
@@ -75,22 +88,35 @@ namespace Barcelone___OGTS.ViewModel
             }
         }
 
-        private ICollectionView _daysOff;
+        private ICollectionView _daysOffWaiting;
 
-        public ICollectionView DaysOff
+        public ICollectionView DaysOffWaiting
         {
             get
             {
-                return _daysOff;
+                return _daysOffWaiting;
             }
             set
             {
-                _daysOff = value;
-                OnPropertyChanged("DaysOff");
+                _daysOffWaiting = value;
+                OnPropertyChanged("DaysOffWaiting");
             }
         }
-        public ICollectionView leaveRequestsOk { get; private set; }
-        public ICollectionView leaveRequestsFutur { get; private set; }
+
+        private ICollectionView _daysOffOver;
+
+        public ICollectionView DaysOffOver
+        {
+            get
+            {
+                return _daysOffOver;
+            }
+            set
+            {
+                _daysOffOver = value;
+                OnPropertyChanged("DaysOffOver");
+            }
+        }
 
         private String _name;
 
@@ -131,7 +157,7 @@ namespace Barcelone___OGTS.ViewModel
 
             // Creation de la liste de demandes de congés pour les tableaux.
             CreateLeaveRequestList();
-            CreateLeaveRequestListOk();
+            CreateLeaveRequestListOver();
             CreateLeaveRequestListFutur();
 
 
@@ -152,19 +178,19 @@ namespace Barcelone___OGTS.ViewModel
             try
             {
                 DbHandler.Instance.OpenConnection();
-                for (int i = 0; i < ((List<DayOff>)DaysOff.SourceCollection).Count; i++)
+                for (int i = 0; i < ((List<DayOff>)DaysOffWaiting.SourceCollection).Count; i++)
                 {
-                    DayOff day = ((List<DayOff>)DaysOff.SourceCollection)[i];
+                    DayOff day = ((List<DayOff>)DaysOffWaiting.SourceCollection)[i];
                     if (day.IsSelected)
                     {
                         DbHandler.Instance.ExecSQL(String.Format(@"DELETE FROM dayoff 
                                                                WHERE start_date = (date '{0}') and end_date = (date '{1}') and id_employee = {2}",
                                                                    day.StartDate, day.EndDate, UserSession.Instance.User.Employee.EmployeeId));
-                        ((List<DayOff>)DaysOff.SourceCollection).Remove(day);
+                        ((List<DayOff>)DaysOffWaiting.SourceCollection).Remove(day);
                         i--;
                     }
                 }
-                DaysOff.Refresh();
+                DaysOffWaiting.Refresh();
             }
             catch (Exception e)
             {
@@ -240,7 +266,7 @@ namespace Barcelone___OGTS.ViewModel
         {
             try
             {            
-                DaysOff = CollectionViewSource.GetDefaultView(DbHandler.Instance.getDaysOffList());
+                DaysOffWaiting = CollectionViewSource.GetDefaultView(DbHandler.Instance.getDaysOffList("2"));
             }
             catch (Exception e)
             {
@@ -249,19 +275,18 @@ namespace Barcelone___OGTS.ViewModel
         }
 
         /// <summary>
-        /// Todo : Creates the list of day off requests already accepted
+        /// Creates the list of day off requests already accepted
         /// </summary>
-        private void CreateLeaveRequestListOk()
+        private void CreateLeaveRequestListOver()
         {
-            /*
-            var _leaveRequestsOk = new List<DayOff>
-                {
-                    new DayOff("02/02/13", "08/02/13", "23/01/13", "01", "Congé principal", "Accepté", "", "", "12/01/13"),
-                    new DayOff("10/03/13", "11/03/13", "23/01/13", "01", "Congé principal", "Refusé", "", "Réunion d'équipe le 10", "12/01/13"),
-                };
-
-            leaveRequestsOk = CollectionViewSource.GetDefaultView(_leaveRequestsOk);
-             */
+            try
+            {
+                DaysOffOver = CollectionViewSource.GetDefaultView(DbHandler.Instance.getDaysOffList("5 OR public.dayoff.status = 6"));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         /// <summary>
