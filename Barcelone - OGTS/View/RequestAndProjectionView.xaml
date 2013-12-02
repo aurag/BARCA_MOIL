@@ -78,10 +78,10 @@
             <Button Content="Traiter la sélection" HorizontalAlignment="Left" Margin="780,10,0,0" VerticalAlignment="Top" Width="160" FontSize="18" FontFamily="Helvetica CE 35 Thin"/>
         </Grid>
 
- 
-        <Button Content="Nouvelle prévision de congé" FontFamily="Helvetica CE 35 Thin" HorizontalAlignment="Left" Margin="267,76,0,0" VerticalAlignment="Top" Width="237" FontSize="18"/>
+
+        <Button Content="Nouvelle prévision de congé" Command="{Binding GoToLeaveRequestForecast}" FontFamily="Helvetica CE 35 Thin" HorizontalAlignment="Left" Margin="267,76,0,0" VerticalAlignment="Top" Width="237" FontSize="18"/>
     </Grid>
     <UserControl.DataContext>
-        <vm:HomeViewModel />
+        <vm:RequestAndProjectionViewModel />
     </UserControl.DataContext>
 </UserControl>

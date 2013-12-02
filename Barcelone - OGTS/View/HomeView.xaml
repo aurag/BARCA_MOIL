@@ -83,7 +83,7 @@
         <Grid HorizontalAlignment="Left" Height="150" Margin="10,600,0,0" VerticalAlignment="Top" Width="950">
             <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="150" Stroke="Black" VerticalAlignment="Top" Width="950"/>
             <Label Content="Prévisions de congés :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="473" FontFamily="Helvetica CE 35 Thin" FontSize="20" FontWeight="Bold"/>
-            <DataGrid Margin="0,50,0,10" ItemsSource="{Binding DaysOffWaiting}" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False">
+            <DataGrid Margin="0,50,0,0" ItemsSource="{Binding DaysOffFutur}" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Date de début" Binding="{Binding StartDate}" IsReadOnly="True" Width="120"/>
                     <DataGridTextColumn Header="Date de fin" Binding="{Binding EndDate}" IsReadOnly="True" Width="120"/>
@@ -92,13 +92,13 @@
                     <DataGridTemplateColumn Header="Supprimer de la liste">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox IsChecked="{Binding Path=IsSelected}" HorizontalAlignment="Center"/>
+                                <CheckBox x:Name="RowFilterButton" IsChecked="{Binding IsSelected}" Tag="{Binding}" Click="RowFilterButton_Click" HorizontalAlignment="Center" Width="20" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-            <Button Content="Traiter la sélection" HorizontalAlignment="Left" Margin="785,10,0,0" VerticalAlignment="Top" Width="155" FontSize="18" FontFamily="Helvetica CE 35 Thin"/>
+            <Button Content="Traiter la sélection" Command="{Binding HandleCheckBoxFutur}" HorizontalAlignment="Left" Margin="785,10,0,0" VerticalAlignment="Top" Width="155" FontSize="18" FontFamily="Helvetica CE 35 Thin"/>
         </Grid>
         <Button Command="{Binding GoToRequestAndProjection}" Content="Demande et prévisions" HorizontalAlignment="Left" Margin="10,96,0,0" VerticalAlignment="Top" Width="193" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
         <Button Command="{Binding GoToCETAccount}" Content="CET" HorizontalAlignment="Left" Margin="208,96,0,0" VerticalAlignment="Top" Width="54" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>

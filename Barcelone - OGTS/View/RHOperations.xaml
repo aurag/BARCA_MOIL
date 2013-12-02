@@ -42,17 +42,16 @@
 
         <Grid HorizontalAlignment="Left" Height="205" Margin="10,336,0,0" VerticalAlignment="Top" Width="950">
             <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="205" Stroke="Black" VerticalAlignment="Top" Width="950"/>
-            <DataGrid Margin="0,50,0,0" ItemsSource="{Binding DaysForValidation}" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False">
+            <DataGrid Margin="0,50,0,0" ItemsSource="{Binding DaysForValidationForecast}" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Date de soumission" Binding="{Binding RequestDate}" IsReadOnly="True" Width="115"/>
-                    <DataGridTextColumn Header="Salarié" Binding="{Binding NameEmployee}" IsReadOnly="True" Width="120"/>
+                    <DataGridTextColumn Header="Date de soumission" Binding="{Binding SubmissionDate}" IsReadOnly="True" Width="115"/>
+                    <DataGridTextColumn Header="Nom du salarié" Binding="{Binding Name}" IsReadOnly="True" Width="120"/>
                     <DataGridTextColumn Header="Commentaire du salarié" Binding="{Binding CommentSal}" IsReadOnly="True" Width="*"/>
                     <DataGridTextColumn Header="Date de début (inclus)" Binding="{Binding StartDate}" IsReadOnly="True" Width="130"/>
-                    <DataGridTextColumn Header="Date de fin (inclus)" Binding="{Binding StartDate}" IsReadOnly="True" Width="130"/>
+                    <DataGridTextColumn Header="Date de fin (inclus)" Binding="{Binding EndDate}" IsReadOnly="True" Width="130"/>
                     <DataGridTextColumn Header="Durée (jours)" Binding="{Binding NbDays}" IsReadOnly="True" Width="78"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <Button Content="Traiter la sélection" HorizontalAlignment="Left" Margin="789,10,0,0" VerticalAlignment="Top" Width="151" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
         </Grid>
         <Label Content="Demande de congés a traiter" HorizontalAlignment="Left" Margin="10,125,0,0" VerticalAlignment="Top" Width="329" FontFamily="Helvetica CE 35 Thin" Height="40" FontSize="24"/>
         <Label Content="Prévisions" HorizontalAlignment="Left" Margin="10,341,0,0" VerticalAlignment="Top" Width="329" FontFamily="Helvetica CE 35 Thin" Height="40" FontSize="24"/>

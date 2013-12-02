@@ -350,7 +350,7 @@ namespace Barcelone___OGTS.ViewModel
                         EndDate = result[1].ToString().Substring(0, 10),
                         CreationDate = DateTime.Today.ToShortDateString(),
                         Type = result[3].ToString(),
-                        Title = result[4].ToString(),
+                        Name = result[4].ToString(),
                         Status = result[5].ToString(),
                         CommentSal = result[6].ToString(),
                         CommentRh = result[7].ToString(),

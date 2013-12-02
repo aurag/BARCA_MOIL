@@ -18,6 +18,7 @@ namespace Barcelone___OGTS.ViewModel
         public ICommand AddInCET { get; set; }
         public ICommand GoToDailyOverview { get; set; }
         public ICommand GoToLeaveRequest { get; set; }
+        public ICommand GoToLeaveRequestForecast { get; set; }
         public ICommand RemoveCheckBox { get; set; }
 
         #endregion
@@ -54,6 +55,7 @@ namespace Barcelone___OGTS.ViewModel
             AddInCET = new Command(param => PushAddInCET(), param => true);
             GoToDailyOverview = new Command(param => PushDailyOverview(), param => true);
             GoToLeaveRequest = new Command(param => PushLeaveRequest(), param => true);
+            GoToLeaveRequestForecast = new Command(param => PushLeaveRequestForecast(), param => true);
             RemoveCheckBox = new Command(param => RemoveHandleCheckBox(), param => true);
             
             
@@ -122,6 +124,11 @@ namespace Barcelone___OGTS.ViewModel
         private void PushLeaveRequest()
         {
             Switcher.Switch(new LeaveRequestView());
+        }
+
+        private void PushLeaveRequestForecast()
+        {
+            Switcher.Switch(new LeaveRequestForecastView());
         }
 
         #endregion

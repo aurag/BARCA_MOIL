@@ -38,7 +38,7 @@ namespace Barcelone___OGTS.ViewModel
                 if (_startDate != value)
                 {
                     _startDate = value;
-                    CheckIfRequestIsCorrect();
+                    ComputeNbDays();
                     OnPropertyChanged("StartDate");
                 }
             }
@@ -100,7 +100,7 @@ namespace Barcelone___OGTS.ViewModel
                 if (_endDate != value)
                 {
                     _endDate = value;
-                    CheckIfRequestIsCorrect();
+                    ComputeNbDays();
                     OnPropertyChanged("EndDate");
                 }
             }
@@ -306,18 +306,26 @@ namespace Barcelone___OGTS.ViewModel
         /// </summary>
         private void ComputeNbDays()
         {
-            if(!IsCorrect.Equals("Oui"))
+            if (!IsCorrect.Equals("Oui"))
                 return;
 
             DateTime startDate = Convert.ToDateTime(StartDate);
             DateTime endDate = Convert.ToDateTime(EndDate);
             int nbDaysTmp = 0;
+            if (startDate == endDate && endDate.DayOfWeek == DayOfWeek.Sunday || endDate.DayOfWeek == DayOfWeek.Saturday)
+            {
+                IsCorrect = "Non";
+                NbDays = "0";
+            }
             if (startDate == endDate && endDate.DayOfWeek != DayOfWeek.Sunday && endDate.DayOfWeek != DayOfWeek.Saturday)
                 NbDays = "1";
             else
             {
                 if (endDate < startDate)
+                {
+                    IsCorrect = "Non";
                     NbDays = "0";
+                }
                 else
                 {
                     // Put the last day on a Friday
@@ -328,7 +336,7 @@ namespace Barcelone___OGTS.ViewModel
                     }
 
                     // Less than a week difference bewteen the 2 days
-                    if (endDate == startDate)
+                    if (endDate == startDate && endDate.DayOfWeek != DayOfWeek.Sunday && endDate.DayOfWeek != DayOfWeek.Saturday)
                         nbDaysTmp++;
 
                     // Put the first day on a Monday

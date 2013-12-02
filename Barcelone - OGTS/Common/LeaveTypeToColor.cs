@@ -18,6 +18,8 @@ namespace Barcelone___OGTS.Common
                 return Brushes.Tomato;
             if (value.ToString().StartsWith("FE"))
                 return Brushes.LightGray;
+            if (value.ToString().StartsWith("PV"))
+                return Brushes.LightPink;
             if (value.ToString().StartsWith("X"))
                 return Brushes.White;
 

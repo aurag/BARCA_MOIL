@@ -26,6 +26,7 @@ namespace Barcelone___OGTS.ViewModel
         public ICommand GoToCETAccount { get; set; }
         public ICommand OperationsHistory { get; set; }
         public ICommand HandleCheckBox { get; set; }
+        public ICommand HandleCheckBoxFutur { get; set; }
         public ICommand DisconnectCommand { get; set; }
         
         #endregion
@@ -118,6 +119,21 @@ namespace Barcelone___OGTS.ViewModel
             }
         }
 
+        private ICollectionView _daysOffFutur;
+
+        public ICollectionView DaysOffFutur
+        {
+            get
+            {
+                return _daysOffFutur;
+            }
+            set
+            {
+                _daysOffFutur = value;
+                OnPropertyChanged("DaysOffFutur");
+            }
+        }
+
         private string _name;
 
         public string Name
@@ -150,7 +166,8 @@ namespace Barcelone___OGTS.ViewModel
             OperationsHistory = new Command(param => PushOperationsHistory(), param => true);
             HandleCheckBox = new Command(param => FirstHandleCheckBox(), param => true);
             DisconnectCommand = new Command(param => Disconnect(), param => true);
-
+            HandleCheckBoxFutur = new Command(param => HandleFuturDaysOff(), param => true);
+            
             // Initialisation de la vue
             IsRh = UserSession.Instance.User.Employee.IsRH;
             IsRhVisibility = (IsRh ? Visibility.Visible : Visibility.Hidden);
@@ -191,6 +208,36 @@ namespace Barcelone___OGTS.ViewModel
                     }
                 }
                 DaysOffWaiting.Refresh();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                DbHandler.Instance.CloseConnection();
+            }
+
+        }
+
+        private void HandleFuturDaysOff()
+        {
+            try
+            {
+                DbHandler.Instance.OpenConnection();
+                for (int i = 0; i < ((List<DayOff>)DaysOffFutur.SourceCollection).Count; i++)
+                {
+                    DayOff day = ((List<DayOff>)DaysOffFutur.SourceCollection)[i];
+                    if (day.IsSelected)
+                    {
+                        DbHandler.Instance.ExecSQL(string.Format(@"DELETE FROM dayoffforecast 
+                                                               WHERE start_date = (date '{0}') and end_date = (date '{1}') and id_employee = {2}",
+                                                                   day.StartDate, day.EndDate, UserSession.Instance.User.Employee.EmployeeId));
+                        ((List<DayOff>)DaysOffFutur.SourceCollection).Remove(day);
+                        i--;
+                    }
+                }
+                DaysOffFutur.Refresh();
             }
             catch (Exception e)
             {
@@ -294,15 +341,36 @@ namespace Barcelone___OGTS.ViewModel
         /// </summary>
         private void CreateLeaveRequestListFutur()
         {
-            /*
-            var _leaveRequestsFutur = new List<DayOff>
+            DbHandler.Instance.OpenConnection();
+            List<DayOff> daysOffFutur = new List<DayOff>();
+            try
+            {
+                string id_employee = UserSession.Instance.User.Employee.EmployeeId;
+                NpgsqlDataReader result = DbHandler.Instance.ExecSQL("select start_date, end_date, employee_commentary from dayoffforecast where id_employee = " + id_employee + ";");
+                if (result != null)
                 {
-                    new DayOff("02/08/13", "21/08/13", "23/03/13", "01", "Congé principal", "", "", "", ""),
-                    new DayOff("15/12/13", "08/01/14", "23/03/13", "01", "Congé principal", "", "", "", ""),
-                };
+                    while (result.Read())
+                    {
+                        DayOff tmp = new DayOff {
+                            StartDate = result[0].ToString().Substring(0, 10),
+                            EndDate = result[1].ToString().Substring(0, 10),
+                            CommentSal = result[2].ToString()
+                        };
+                        daysOffFutur.Add(tmp);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Erreur : " + e.Message);
+            }
+            finally
+            {
+                DbHandler.Instance.CloseConnection();
+            }
 
-            leaveRequestsFutur = CollectionViewSource.GetDefaultView(_leaveRequestsFutur);
-             */
+            DaysOffFutur = CollectionViewSource.GetDefaultView(daysOffFutur);
+
         }
         #endregion
 

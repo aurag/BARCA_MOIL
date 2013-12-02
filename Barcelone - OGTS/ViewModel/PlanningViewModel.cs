@@ -121,19 +121,19 @@ namespace Barcelone___OGTS.ViewModel
 
         private void BuildPlanning(Boolean isTeamPlanning)
         {
-            // Used to store every day in a year : _daysTmp[month, day] where 0 = january for months
+            // Used to store every day in a year : _daysTmp[month, day] where 0 = june for months
             string[,] daysTmp = new string[12, 31];
             for (int i = 0; i < 12; i++)
             {
                 for (int j = 0; j < 31; j++)
                 {
                     // February with 28 days
-                    if (i == 1 && (j == 30 || j == 29 || j == 28))
+                    if (i == 8 && (j == 30 || j == 29 || j == 28))
                         daysTmp[i, j] = "X";
                     else
                     {
                         // Months with 30 days
-                        if (((i == 3) || i == 5 || i == 8 || i == 10) && j == 30)
+                        if (((i == 0) || i == 3 || i == 5 || i == 10) && j == 30)
                             daysTmp[i, j] = "X";
                         else
                             daysTmp[i, j] = "";
@@ -160,7 +160,7 @@ namespace Barcelone___OGTS.ViewModel
             }
 
 
-            result = DbHandler.Instance.ExecSQL(@"select start_date, end_date, type, firstname, lastname from public.dayofftype, public.dayoff INNER JOIN public.employee ON (public.dayoff.id_employee=public.employee.id_employee)
+            result = DbHandler.Instance.ExecSQL(@"select start_date, end_date, type, firstname, lastname, public.dayoff.status from public.dayofftype, public.dayoff INNER JOIN public.employee ON (public.dayoff.id_employee=public.employee.id_employee)
                                                                    WHERE public.dayoff.id_day_off_type = public.dayofftype.id_day_off_type
                                                                    AND (public.dayoff.id_employee=" + id_employee + ");");
             if (result != null)
@@ -170,6 +170,7 @@ namespace Barcelone___OGTS.ViewModel
                     DateTime dayOffStartDate = DateTime.Parse(result[0].ToString().Substring(0, 10));
                     DateTime dayOffEndDate = DateTime.Parse(result[1].ToString().Substring(0, 10));
                     string label = result[2].ToString();
+                    string status = result[5].ToString();
 
                     // TODO : Add missing types
                     if (label.Equals("01"))
@@ -187,34 +188,99 @@ namespace Barcelone___OGTS.ViewModel
                         label += " " + result[3].ToString().Substring(0, 1).ToUpper() + result[4].ToString().Substring(0, 1).ToUpper() + result[4].ToString().Substring(result[4].ToString().Length - 1, 1).ToUpper();
                     }
 
+                    if (status.Equals("2"))
+                        label += "(?)";
+                    
+
                     while (dayOffStartDate <= dayOffEndDate)
                     {
-                        string labelTmp = daysTmp[dayOffStartDate.Month - 1, dayOffStartDate.Day - 1];
+                        // (x + 7) % 12 -1 => formule pour passer du repère janvier (1) = 0 à janvier (1) = 6
+                        int convertMonth = (dayOffStartDate.Month + 7) % 12 - 1;
+                        if (convertMonth < 0)
+                            convertMonth = 11;
+
+                        string labelTmp = daysTmp[convertMonth, dayOffStartDate.Day - 1];
                         if (labelTmp != "" && labelTmp != "X")
-                            daysTmp[dayOffStartDate.Month - 1, dayOffStartDate.Day - 1] = labelTmp + " & " + label;
+                            daysTmp[convertMonth, dayOffStartDate.Day - 1] = labelTmp + " & " + label;
                         else
-                            daysTmp[dayOffStartDate.Month - 1, dayOffStartDate.Day - 1] = label;
+                            daysTmp[convertMonth, dayOffStartDate.Day - 1] = label;
                         dayOffStartDate = dayOffStartDate.AddDays(1);
                     }
                 }
             }
             DbHandler.Instance.CloseConnection();
 
+            AddForecastDays(isTeamPlanning, daysTmp, id_employee);
 
-            DateTime startDate = DateTime.Parse("01/01/2013");
-            DateTime endDate = DateTime.Parse("31/12/2013");
+            DateTime startDate = DateTime.Parse("01/06/2013");
+            DateTime endDate = DateTime.Parse("31/05/2014");
 
             for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
             {
                 if (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday)
                 {
-                    if (!daysTmp[date.Month - 1, date.Day - 1].Equals("X"))
-                        daysTmp[date.Month - 1, date.Day - 1] = "RE";
+                    int convertMonth = (date.Month + 7) % 12 - 1;
+                    if (convertMonth < 0)
+                        convertMonth = 11;
+                    if (!daysTmp[convertMonth, date.Day - 1].Equals("X"))
+                        daysTmp[convertMonth, date.Day - 1] = "RE";
                 }
             }
 
             daysPlanning = daysTmp;
         }
+
+        private static void AddForecastDays(Boolean isTeamPlanning, string[,] daysTmp, string id_employee)
+        {
+            DbHandler.Instance.OpenConnection();
+            if (isTeamPlanning)
+                id_employee = id_employee.Replace("dayoff", "dayoffforecast");
+            NpgsqlDataReader result = DbHandler.Instance.ExecSQL(@"select start_date, end_date, firstname, lastname from public.dayoffforecast INNER JOIN public.employee ON (public.dayoffforecast.id_employee=public.employee.id_employee)
+                                                                   WHERE (public.dayoffforecast.id_employee=" + id_employee + ");");
+            if (result != null)
+            {
+                while (result.Read())
+                {
+                    DateTime dayOffStartDate = DateTime.Parse(result[0].ToString().Substring(0, 10));
+                    DateTime dayOffEndDate = DateTime.Parse(result[1].ToString().Substring(0, 10));
+                    string label = "PV";
+
+                    // TODO : Add missing types
+                    if (label.Equals("01"))
+                        label = "CP";
+                    if (label.Equals("02"))
+                        label = "CA";
+                    if (label.Equals("03"))
+                        label = "CS";
+                    if (label.Equals("04"))
+                        label = "RF";
+
+                    if (isTeamPlanning)
+                    {
+                        // Ajout du trigramme ISO de l'employé à l'origine du congé
+                        label += " " + result[2].ToString().Substring(0, 1).ToUpper() + result[3].ToString().Substring(0, 1).ToUpper() + result[3].ToString().Substring(result[3].ToString().Length - 1, 1).ToUpper();
+                    }
+
+                    while (dayOffStartDate <= dayOffEndDate)
+                    {
+                        // (x + 7) % 12 -1 => formule pour passer du repère janvier (1) = 0 à janvier (1) = 6
+                        int convertMonth = (dayOffStartDate.Month + 7) % 12 - 1;
+                        if (convertMonth < 0)
+                            convertMonth = 11;
+
+                        string labelTmp = daysTmp[convertMonth, dayOffStartDate.Day - 1];
+                        if (labelTmp != "" && labelTmp != "X")
+                            daysTmp[convertMonth, dayOffStartDate.Day - 1] = labelTmp + " & " + label;
+                        else
+                            daysTmp[convertMonth, dayOffStartDate.Day - 1] = label;
+                        dayOffStartDate = dayOffStartDate.AddDays(1);
+                    }
+                }
+            }
+            DbHandler.Instance.CloseConnection();
+        }
+
+
 
         /// <summary>
         /// Create the list of days used to represent the planning
@@ -254,18 +320,18 @@ namespace Barcelone___OGTS.ViewModel
                 oSheet = (Microsoft.Office.Interop.Excel._Worksheet)oWB.ActiveSheet;
 
                 // Add table headers
-                oSheet.Cells[1, 2] = "Janvier 2013";
-                oSheet.Cells[1, 3] = "Février 2013";
-                oSheet.Cells[1, 4] = "Mars 2013";
-                oSheet.Cells[1, 5] = "Avril 2013";
-                oSheet.Cells[1, 6] = "Mai 2013";
-                oSheet.Cells[1, 7] = "Juin 2013";
-                oSheet.Cells[1, 8] = "Juillet 2013";
-                oSheet.Cells[1, 9] = "Aout 2013";
-                oSheet.Cells[1, 10] = "Septembre 2013";
-                oSheet.Cells[1, 11] = "Octobre 2013";
-                oSheet.Cells[1, 12] = "Novembre 2013";
-                oSheet.Cells[1, 13] = "Décembre 2013";
+                oSheet.Cells[1, 2] = "Juin 2013";
+                oSheet.Cells[1, 3] = "Juillet 2013";
+                oSheet.Cells[1, 4] = "Aout 2013";
+                oSheet.Cells[1, 5] = "Septembre 2013";
+                oSheet.Cells[1, 6] = "Octobre 2013";
+                oSheet.Cells[1, 7] = "Novembre 2013";
+                oSheet.Cells[1, 8] = "Décembre 2013";
+                oSheet.Cells[1, 9] = "Janvier 2014";
+                oSheet.Cells[1, 10] = "Février 2014";
+                oSheet.Cells[1, 11] = "Mars 2014";
+                oSheet.Cells[1, 12] = "Avril 2014";
+                oSheet.Cells[1, 13] = "Mai 2014";
 
                 // Hearders formating
                 oResizeRange = oSheet.get_Range("B1", "M1").get_Resize(Missing.Value);

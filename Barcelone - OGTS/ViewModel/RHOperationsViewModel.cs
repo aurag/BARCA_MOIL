@@ -31,6 +31,20 @@ namespace Barcelone___OGTS.ViewModel
                 OnPropertyChanged("DaysForValidation");
             }
         }
+
+        private ICollectionView _daysForValidationForecast;
+        public ICollectionView DaysForValidationForecast
+        {
+            get
+            {
+                return _daysForValidationForecast;
+            }
+            private set
+            {
+                _daysForValidationForecast = value;
+                OnPropertyChanged("DaysForValidationForecast");
+            }
+        }
         #endregion
 
         public RHOperationsViewModel()
@@ -38,6 +52,7 @@ namespace Barcelone___OGTS.ViewModel
             ClickBack = new Command(param => Back(), param => true);
             HandleCheckBox = new Command(param => FirstHandleCheckBox(), param => true);
             CreateDaysForValidationList();
+            CreateDaysForValidationForecastList();
         }
 
         #region Commands Methods
@@ -49,7 +64,37 @@ namespace Barcelone___OGTS.ViewModel
             Switcher.Switch(new HomeView());
         }
 
-        // Todo : Create the operations list
+        private void CreateDaysForValidationForecastList()
+        {
+            DbHandler.Instance.OpenConnection();
+
+            NpgsqlDataReader result = DbHandler.Instance.ExecSQL(string.Format(@"select submission_date, firstname, lastname, start_date, end_date, nb_days, employee_commentary                                                                  employee_commentary
+                                                                   from public.dayoffforecast INNER JOIN public.employee ON (public.dayoffforecast.id_employee = public.employee.id_employee)
+                                                                   WHERE public.dayoffforecast.id_employee={0};", UserSession.Instance.User.Employee.EmployeeId));
+            List<DayOff> _daysOff = null;
+            if (result != null)
+            {
+                _daysOff = new List<DayOff>();
+                while (result.Read())
+                {
+                    DayOff dayOff = new DayOff()
+                    {
+                        SubmissionDate = (result[0].ToString() == "" ? "" : result[0].ToString().Substring(0, 10)),
+                        Name = result[1].ToString() + " " + result[2].ToString(),
+                        StartDate = result[3].ToString().Substring(0, 10),
+                        EndDate = result[4].ToString().Substring(0, 10),
+                        NbDays = result[5].ToString(),
+                        CommentSal = result[6].ToString()
+                    };
+
+                    _daysOff.Add(dayOff);
+                }
+            }
+
+            DbHandler.Instance.CloseConnection();
+            DaysForValidationForecast = CollectionViewSource.GetDefaultView(_daysOff);
+        }
+
         private void CreateDaysForValidationList()
         {
             DbHandler.Instance.OpenConnection();
@@ -72,7 +117,7 @@ namespace Barcelone___OGTS.ViewModel
                         EndDate = result[1].ToString().Substring(0, 10),
                         CreationDate = DateTime.Today.ToShortDateString(),
                         Type = result[3].ToString(),
-                        Title = result[4].ToString(),
+                        Name = result[4].ToString(),
                         Status = result[5].ToString(),
                         CommentSal = result[6].ToString(),
                         CommentRh = result[7].ToString(),
@@ -86,7 +131,6 @@ namespace Barcelone___OGTS.ViewModel
 
             DbHandler.Instance.CloseConnection();
             DaysForValidation = CollectionViewSource.GetDefaultView(_daysOff);
-    
         }
 
         // Gestion des cases cochées pour le premier tableau

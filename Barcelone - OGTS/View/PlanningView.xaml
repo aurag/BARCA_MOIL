@@ -6,14 +6,14 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 	  xmlns:local="clr-namespace:Barcelone___OGTS.Common"
       mc:Ignorable="d" Height="750" Width="1000">
-	  
-	<UserControl.Resources>
-		<local:LeaveTypeToColor x:Key="LeaveTypeToColor"/>
-	</UserControl.Resources>
+
+    <UserControl.Resources>
+        <local:LeaveTypeToColor x:Key="LeaveTypeToColor"/>
+    </UserControl.Resources>
 
 
     <Grid>
-        <Image Panel.ZIndex="-1" HorizontalAlignment="Left" Height="1706" Margin="0,0,-388,-966.333" VerticalAlignment="Top" Width="1378" Source="rainbowleft.png"/>
+        <Image Panel.ZIndex="-1" HorizontalAlignment="Left" Height="1706" Margin="0,0,-378,-955.6" VerticalAlignment="Top" Width="1378" Source="rainbowleft.png"/>
         <Button Command="{Binding BackCommand}" Content="Accueil" HorizontalAlignment="Left" Margin="905,10,0,0" VerticalAlignment="Top" Width="75" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
         <Label Content="{Binding PlanningTitle}" HorizontalAlignment="Left" Margin="346,0,0,0" VerticalAlignment="Top" Width="503" FontFamily="Helvetica CE 35 Thin" Height="86" FontSize="48"/>
         <Button Command="{Binding Export}" Content="Export du planning" HorizontalAlignment="Left" Margin="20,69,0,0" VerticalAlignment="Top" Width="181" FontFamily="Helvetica CE 35 Thin" FontSize="18"/>
@@ -23,87 +23,87 @@
             <DataGrid Margin="0,50,0,0" ItemsSource="{Binding Days}" AutoGenerateColumns="False" ColumnWidth="*" CanUserReorderColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Numéro" Binding="{Binding NbDay}" IsReadOnly="True" Width="55"/>
-                    <DataGridTextColumn Header="Janvier 2013" Binding="{Binding LeaveLabelJanuary}" IsReadOnly="True" Width="*" >
+                    <DataGridTextColumn Header="Juin 2013" Binding="{Binding LeaveLabel1}" IsReadOnly="True" Width="*" >
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
-                                <Setter Property="Background" Value="{Binding LeaveLabelJanuary, Converter={StaticResource LeaveTypeToColor}}"/>
+                                <Setter Property="Background" Value="{Binding LeaveLabel1, Converter={StaticResource LeaveTypeToColor}}"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Février 2013" Binding="{Binding LeaveLabelFebruary}"  IsReadOnly="True" Width="85" >
+                    <DataGridTextColumn Header="Juillet 2013" Binding="{Binding LeaveLabel2}"  IsReadOnly="True" Width="*" >
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
-                                <Setter Property="Background" Value="{Binding LeaveLabelFebruary, Converter={StaticResource LeaveTypeToColor}}"/>
+                                <Setter Property="Background" Value="{Binding LeaveLabel2, Converter={StaticResource LeaveTypeToColor}}"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Mars 2013" Binding="{Binding LeaveLabelMarch}" IsReadOnly="True" Width="95" >
+                    <DataGridTextColumn Header="Aout 2013" Binding="{Binding LeaveLabel3}" IsReadOnly="True" Width="*" >
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
-                                <Setter Property="Background" Value="{Binding LeaveLabelMarch, Converter={StaticResource LeaveTypeToColor}}"/>
+                                <Setter Property="Background" Value="{Binding LeaveLabel3, Converter={StaticResource LeaveTypeToColor}}"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Avril 2013" Binding="{Binding LeaveLabelApril}" IsReadOnly="True" Width="*" >
+                    <DataGridTextColumn Header="Septembre 2013" Binding="{Binding LeaveLabel4}" IsReadOnly="True" Width="*" >
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
-                                <Setter Property="Background" Value="{Binding LeaveLabelApril, Converter={StaticResource LeaveTypeToColor}}"/>
+                                <Setter Property="Background" Value="{Binding LeaveLabel4, Converter={StaticResource LeaveTypeToColor}}"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Mai 2013" Binding="{Binding LeaveLabelMai}" IsReadOnly="True" Width="75" >
+                    <DataGridTextColumn Header="Octobre 2013" Binding="{Binding LeaveLabel5}" IsReadOnly="True" Width="*" >
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
-                                <Setter Property="Background" Value="{Binding LeaveLabelMai, Converter={StaticResource LeaveTypeToColor}}"/>
+                                <Setter Property="Background" Value="{Binding LeaveLabel5, Converter={StaticResource LeaveTypeToColor}}"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Juin 2013" Binding="{Binding LeaveLabelJune}" IsReadOnly="True" Width="75">
+                    <DataGridTextColumn Header="Novembre 2013" Binding="{Binding LeaveLabel6}" IsReadOnly="True" Width="*">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
-                                <Setter Property="Background" Value="{Binding LeaveLabelJune, Converter={StaticResource LeaveTypeToColor}}"/>
+                                <Setter Property="Background" Value="{Binding LeaveLabel6, Converter={StaticResource LeaveTypeToColor}}"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Juillet 2013" Binding="{Binding LeaveLabelJuly}" IsReadOnly="True" Width="65">
+                    <DataGridTextColumn Header="Décembre 2013" Binding="{Binding LeaveLabel7}" IsReadOnly="True" Width="*">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
-                                <Setter Property="Background" Value="{Binding LeaveLabelJuly, Converter={StaticResource LeaveTypeToColor}}"/>
+                                <Setter Property="Background" Value="{Binding LeaveLabel7, Converter={StaticResource LeaveTypeToColor}}"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Aout 2013" Binding="{Binding LeaveLabelAugust}" IsReadOnly="True" Width="65">
+                    <DataGridTextColumn Header="Janvier 2014" Binding="{Binding LeaveLabel8}" IsReadOnly="True" Width="*">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
-                                <Setter Property="Background" Value="{Binding LeaveLabelAugust, Converter={StaticResource LeaveTypeToColor}}"/>
+                                <Setter Property="Background" Value="{Binding LeaveLabel8, Converter={StaticResource LeaveTypeToColor}}"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Septembre 2013" Binding="{Binding LeaveLabelSeptember}" IsReadOnly="True" Width="*" >
+                    <DataGridTextColumn Header="Février 2014" Binding="{Binding LeaveLabel9}" IsReadOnly="True" Width="*" >
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
-                                <Setter Property="Background" Value="{Binding LeaveLabelSeptember, Converter={StaticResource LeaveTypeToColor}}"/>
+                                <Setter Property="Background" Value="{Binding LeaveLabel9, Converter={StaticResource LeaveTypeToColor}}"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Octobre 2013" Binding="{Binding LeaveLabelOctober}" IsReadOnly="True" Width="*" >
+                    <DataGridTextColumn Header="Mars 2014" Binding="{Binding LeaveLabel10}" IsReadOnly="True" Width="*" >
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
-                                <Setter Property="Background" Value="{Binding LeaveLabelOctober, Converter={StaticResource LeaveTypeToColor}}"/>
+                                <Setter Property="Background" Value="{Binding LeaveLabel10, Converter={StaticResource LeaveTypeToColor}}"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Novembre 2013" Binding="{Binding LeaveLabelNovember}" IsReadOnly="True" Width="*" >
+                    <DataGridTextColumn Header="Avril 2014" Binding="{Binding LeaveLabel11}" IsReadOnly="True" Width="*" >
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
-                                <Setter Property="Background" Value="{Binding LeaveLabelNovember, Converter={StaticResource LeaveTypeToColor}}"/>
+                                <Setter Property="Background" Value="{Binding LeaveLabel11, Converter={StaticResource LeaveTypeToColor}}"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
-                    <DataGridTextColumn Header="Décembre 2013" Binding="{Binding LeaveLabelDecember}" IsReadOnly="True" Width="*" >
+                    <DataGridTextColumn Header="Mai 2014" Binding="{Binding LeaveLabel12}" IsReadOnly="True" Width="*" >
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="{x:Type TextBlock}">
-                                <Setter Property="Background" Value="{Binding LeaveLabelDecember, Converter={StaticResource LeaveTypeToColor}}"/>
+                                <Setter Property="Background" Value="{Binding LeaveLabel12, Converter={StaticResource LeaveTypeToColor}}"/>
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
@@ -116,8 +116,8 @@
         <Label Background="DimGray" Content="Week Ends" Height="28" HorizontalAlignment="Left" Margin="385,68,0,0" Name="label3" VerticalAlignment="Top" Width="83" FontFamily="Helvetica CE 35 Thin" />
         <Label Background="LightGray" Content="Jour férié" Height="28" HorizontalAlignment="Left" Margin="474,68,0,0" Name="label4" VerticalAlignment="Top" Width="83" FontFamily="Helvetica CE 35 Thin" />
         <Label Background="Aqua" Content="Fermeture/Pont d'entreprise" Height="28" HorizontalAlignment="Left" Margin="563,68,0,0" Name="label5" VerticalAlignment="Top" Width="160" FontFamily="Helvetica CE 35 Thin" />
-        <Label Background="Orange" Content="Congé accepté" Height="28" HorizontalAlignment="Left" Margin="729,68,0,0" Name="label6" VerticalAlignment="Top" Width="94" FontFamily="Helvetica CE 35 Thin" />
-        <Label Background="Yellow" Content="Congé en attente" Height="28" HorizontalAlignment="Left" Margin="829,68,0,0" Name="label7" VerticalAlignment="Top" Width="101" FontFamily="Helvetica CE 35 Thin" />
+        <Label Background="Orange" Content="Prévisions de congé" Height="28" HorizontalAlignment="Left" Margin="729,68,0,0" Name="label6" VerticalAlignment="Top" Width="120" FontFamily="Helvetica CE 35 Thin" />
+        <Label  Content="(?) = Congé en attente &#xD;&#xA;      de validation" Height="37" HorizontalAlignment="Left" Margin="854,68,0,0" Name="label7" VerticalAlignment="Top" Width="136" FontFamily="Helvetica CE 35 Thin" />
         <Button Command="{Binding SwitchPlanningCommand}" Content="{Binding SwitchPlanning}" HorizontalAlignment="Left" Margin="20,44,0,0" VerticalAlignment="Top" Width="289" Height="25" FontFamily="Helvetica CE 35 Thin" FontSize="18">
             <Button.RenderTransform>
                 <TransformGroup>

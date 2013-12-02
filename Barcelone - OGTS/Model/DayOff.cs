@@ -19,7 +19,7 @@ namespace Barcelone___OGTS.Model
         private string _cancelDate;
         private string _nbDays;
         private string _type; 
-        private string _title; 
+        private string _name; 
         private string _status;
         private string _commentSal;
         private string _commentRh;
@@ -150,13 +150,13 @@ namespace Barcelone___OGTS.Model
             }
         }
 
-        public string Title
+        public string Name
         {
-            get { return _title; }
+            get { return _name; }
             set
             {
-                _title = value;
-                NotifyPropertyChanged("Title");
+                _name = value;
+                NotifyPropertyChanged("Name");
             }
         }
 
@@ -263,7 +263,7 @@ namespace Barcelone___OGTS.Model
             _endDate = endDate;
             _creationDate = creationDate;
             _type = type;
-            _title = label;
+            _name = label;
             _status = status;
             _commentSal = commentSal;
             _commentRh = commentRh;
