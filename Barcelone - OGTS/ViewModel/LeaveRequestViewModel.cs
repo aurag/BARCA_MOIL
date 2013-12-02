@@ -304,55 +304,61 @@ namespace Barcelone___OGTS.ViewModel
         /// This function computes the number of working days between 2 dates (handles only week-ends for now.)
         /// We should have a list of days where the company is closed and handle them.
         /// </summary>
-        private void ComputeNbDays()
+        public void ComputeNbDays()
         {
             if (!IsCorrect.Equals("Oui"))
                 return;
-
-            DateTime startDate = Convert.ToDateTime(StartDate);
-            DateTime endDate = Convert.ToDateTime(EndDate);
-            int nbDaysTmp = 0;
-            if (startDate == endDate && endDate.DayOfWeek == DayOfWeek.Sunday || endDate.DayOfWeek == DayOfWeek.Saturday)
+            try
             {
-                IsCorrect = "Non";
-                NbDays = "0";
-            }
-            if (startDate == endDate && endDate.DayOfWeek != DayOfWeek.Sunday && endDate.DayOfWeek != DayOfWeek.Saturday)
-                NbDays = "1";
-            else
-            {
-                if (endDate < startDate)
+                DateTime startDate = Convert.ToDateTime(StartDate);
+                DateTime endDate = Convert.ToDateTime(EndDate);
+                int nbDaysTmp = 0;
+                if (startDate == endDate && endDate.DayOfWeek == DayOfWeek.Sunday || endDate.DayOfWeek == DayOfWeek.Saturday)
                 {
                     IsCorrect = "Non";
                     NbDays = "0";
                 }
+                if (startDate == endDate && endDate.DayOfWeek != DayOfWeek.Sunday && endDate.DayOfWeek != DayOfWeek.Saturday)
+                    NbDays = "1";
                 else
                 {
-                    // Put the last day on a Friday
-                    while (endDate > startDate && endDate.DayOfWeek != DayOfWeek.Sunday && endDate.DayOfWeek != DayOfWeek.Saturday)
+                    if (endDate < startDate)
                     {
-                        endDate = endDate.AddDays(-1);
-                        nbDaysTmp++;
+                        IsCorrect = "Non";
+                        NbDays = "0";
                     }
-
-                    // Less than a week difference bewteen the 2 days
-                    if (endDate == startDate && endDate.DayOfWeek != DayOfWeek.Sunday && endDate.DayOfWeek != DayOfWeek.Saturday)
-                        nbDaysTmp++;
-
-                    // Put the first day on a Monday
-                    while (startDate < endDate && startDate.DayOfWeek != DayOfWeek.Saturday && startDate.DayOfWeek != DayOfWeek.Sunday)
+                    else
                     {
-                        startDate = startDate.AddDays(1);
-                        nbDaysTmp++;
+                        // Put the last day on a Friday
+                        while (endDate > startDate && endDate.DayOfWeek != DayOfWeek.Sunday && endDate.DayOfWeek != DayOfWeek.Saturday)
+                        {
+                            endDate = endDate.AddDays(-1);
+                            nbDaysTmp++;
+                        }
+
+                        // Less than a week difference bewteen the 2 days
+                        if (endDate == startDate && endDate.DayOfWeek != DayOfWeek.Sunday && endDate.DayOfWeek != DayOfWeek.Saturday)
+                            nbDaysTmp++;
+
+                        // Put the first day on a Monday
+                        while (startDate < endDate && startDate.DayOfWeek != DayOfWeek.Saturday && startDate.DayOfWeek != DayOfWeek.Sunday)
+                        {
+                            startDate = startDate.AddDays(1);
+                            nbDaysTmp++;
+                        }
+
+                        // Compute the number of days between the 2 new dates
+                        TimeSpan totalNbDaysSpan = endDate - startDate;
+
+                        // 5 working day in a week * number of weeks (number of days / 7)
+                        nbDaysTmp += 5 * (totalNbDaysSpan.Days / 7);
+                        NbDays = nbDaysTmp.ToString();
                     }
-
-                    // Compute the number of days between the 2 new dates
-                    TimeSpan totalNbDaysSpan = endDate - startDate;
-
-                    // 5 working day in a week * number of weeks (number of days / 7)
-                    nbDaysTmp += 5 * (totalNbDaysSpan.Days / 7);
-                    NbDays = nbDaysTmp.ToString();
                 }
+            }
+            catch (Exception e)
+            {
+                NbDays = "0";
             }
         }
 

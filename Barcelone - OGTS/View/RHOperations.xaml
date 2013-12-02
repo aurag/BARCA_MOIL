@@ -14,12 +14,12 @@
             <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Left" Height="205" Stroke="Black" VerticalAlignment="Top" Width="950"/>
             <DataGrid Margin="0,50,0,0" ItemsSource="{Binding DaysForValidation}" AutoGenerateColumns="False" ColumnWidth="*" CanUserAddRows="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Date de soumission" Binding="{Binding RequestDate}" IsReadOnly="True" Width="115"/>
-                    <DataGridTextColumn Header="Salarié" Binding="{Binding NameEmployee}" IsReadOnly="True" Width="120"/>
-                    <DataGridTextColumn Header="Commentaire du salarié" Binding="{Binding CommentSal}" IsReadOnly="True" Width="140"/>
-                    <DataGridTextColumn Header="Date de début (inclus)" Binding="{Binding StartDate}" IsReadOnly="True" Width="130"/>
-                    <DataGridTextColumn Header="Date de fin (inclus)" Binding="{Binding StartDate}" IsReadOnly="True" Width="130"/>
-                    <DataGridTextColumn Header="Durée (jours)" Binding="{Binding NbDays}" IsReadOnly="True" Width="78"/>
+                    <DataGridTextColumn Header="Date de soumission" Binding="{Binding SubmissionDate}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="Nom du salarié" Binding="{Binding Name}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="Commentaire du salarié" Binding="{Binding CommentSal}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="Date de début (inclus)" Binding="{Binding StartDate}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="Date de fin (inclus)" Binding="{Binding EndDate}" IsReadOnly="True" Width="*"/>
+                    <DataGridTextColumn Header="Durée (jours)" Binding="{Binding NbDays}" IsReadOnly="True" Width="*"/>
                     <DataGridTextColumn Header="Commentaire" Binding="{Binding CommentRh}" IsReadOnly="False" Width="*"/>
                     <DataGridTemplateColumn Header="Accepter" Width="60">
                         <DataGridTemplateColumn.CellTemplate>
@@ -53,7 +53,7 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
-        <Label Content="Demande de congés a traiter" HorizontalAlignment="Left" Margin="10,125,0,0" VerticalAlignment="Top" Width="329" FontFamily="Helvetica CE 35 Thin" Height="40" FontSize="24"/>
+        <Label Content="Demande de congés à traiter" HorizontalAlignment="Left" Margin="10,125,0,0" VerticalAlignment="Top" Width="329" FontFamily="Helvetica CE 35 Thin" Height="40" FontSize="24"/>
         <Label Content="Prévisions" HorizontalAlignment="Left" Margin="10,341,0,0" VerticalAlignment="Top" Width="329" FontFamily="Helvetica CE 35 Thin" Height="40" FontSize="24"/>
     </Grid>
     <UserControl.DataContext>

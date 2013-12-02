@@ -47,12 +47,47 @@ namespace Barcelone___OGTS.ViewModel
         }
         #endregion
 
+        private string _employeeManaged;
+
         public RHOperationsViewModel()
         {
             ClickBack = new Command(param => Back(), param => true);
             HandleCheckBox = new Command(param => FirstHandleCheckBox(), param => true);
+            GetEmployeesManaged();
             CreateDaysForValidationList();
             CreateDaysForValidationForecastList();
+        }
+
+        private void GetEmployeesManaged()
+        {
+            DbHandler.Instance.OpenConnection();
+            try
+            {
+
+                NpgsqlDataReader result = DbHandler.Instance.ExecSQL("select id_employee from public.employee WHERE id_employee_rh = " + UserSession.Instance.User.Employee.EmployeeId + ";");
+                if (result != null)
+                {
+                    Boolean first = true;
+                    while (result.Read())
+                    {
+                        if (first)
+                        {
+                            _employeeManaged = result[0].ToString();
+                            first = false;
+                        }
+                        else
+                            _employeeManaged += " OR id_employee = " + result[0].ToString();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Erreur : " + e.Message);
+            }
+            finally
+            {
+                DbHandler.Instance.CloseConnection();
+            }
         }
 
         #region Commands Methods
@@ -67,44 +102,53 @@ namespace Barcelone___OGTS.ViewModel
         private void CreateDaysForValidationForecastList()
         {
             DbHandler.Instance.OpenConnection();
-
-            NpgsqlDataReader result = DbHandler.Instance.ExecSQL(string.Format(@"select submission_date, firstname, lastname, start_date, end_date, nb_days, employee_commentary                                                                  employee_commentary
-                                                                   from public.dayoffforecast INNER JOIN public.employee ON (public.dayoffforecast.id_employee = public.employee.id_employee)
-                                                                   WHERE public.dayoffforecast.id_employee={0};", UserSession.Instance.User.Employee.EmployeeId));
             List<DayOff> _daysOff = null;
-            if (result != null)
+            try
             {
-                _daysOff = new List<DayOff>();
-                while (result.Read())
+                _employeeManaged = _employeeManaged.Replace("id_employee", "public.dayoffforecast.id_employee");
+                NpgsqlDataReader result = DbHandler.Instance.ExecSQL(string.Format(@"select submission_date, firstname, lastname, start_date, end_date, nb_days, employee_commentary                                                                  employee_commentary
+                                                                   from public.dayoffforecast INNER JOIN public.employee ON (public.dayoffforecast.id_employee = public.employee.id_employee)
+                                                                   WHERE public.dayoffforecast.id_employee={0};", _employeeManaged));
+                if (result != null)
                 {
-                    DayOff dayOff = new DayOff()
+                    _daysOff = new List<DayOff>();
+                    while (result.Read())
                     {
-                        SubmissionDate = (result[0].ToString() == "" ? "" : result[0].ToString().Substring(0, 10)),
-                        Name = result[1].ToString() + " " + result[2].ToString(),
-                        StartDate = result[3].ToString().Substring(0, 10),
-                        EndDate = result[4].ToString().Substring(0, 10),
-                        NbDays = result[5].ToString(),
-                        CommentSal = result[6].ToString()
-                    };
+                        DayOff dayOff = new DayOff()
+                        {
+                            SubmissionDate = (result[0].ToString() == "" ? "" : result[0].ToString().Substring(0, 10)),
+                            Name = result[1].ToString() + " " + result[2].ToString(),
+                            StartDate = result[3].ToString().Substring(0, 10),
+                            EndDate = result[4].ToString().Substring(0, 10),
+                            NbDays = result[5].ToString(),
+                            CommentSal = result[6].ToString()
+                        };
 
-                    _daysOff.Add(dayOff);
+                        _daysOff.Add(dayOff);
+                    }
                 }
             }
-
-            DbHandler.Instance.CloseConnection();
+            catch (Exception e)
+            {
+                Console.WriteLine("Erreur : " + e.Message);
+            }
+            finally
+            {
+                DbHandler.Instance.CloseConnection();
+            }
             DaysForValidationForecast = CollectionViewSource.GetDefaultView(_daysOff);
         }
 
         private void CreateDaysForValidationList()
         {
             DbHandler.Instance.OpenConnection();
-
-            NpgsqlDataReader result = DbHandler.Instance.ExecSQL(string.Format(@"select start_date, end_date, creation_date, type, title, status, 
-                                                                   employee_commentary, superior_commentary, validation_date
-                                                                   from public.dayoff, public.dayofftype
+            _employeeManaged = _employeeManaged.Replace("id_employee", "public.dayoff.id_employee");
+            NpgsqlDataReader result = DbHandler.Instance.ExecSQL(string.Format(@"select start_date, end_date, submission_date, type, firstname, lastname,
+                                                                   employee_commentary, superior_commentary
+                                                                   from public.dayofftype, public.dayoff INNER JOIN public.employee ON (public.dayoff.id_employee = public.employee.id_employee)
                                                                    WHERE public.dayoff.id_day_off_type = public.dayofftype.id_day_off_type
                                                                    AND public.dayoff.id_employee={0}
-                                                                   AND public.dayoff.status = 2;", UserSession.Instance.User.Employee.EmployeeId));
+                                                                   AND public.dayoff.status = 2;", _employeeManaged));
             List<DayOff> _daysOff = null;
             if (result != null)
             {
@@ -115,14 +159,11 @@ namespace Barcelone___OGTS.ViewModel
                     {
                         StartDate = result[0].ToString().Substring(0, 10),
                         EndDate = result[1].ToString().Substring(0, 10),
-                        CreationDate = DateTime.Today.ToShortDateString(),
+                        SubmissionDate = DateTime.Today.ToShortDateString(),
                         Type = result[3].ToString(),
-                        Name = result[4].ToString(),
-                        Status = result[5].ToString(),
+                        Name = result[4].ToString() + " " + result[5].ToString(),
                         CommentSal = result[6].ToString(),
-                        CommentRh = result[7].ToString(),
-                        DateRh = result[8].ToString(),
-                        IdEmployee = UserSession.Instance.User.Employee.EmployeeId
+                        CommentRh = result[7].ToString()
                     };
 
                     _daysOff.Add(dayOff);

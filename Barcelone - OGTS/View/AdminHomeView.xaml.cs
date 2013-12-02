@@ -21,5 +21,6 @@ namespace Barcelone___OGTS.View
             throw new NotImplementedException();
         }
         #endregion
+
     }
 }

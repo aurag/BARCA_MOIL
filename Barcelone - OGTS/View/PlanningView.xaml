@@ -116,7 +116,7 @@
         <Label Background="DimGray" Content="Week Ends" Height="28" HorizontalAlignment="Left" Margin="385,68,0,0" Name="label3" VerticalAlignment="Top" Width="83" FontFamily="Helvetica CE 35 Thin" />
         <Label Background="LightGray" Content="Jour férié" Height="28" HorizontalAlignment="Left" Margin="474,68,0,0" Name="label4" VerticalAlignment="Top" Width="83" FontFamily="Helvetica CE 35 Thin" />
         <Label Background="Aqua" Content="Fermeture/Pont d'entreprise" Height="28" HorizontalAlignment="Left" Margin="563,68,0,0" Name="label5" VerticalAlignment="Top" Width="160" FontFamily="Helvetica CE 35 Thin" />
-        <Label Background="Orange" Content="Prévisions de congé" Height="28" HorizontalAlignment="Left" Margin="729,68,0,0" Name="label6" VerticalAlignment="Top" Width="120" FontFamily="Helvetica CE 35 Thin" />
+        <Label Background="LightPink" Content="Prévisions de congé" Height="28" HorizontalAlignment="Left" Margin="729,68,0,0" Name="label6" VerticalAlignment="Top" Width="120" FontFamily="Helvetica CE 35 Thin" />
         <Label  Content="(?) = Congé en attente &#xD;&#xA;      de validation" Height="37" HorizontalAlignment="Left" Margin="854,68,0,0" Name="label7" VerticalAlignment="Top" Width="136" FontFamily="Helvetica CE 35 Thin" />
         <Button Command="{Binding SwitchPlanningCommand}" Content="{Binding SwitchPlanning}" HorizontalAlignment="Left" Margin="20,44,0,0" VerticalAlignment="Top" Width="289" Height="25" FontFamily="Helvetica CE 35 Thin" FontSize="18">
             <Button.RenderTransform>

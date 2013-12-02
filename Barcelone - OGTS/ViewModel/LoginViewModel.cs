@@ -121,9 +121,44 @@ namespace Barcelone___OGTS.ViewModel
             UserSession.Instance.User.Employee.IsRH = DbHandler.Instance.checkIfRh( UserSession.Instance.User.Employee.EmployeeId);
 
             if (isCorrect)
-                Switcher.Switch(new HomeView());
+            {
+                if (GetStatus())
+                    Switcher.Switch(new HomeView());
+                else
+                    MessageBox.Show("La convention collective n'a pas été validée. L'administrateur doit la valider pour permettre l'utilisation du logiciel OGTS", "Erreur d'administration");
+            }
             else
                 MessageBox.Show("Mot de passe ou nom d'utilisateur invalide", "Erreur d'authentification");
+        }
+
+        private Boolean GetStatus()
+        {
+            DbHandler.Instance.OpenConnection();
+
+            try
+            {
+
+                NpgsqlDataReader result = DbHandler.Instance.ExecSQL("select first_operating_date from organizationchart;");
+                if (result != null)
+                {
+                    while (result.Read())
+                    {
+                        if (result[0].ToString() != "")
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Erreur : " + e.Message);
+            }
+            finally
+            {
+                DbHandler.Instance.CloseConnection();
+            }
+            return false;
         }
 
         /// <summary>

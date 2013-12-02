@@ -22,6 +22,10 @@ namespace Barcelone___OGTS.Common
                 return Brushes.LightPink;
             if (value.ToString().StartsWith("X"))
                 return Brushes.White;
+            if (value.ToString().StartsWith("Pas encore"))
+                return Brushes.Red;
+            if (value.ToString().StartsWith("En exploit"))
+                return Brushes.Green;
 
             return Brushes.PaleGreen;
         }
